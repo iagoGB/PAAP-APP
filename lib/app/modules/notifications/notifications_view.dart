@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../controllers/home_controller.dart';
+import 'notifications_controller.dart';
 
-class HomeView extends GetView<HomeController> {
+class NotificationsView extends GetView<NotificationsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('HomeView Edit'),
-        centerTitle: true,
-      ),
       body: Center(
         child: Text(
-          'HomeView is working',
+          'NotificationsView is working',
           style: TextStyle(fontSize: 20),
         ),
       ),
