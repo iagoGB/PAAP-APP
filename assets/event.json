@@ -1,0 +1,17 @@
+{
+            "id": 20,
+            "picture": "default.png",
+            "title": "Treinamento de EducaÃ§Ã£o a DistÃ¢ncia Para Professores",
+            "location": "Rua Oscar Freire 1720, Centro",
+            "qrCode": null,
+            "dateTime": "2022-04-21T14:00:00.067",
+            "workload": 240,
+            "category": "EducaÃ§Ã£o e Pesquisa",
+            "speakers": [
+                "Professora do EAD",
+                "Professor top do EAD2"
+            ],
+            "enrolled": [
+                "Usuario Dois"
+            ]
+}

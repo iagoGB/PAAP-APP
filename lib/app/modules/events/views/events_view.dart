@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'events_controller.dart';
+import 'package:paap_app/app/modules/events/controllers/events_controller.dart';
 
 class EventsView extends GetView<EventsController> {
   @override

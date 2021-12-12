@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class EventsController extends GetxController {
-  //TODO: Implement EventsController
+class ProfileController extends GetxController {
+  //TODO: Implement ProfileController
 
   final count = 0.obs;
   @override
@@ -12,6 +12,7 @@ class EventsController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    print('old nega');
   }
 
   @override

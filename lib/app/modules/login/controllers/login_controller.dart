@@ -16,6 +16,7 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    print('old');
   }
 
  login() async {

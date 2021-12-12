@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'notifications_controller.dart';
+import '../controllers/notifications_controller.dart';
 
 class NotificationsBinding extends Bindings {
   @override
