@@ -25,7 +25,7 @@ class EventsController extends GetxController {
   void onReady() {
     super.onReady();
     this.getAllEvents();
-    print('old nega');
+    print('teste');
   }
 
   @override

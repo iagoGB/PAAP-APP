@@ -7,7 +7,7 @@ class RootController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print('funcionou root');
+    print('instanciou o root');
   }
 
   @override

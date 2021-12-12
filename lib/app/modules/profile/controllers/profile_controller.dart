@@ -12,7 +12,7 @@ class ProfileController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    print('old nega');
+    print('testeeeee');
   }
 
   @override

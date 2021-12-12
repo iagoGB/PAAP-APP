@@ -9,9 +9,9 @@ import 'app/routes/app_pages.dart';
 void main() async {
   await GetStorage.init(STORAGE_KEYNAME);
   runApp(
-    GetMaterialApp(
+    GetMaterialApp.router(
       title: "PAAP",
-      initialRoute: AppPages.INITIAL,
+      // initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),
   );
