@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paap_app/app/modules/home/controllers/home_controller.dart';
 import '../../../routes/app_pages.dart';
-import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   @override

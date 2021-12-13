@@ -4,6 +4,7 @@ import 'package:paap_app/app/data/providers/event_provider.dart';
 
 class EventsController extends GetxController {
   EventProvider eventProvider= Get.find<EventProvider>();
+  String text = 'Buêêêên';
   final events = <Event>[].obs;
 
 

@@ -10,7 +10,7 @@ class NotificationsView extends GetView<NotificationsController> {
     return Scaffold(
       body: Center(
         child: Text(
-          'NotificationsView is working',
+          'NotificationsView is working ${ controller.count }',
           style: TextStyle(fontSize: 20),
         ),
       ),

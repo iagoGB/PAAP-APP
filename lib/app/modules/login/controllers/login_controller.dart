@@ -7,10 +7,11 @@ import 'package:paap_app/app/data/providers/auth_provider.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
+
   AuthProvider authProvider = Get.find<AuthProvider>();
   final storage = GetStorage(STORAGE_KEYNAME);
-  late String email;
-  late String password;
+  late String email = '';
+  late String password = '';
   
 
   @override

@@ -11,7 +11,7 @@ class SearchView extends GetView<SearchController> {
     return Scaffold(
       body: Center(
         child: Text(
-          'SearchView is working',
+          'SearchView is working ${controller.count}}',
           style: TextStyle(fontSize: 20),
         ),
       ),

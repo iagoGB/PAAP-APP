@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:paap_app/app/modules/root/controllers/root_controller.dart';
 import 'package:paap_app/app/modules/root/views/drawer.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
-import '../controllers/root_controller.dart';
 
 class RootView extends GetView<RootController> {
   @override
