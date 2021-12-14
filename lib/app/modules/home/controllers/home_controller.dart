@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
+import 'package:paap_app/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
+
+  var currentIndex = 0;
 
   @override
   void onInit() {
@@ -16,6 +19,30 @@ class HomeController extends GetxController {
   @override
   void onClose() {}
 
-  void changeTabIndex(int index) {
+  int getCurrentIndex(GetNavConfig? router){
+    final currentLocation = router?.location;
+    var currentIndex = 0;
+    if (currentLocation?.startsWith(Routes.NOTIFICATIONS) == true) {
+      currentIndex = 2;
+    }
+    if (currentLocation?.startsWith(Routes.SEARCH) == true) {
+      currentIndex = 1;
+    }
+    return currentIndex;
+  }
+
+  void changeTabIndex(int index, GetDelegate delegate) {
+    switch (index) {
+      case 0:
+        delegate.toNamed(Routes.HOME);
+        break;
+      case 1:
+        delegate.toNamed(Routes.SEARCH);
+        break;
+      case 2:
+        delegate.toNamed(Routes.NOTIFICATIONS);
+        break;
+      default:
+    }
   }
 }

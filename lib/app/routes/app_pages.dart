@@ -20,7 +20,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -33,7 +33,7 @@ class AppPages {
         GetPage(
           middlewares: [
             //only enter this route when not authed
-            // EnsureNotAuthedMiddleware(),
+            //EnsureNotAuthedMiddleware(),
           ],
           name: _Paths.LOGIN,
           page: () => LoginView(),

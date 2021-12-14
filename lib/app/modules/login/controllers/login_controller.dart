@@ -36,7 +36,8 @@ class LoginController extends GetxController {
   }
 
  navigateToDashboard(){
-   Get.offNamed(Routes.HOME);
+    Get.rootDelegate.toNamed(Routes.HOME);
+
  }
 
 }

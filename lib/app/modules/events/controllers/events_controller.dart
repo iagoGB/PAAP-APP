@@ -1,32 +1,33 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:paap_app/app/data/models/event_model.dart';
 import 'package:paap_app/app/data/providers/event_provider.dart';
 
-class EventsController extends GetxController {
-  EventProvider eventProvider= Get.find<EventProvider>();
+class EventsController extends GetxController with StateMixin {
+  final EventProvider eventProvider;
   String text = 'Buêêêên';
-  final events = <Event>[].obs;
+  // final events = <Event>[].obs;
 
+  EventsController(this.eventProvider);
 
   @override
   void onInit() {
     super.onInit();
-    
   }
   
-  Future<void> getAllEvents() async {
-    print('executou');
-    var teste = await this.eventProvider.getAllEvents();
-    teste.forEach((element) {
-      print(element.toString());
+  void getOpens() {
+    this.eventProvider.getOpens().then((events) {
+      change(events, status: events.length == 0? RxStatus.empty(): RxStatus.success());
+    }, onError: (err){
+      change(null, status: RxStatus.error("Erro ao buscar eventos abertos"));
     });
   }
 
   @override
   void onReady() {
     super.onReady();
-    this.getAllEvents();
-    print('teste');
+    this.getOpens();
   }
 
   @override
