@@ -17,7 +17,6 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print('old');
   }
 
  login() async {
@@ -29,15 +28,13 @@ class LoginController extends GetxController {
    
  }
 
-  storageAndNavigate(Auth? auth) {
-    storage.write('auth', auth);
-    storage.read('auth');
+  storageAndNavigate(dynamic auth) async {
+    await storage.write('auth', auth);
     this.navigateToDashboard();
   }
 
  navigateToDashboard(){
     Get.rootDelegate.toNamed(Routes.HOME);
-
  }
 
 }

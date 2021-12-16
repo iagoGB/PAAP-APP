@@ -16,8 +16,9 @@ class EventsController extends GetxController with StateMixin {
     super.onInit();
   }
   
-  void getOpens() {
-    this.eventProvider.getOpens().then((events) {
+  void getOpens() async {
+    await this.eventProvider.getOpens().then((events) {
+      events.forEach((e)  => e.toString());
       change(events, status: events.length == 0? RxStatus.empty(): RxStatus.success());
     }, onError: (err){
       change(null, status: RxStatus.error("Erro ao buscar eventos abertos"));

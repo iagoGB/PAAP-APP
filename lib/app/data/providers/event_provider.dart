@@ -1,26 +1,27 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:paap_app/app/data/models/auth_model.dart';
 
-import '../constants.dart';
+import 'package:paap_app/app/data/providers/api_provider.dart';
+
 import '../models/event_model.dart';
 
 class EventProvider extends GetConnect {
-  final storage = GetStorage(STORAGE_KEYNAME);
   
+  final ApiProvider apiProvider;
+
+  EventProvider(
+    this.apiProvider,
+  );
+
   @override
   void onInit() {
-    
   }
 
   Future<List<Event?>> getOpens() async {
-    Auth auth = storage.read('auth');
-    print('token ${auth.token}');
-    final response = await get('${BASE_URL}/event/open', headers: { 
-      'Authorization': auth.token!,
-    });
+    final response = await apiProvider.get('/event/open');
+
     if(response.hasError) {
-      print('Deu erro ao requisitar eventos');
+      throw new Exception('Erro ao buscar eventos abertos');
     }
     return response.body.map<Event>((e) => Event.fromJson(e)).toList();
   }

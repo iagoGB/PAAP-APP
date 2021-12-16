@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class RootController extends GetxController {
-  //TODO: Implement RootController
+class AdminEventsController extends GetxController {
+  //TODO: Implement AdminEventsController
 
   final count = 0.obs;
   @override

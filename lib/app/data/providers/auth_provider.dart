@@ -9,17 +9,14 @@ class AuthProvider extends GetConnect {
   void onInit() {
   }
   
-
-  Future<Auth?> login(email, password) async {
-    print('${BASE_URL}/login');
-   
+  Future<dynamic> login(email, password) async {
       var response = await post('${BASE_URL}/login', {
         "email": email,
         "password": password
       });
 
       if(response.statusCode == 200){
-        return Auth.fromJson(response.body);
+        return response.body;
       } else {
         Get.defaultDialog(title: "Login", content: Text("Login/Senha não confere."));
         return null;

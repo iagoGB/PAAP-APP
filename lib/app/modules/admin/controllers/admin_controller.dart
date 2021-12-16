@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
-class HomeController extends GetxController {
+class AdminController extends GetxController {
 
   var currentIndex = 0;
 

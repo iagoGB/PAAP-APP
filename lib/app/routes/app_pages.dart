@@ -1,5 +1,10 @@
 import 'package:get/get.dart';
 
+import 'package:paap_app/app/middlewares/auth_middleware.dart';
+import 'package:paap_app/app/modules/admin/bindings/admin_binding.dart';
+import 'package:paap_app/app/modules/admin/views/admin_view.dart';
+import 'package:paap_app/app/modules/admin_events/bindings/admin_events_binding.dart';
+import 'package:paap_app/app/modules/admin_events/views/admin_events_view.dart';
 import 'package:paap_app/app/modules/events/bindings/events_binding.dart';
 import 'package:paap_app/app/modules/events/views/events_view.dart';
 import 'package:paap_app/app/modules/home/bindings/home_binding.dart';
@@ -33,13 +38,16 @@ class AppPages {
         GetPage(
           middlewares: [
             //only enter this route when not authed
-            //EnsureNotAuthedMiddleware(),
+            EnsureNotAuthedMiddleware(),
           ],
           name: _Paths.LOGIN,
           page: () => LoginView(),
           binding: LoginBinding(),
         ),
         GetPage(
+          middlewares: [
+            EnsureAuthMiddleware(),
+          ],
           preventDuplicates: true,
           name: _Paths.HOME,
           page: () => HomeView(),
@@ -49,6 +57,9 @@ class AppPages {
           title: null,
           children: [
             GetPage(
+              middlewares: [
+                EnsureAuthMiddleware(),
+              ],
               name: _Paths.EVENTS,
               page: () => EventsView(),
               binding: EventsBinding(),
@@ -56,7 +67,7 @@ class AppPages {
             GetPage(
               middlewares: [
                 //only enter this route when authed
-                // EnsureAuthMiddleware(),
+                EnsureAuthMiddleware(),
               ],
               name: _Paths.SEARCH,
               page: () => SearchView(),
@@ -65,6 +76,9 @@ class AppPages {
               binding: SearchBinding(),
             ),
             GetPage(
+              middlewares: [
+                EnsureAuthMiddleware(),
+              ],
               name: _Paths.NOTIFICATIONS,
               page: () => NotificationsView(),
               title: 'Products',
@@ -85,12 +99,31 @@ class AppPages {
           ],
         ),
         GetPage(
+          middlewares: [
+            EnsureAuthMiddleware(),
+          ],
           name: _Paths.PROFILE,
           page: () => ProfileView(),
           binding: ProfileBinding(),
         ),
+        GetPage(
+          middlewares: [],
+          preventDuplicates: true,
+          name: _Paths.ADMIN,
+          page: () => AdminView(),
+          bindings: [
+            AdminBinding(),
+          ],
+          title: null,
+          children: [ 
+            GetPage(
+              name: _Paths.ADMIN_EVENTS,
+              page: () => AdminEventsView(),
+              binding: AdminEventsBinding(),
+            ),
+          ],
+        )
       ],
     ),
-   
   ];
 }
