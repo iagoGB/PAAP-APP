@@ -5,6 +5,8 @@ import 'package:paap_app/app/modules/admin/bindings/admin_binding.dart';
 import 'package:paap_app/app/modules/admin/views/admin_view.dart';
 import 'package:paap_app/app/modules/admin_events/bindings/admin_events_binding.dart';
 import 'package:paap_app/app/modules/admin_events/views/admin_events_view.dart';
+import 'package:paap_app/app/modules/event_details/bindings/event_details_binding.dart';
+import 'package:paap_app/app/modules/event_details/views/event_details_view.dart';
 import 'package:paap_app/app/modules/events/bindings/events_binding.dart';
 import 'package:paap_app/app/modules/events/views/events_view.dart';
 import 'package:paap_app/app/modules/home/bindings/home_binding.dart';
@@ -107,6 +109,11 @@ class AppPages {
           binding: ProfileBinding(),
         ),
         GetPage(
+          name: _Paths.EVENT_DETAILS,
+          page: () => EventDetailsView(),
+          binding: EventDetailsBinding(),
+        ),
+        GetPage(
           middlewares: [],
           preventDuplicates: true,
           name: _Paths.ADMIN,
@@ -115,7 +122,7 @@ class AppPages {
             AdminBinding(),
           ],
           title: null,
-          children: [ 
+          children: [
             GetPage(
               name: _Paths.ADMIN_EVENTS,
               page: () => AdminEventsView(),

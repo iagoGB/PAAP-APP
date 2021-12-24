@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:paap_app/app/data/constants.dart';
-import 'package:paap_app/app/data/models/auth_model.dart';
 
 import '../routes/app_pages.dart';
 

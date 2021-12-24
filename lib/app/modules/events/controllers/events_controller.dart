@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'package:get/get.dart';
-import 'package:paap_app/app/data/models/event_model.dart';
 import 'package:paap_app/app/data/providers/event_provider.dart';
+import 'package:paap_app/app/routes/app_pages.dart';
 
 class EventsController extends GetxController with StateMixin {
   final EventProvider eventProvider;
@@ -15,12 +13,12 @@ class EventsController extends GetxController with StateMixin {
   void onInit() {
     super.onInit();
   }
-  
+
   void getOpens() async {
     await this.eventProvider.getOpens().then((events) {
-      events.forEach((e)  => e.toString());
-      change(events, status: events.length == 0? RxStatus.empty(): RxStatus.success());
-    }, onError: (err){
+      change(events,
+          status: events.length == 0 ? RxStatus.empty() : RxStatus.success());
+    }, onError: (err) {
       change(null, status: RxStatus.error("Erro ao buscar eventos abertos"));
     });
   }
@@ -33,4 +31,8 @@ class EventsController extends GetxController with StateMixin {
 
   @override
   void onClose() {}
+
+  void toDetailsEvent(id) {
+    Get.rootDelegate.toNamed(Routes.EVENT_DETAILS(id.toString()));
+  }
 }

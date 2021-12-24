@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import 'package:paap_app/app/data/providers/api_provider.dart';
 

@@ -2,7 +2,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:paap_app/app/data/constants.dart';
-import 'package:paap_app/app/data/models/auth_model.dart';
 import 'package:paap_app/app/data/providers/auth_provider.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 

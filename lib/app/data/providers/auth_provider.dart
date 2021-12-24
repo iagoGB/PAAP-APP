@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paap_app/app/data/constants.dart';
 
-import '../models/auth_model.dart';
 
 class AuthProvider extends GetConnect {
   @override

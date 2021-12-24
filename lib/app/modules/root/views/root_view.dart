@@ -22,7 +22,7 @@ class RootView extends GetView<RootController> {
             ],
           ),
           body: GetRouterOutlet(
-            initialRoute: Routes.HOME,
+            initialRoute: Routes.LOGIN,
             // anchorRoute: '/',
             // filterPages: (afterAnchor) {
             //   return afterAnchor.take(1);
