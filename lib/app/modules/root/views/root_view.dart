@@ -18,6 +18,18 @@ class RootView extends GetView<RootController> {
             actions: [
               customAvatar(),
             ],
+            leading: Obx(
+              () => controller.hasBackButton.value
+                  ? IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.black),
+                      onPressed: () {
+                        // Navigator.of(context).pop();
+                        Get.rootDelegate.toNamed(controller.previousRoute);
+                        controller.hideBackButton();
+                      },
+                    )
+                  : Container(),
+            ),
           ),
           body: GetRouterOutlet(
             initialRoute: Routes.LOGIN,

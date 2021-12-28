@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 
 class RootController extends GetxController {
-  final count = 0.obs;
+  final hasBackButton = false.obs;
+  String previousRoute = "";
+
   @override
   void onInit() {
     super.onInit();
@@ -14,5 +16,11 @@ class RootController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
+
+  void setBackButton(String previousRoute) {
+    this.previousRoute = previousRoute;
+    hasBackButton(true);
+  }
+
+  void hideBackButton() => hasBackButton(false);
 }

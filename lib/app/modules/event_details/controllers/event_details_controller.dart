@@ -5,9 +5,11 @@ import 'package:paap_app/app/data/models/event_model.dart';
 import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';
+import 'package:paap_app/app/modules/root/controllers/root_controller.dart';
+import 'package:paap_app/app/routes/app_pages.dart';
 
 class EventDetailsController extends GetxController with StateMixin {
-  final String eventId;
+  final RootController rootController = Get.find();
   final StorageProvider storageProvider;
   final EventProvider eventProvider;
   final UserProvider userProvider;
@@ -15,14 +17,20 @@ class EventDetailsController extends GetxController with StateMixin {
   final isLoading = true.obs;
   final subscribing = false.obs;
   final error = false.obs;
+  final String eventId;
   late Event event;
 
-  EventDetailsController(this.eventId, this.storageProvider, this.eventProvider,
-      this.userProvider);
+  EventDetailsController(
+    this.eventId,
+    this.storageProvider,
+    this.eventProvider,
+    this.userProvider,
+  );
 
   @override
   void onInit() {
     super.onInit();
+    this.rootController.setBackButton(Routes.HOME);
     this.findByID(eventId);
     Get.log('ProductDetailsController created with id: $eventId');
   }

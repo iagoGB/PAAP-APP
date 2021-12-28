@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:paap_app/app/data/models/event_model.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 import '../controllers/event_details_controller.dart';
@@ -10,32 +9,23 @@ class EventDetailsView extends GetView<EventDetailsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            // Navigator.of(context).pop();
-            Get.rootDelegate.toNamed(Routes.HOME);
-          },
-        ),
-        title: Text('EventDetailsView ${controller.eventId}'),
-        centerTitle: true,
-      ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          if (controller.error.value) {
+      body: SingleChildScrollView(
+        child: Obx(() {
+          if (controller.isLoading.value) {
             return Center(
-              child: Text('Erro ao carregar evento'),
+              child: CircularProgressIndicator(),
             );
           } else {
-            return mountEventDetails();
+            if (controller.error.value) {
+              return Center(
+                child: Text('Erro ao carregar evento'),
+              );
+            } else {
+              return mountEventDetails();
+            }
           }
-        }
-      }),
+        }),
+      ),
       bottomNavigationBar: Obx(
         () => controller.isLoading.value || controller.error.value
             ? Container()
@@ -110,34 +100,79 @@ class EventDetailsView extends GetView<EventDetailsController> {
   Widget mountEventDetails() {
     var event = controller.event;
     return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-      children: [
-        Text(
-          event.title!,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                event.title!,
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: CustomRow(
+                icon: Icons.access_time_filled_rounded,
+                text: event.dateTime!,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: CustomRow(
+                icon: Icons.location_pin,
+                text: event.location!,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: CustomRow(
+                icon: Icons.check_circle_rounded,
+                text: 'Carga horária de ${event.workload.toString()}h',
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: CustomRow(
+                icon: Icons.supervisor_account_rounded,
+                text: 'Palestrado por ' + controller.getSpeakers(),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: Image(
+                image: NetworkImage(event.picture!),
+              ),
+            ),
+            Text(event.location!)
+          ],
         ),
-        CustomRow(
-          icon: Icons.access_time_filled_rounded,
-          text: event.dateTime!,
-        ),
-        CustomRow(
-          icon: Icons.location_pin,
-          text: event.location!,
-        ),
-        CustomRow(
-            icon: Icons.check_circle_rounded,
-            text: 'Carga horária de ${event.workload.toString()}h'),
-        CustomRow(
-            icon: Icons.supervisor_account_rounded,
-            text: 'Palestrado por ' + controller.getSpeakers()),
-        Image(
-          image: NetworkImage(event.picture!),
-        ),
-        Text(event.location!)
-      ],
-    ));
+      ),
+    );
   }
 
   Row CustomRow({required IconData icon, required String text}) {
-    return Row(children: [Icon(icon), Text(text)]);
+    return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      Icon(icon),
+      Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 5,
+        ),
+      ),
+      Flexible(
+          child: Text(
+        text,
+        style: TextStyle(
+          height: 1.2,
+          fontSize: 12,
+        ),
+      ))
+    ]);
   }
 }

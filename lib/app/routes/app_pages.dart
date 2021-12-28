@@ -39,15 +39,6 @@ class AppPages {
       children: [
         GetPage(
           middlewares: [
-            //only enter this route when not authed
-            EnsureNotAuthedMiddleware(),
-          ],
-          name: _Paths.LOGIN,
-          page: () => LoginView(),
-          binding: LoginBinding(),
-        ),
-        GetPage(
-          middlewares: [
             EnsureAuthMiddleware(),
           ],
           preventDuplicates: true,
@@ -132,6 +123,15 @@ class AppPages {
           ],
         )
       ],
+    ),
+    GetPage(
+      middlewares: [
+        //only enter this route when not authed
+        EnsureNotAuthedMiddleware(),
+      ],
+      name: _Paths.LOGIN,
+      page: () => LoginView(),
+      binding: LoginBinding(),
     ),
   ];
 }
