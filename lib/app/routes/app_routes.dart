@@ -13,7 +13,7 @@ abstract class Routes {
   static const ADMIN_EVENTS = _Paths.ADMIN + _Paths.ADMIN_EVENTS;
   // static const EVENT_DETAILS = _Paths.EVENT_DETAILS;
   static String EVENT_DETAILS(String eventId) =>
-      _Paths.EVENT_DETAILS + '/$eventId';
+      _Paths.EVENT_DETAILS.replaceAll(':eventId', eventId);
 }
 
 abstract class _Paths {
@@ -25,5 +25,5 @@ abstract class _Paths {
   static const NOTIFICATIONS = '/notifications';
   static const ADMIN = '/admin';
   static const ADMIN_EVENTS = '/admin-events';
-  static const EVENT_DETAILS = '/event-details';
+  static const EVENT_DETAILS = '/event-details/:eventId';
 }

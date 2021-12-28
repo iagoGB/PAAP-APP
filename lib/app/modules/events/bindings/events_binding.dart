@@ -6,9 +6,14 @@ import 'package:paap_app/app/modules/events/controllers/events_controller.dart';
 class EventsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<EventsController>(() => EventsController(Get.find()),);
-    Get.lazyPut<ApiProvider>(() => ApiProvider(),);
-    Get.lazyPut<EventProvider>(() => EventProvider(Get.find()),);
-    
+    Get.lazyPut<EventsController>(
+      () => EventsController(Get.find()),
+    );
+    Get.lazyPut<ApiProvider>(
+      () => ApiProvider(),
+    );
+    Get.lazyPut<EventProvider>(
+      () => EventProvider(Get.find()),
+    );
   }
 }

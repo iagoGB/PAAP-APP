@@ -1,14 +1,30 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:paap_app/app/data/constants.dart';
+import 'package:paap_app/app/data/models/event_model.dart';
+import 'package:paap_app/app/data/providers/event_provider.dart';
+import 'package:paap_app/app/data/providers/storage_provider.dart';
+import 'package:paap_app/app/data/providers/user_provider.dart';
 
-class EventDetailsController extends GetxController {
-  final String productId;
+class EventDetailsController extends GetxController with StateMixin {
+  final String eventId;
+  final StorageProvider storageProvider;
+  final EventProvider eventProvider;
+  final UserProvider userProvider;
+  final isSubscribed = false.obs;
+  final isLoading = true.obs;
+  final subscribing = false.obs;
+  final error = false.obs;
+  late Event event;
 
-  EventDetailsController(this.productId);
+  EventDetailsController(this.eventId, this.storageProvider, this.eventProvider,
+      this.userProvider);
 
   @override
   void onInit() {
     super.onInit();
-    Get.log('ProductDetailsController created with id: $productId');
+    this.findByID(eventId);
+    Get.log('ProductDetailsController created with id: $eventId');
   }
 
   @override
@@ -18,4 +34,50 @@ class EventDetailsController extends GetxController {
 
   @override
   void onClose() {}
+
+  void findByID(String eventId) async {
+    isLoading(true);
+    await this
+        .eventProvider
+        .findByID(eventId)
+        .then((value) => event = value, onError: (err) => error(true));
+    this.checkIfSubscribed();
+  }
+
+  String getSpeakers() {
+    String speakers = '';
+    this.event.speakers!.forEach((speaker) {
+      speakers += '$speaker,';
+    });
+    return speakers;
+  }
+
+  void checkIfSubscribed() async {
+    var userId = storageProvider.getAuth()['id'];
+    await this.userProvider.getById(userId).then((user) {
+      var result =
+          user?.events?.any((eventUser) => eventUser.id == this.event.id);
+      isSubscribed(result);
+    }).whenComplete(() => isLoading(false));
+  }
+
+  void subscribeToEvent() {
+    subscribing(true);
+    var userId = storageProvider.getAuth()['id'];
+    this
+        .eventProvider
+        .subscribe(this.eventId, userId)
+        .then((value) => isSubscribed(true))
+        .whenComplete(() => subscribing(false));
+  }
+
+  void unsubscribeToEvent() {
+    subscribing(true);
+    var userId = storageProvider.getAuth()['id'];
+    this
+        .eventProvider
+        .unsubscribe(this.eventId, userId)
+        .then((value) => isSubscribed(false))
+        .whenComplete(() => subscribing(false));
+  }
 }

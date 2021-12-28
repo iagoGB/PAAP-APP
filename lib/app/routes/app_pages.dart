@@ -109,6 +109,7 @@ class AppPages {
           binding: ProfileBinding(),
         ),
         GetPage(
+          transition: Transition.zoom,
           name: _Paths.EVENT_DETAILS,
           page: () => EventDetailsView(),
           binding: EventDetailsBinding(),

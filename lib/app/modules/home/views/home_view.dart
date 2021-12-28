@@ -16,58 +16,36 @@ class HomeView extends GetView<HomeController> {
             // anchorRoute: Routes.HOME,
             key: Get.nestedKey(Routes.HOME),
           ),
-          bottomNavigationBar: customBottomNavBar(controller, currentIndex , delegate),
+          bottomNavigationBar:
+              customBottomNavBar(controller, currentIndex, delegate),
         );
       },
     );
   }
 }
-    
 
-  BottomNavigationBar customBottomNavBar(controller, currentIndex, delegate) {
-    return BottomNavigationBar(
-      showUnselectedLabels: false,
-      currentIndex: currentIndex,
-      onTap: (value) => controller.changeTabIndex(value, delegate),
-      selectedItemColor: const Color.fromRGBO(234, 125, 91, 0.8),
-      items: const [
+BottomNavigationBar customBottomNavBar(controller, currentIndex, delegate) {
+  return BottomNavigationBar(
+    showUnselectedLabels: false,
+    currentIndex: currentIndex,
+    onTap: (value) => controller.changeTabIndex(value, delegate),
+    selectedIconTheme: Get.theme.primaryIconTheme,
+    unselectedIconTheme: Get.theme.iconTheme,
+    selectedItemColor: Get.theme.primaryIconTheme.color,
+    // selectedItemColor: const Color.fromRGBO(234, 125, 91, 0.8),
+    items: [
       BottomNavigationBarItem(
         icon: Icon(Icons.home),
-        label:'Home'
+        label: 'Home',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.search),
-        label:'Pesquisar'
+        label: 'Pesquisar',
       ),
-       BottomNavigationBarItem(
+      BottomNavigationBarItem(
         icon: Icon(Icons.notifications),
-        label:'Notificações'
+        label: 'Notificações',
       ),
-
-    ],);
-  }
-
-//   Widget customLogo() {
-//     return SizedBox(
-//         width: 63,
-//         height: 32,
-//         child: Image.asset(
-//             'assets/images/paap.png',
-//             alignment: Alignment.center,
-//             width: 63,
-//             height: 32,
-//           ),
-//       );
-//   }
-
-//   Widget customAvatar() {
-//     return Container(
-//             margin: const EdgeInsets.only(right: 10),
-//             child: const CircleAvatar(
-//               radius: 20,
-//               backgroundColor: Colors.transparent,
-//               backgroundImage: NetworkImage('https://image.shutterstock.com/image-photo/profile-picture-smiling-millennial-asian-600w-1836020740.jpg')
-//             ),
-//           );
-//   }
-// }
+    ],
+  );
+}

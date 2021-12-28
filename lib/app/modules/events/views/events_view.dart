@@ -41,25 +41,23 @@ class EventsView extends GetView<EventsController> {
                           Text(
                             event.dateTime.toUpperCase(),
                             style: TextStyle(
-                                color: Color(0xff00A294),
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold),
+                              color: Get.theme.primaryColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             event.title,
                             style: TextStyle(
-                                color: Color(0xff050505),
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           Container(
                               margin: EdgeInsetsDirectional.only(bottom: 20)),
                           Text(
                             event.category,
-                            style: TextStyle(
-                              fontSize: 8,
-                              color: Color(0xff050505),
-                            ),
+                            style: TextStyle(fontSize: 8),
                           ),
                         ],
                       ),
@@ -77,7 +75,9 @@ class EventsView extends GetView<EventsController> {
                           Ink.image(
                             width: 80,
                             height: 80,
-                            image: NetworkImage(event.picture),
+                            image: NetworkImage(event.picture != 'default.png'
+                                ? event.picture
+                                : 'https://fcdocente-teste.s3.sa-east-1.amazonaws.com/eventos/paap.png'),
                           ),
                         ],
                       ),
