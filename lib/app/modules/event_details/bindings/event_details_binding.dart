@@ -16,7 +16,7 @@ class EventDetailsBinding extends Bindings {
       () => StorageProvider(),
     );
     Get.lazyPut<EventProvider>(
-      () => EventProvider(Get.find()),
+      () => EventProvider(Get.find(), Get.find()),
     );
     Get.lazyPut<UserProvider>(
       () => UserProvider(Get.find()),

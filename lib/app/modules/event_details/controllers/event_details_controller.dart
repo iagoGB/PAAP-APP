@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:paap_app/app/data/constants.dart';
 import 'package:paap_app/app/data/models/event_model.dart';
 import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
@@ -14,6 +14,7 @@ class EventDetailsController extends GetxController with StateMixin {
   final EventProvider eventProvider;
   final UserProvider userProvider;
   final isSubscribed = false.obs;
+  final isPresent = false.obs;
   final isLoading = true.obs;
   final subscribing = false.obs;
   final error = false.obs;
@@ -87,5 +88,60 @@ class EventDetailsController extends GetxController with StateMixin {
         .unsubscribe(this.eventId, userId)
         .then((value) => isSubscribed(false))
         .whenComplete(() => subscribing(false));
+  }
+
+  void readQrCode() async {
+    String code = '';
+    try {
+      code = await FlutterBarcodeScanner.scanBarcode(
+        Get.isDarkMode ? '#FFFF00' : '#00A294',
+        'Cancelar',
+        true,
+        ScanMode.QR,
+      );
+      print('code -$code');
+    } catch (e) {
+      this.feedbackMessage(
+        Colors.redAccent,
+        'Erro',
+        'Erro ao usar Scanner.',
+      );
+    }
+    if (code != '-1' && code != '') {
+      print('ta entrando aqui');
+      this.registerPresence(code);
+    } else {
+      this.feedbackMessage(
+        Colors.redAccent,
+        null,
+        'Você cancelou a leitura do QrCode',
+      );
+    }
+  }
+
+  void registerPresence(String code) async {
+    this.eventProvider.registerPresence(eventId, code).then(
+      (value) {
+        isPresent(true);
+        print('executou register presence');
+        this.feedbackMessage(Get.theme.primaryColor, 'Tudo certo!',
+            'Sua presença foi registrada!');
+      },
+      onError: (err) {
+        print(err);
+        isPresent(false);
+        this.feedbackMessage(Colors.redAccent, 'Erro', err.message);
+      },
+    );
+  }
+
+  void feedbackMessage(color, title, message) {
+    Get.defaultDialog(
+      backgroundColor: color,
+      title: title != null ? title : '',
+      titleStyle: TextStyle(color: Colors.white),
+      middleText: message,
+      middleTextStyle: TextStyle(color: Colors.white),
+    );
   }
 }

@@ -81,7 +81,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
       ),
       floatingActionButton: Obx(() => controller.isSubscribed.value
           ? FloatingActionButton.extended(
-              onPressed: () => null,
+              onPressed: () => controller.readQrCode(),
               label: Row(children: [
                 Icon(Icons.qr_code_2_outlined),
                 Text(

@@ -1,14 +1,17 @@
 import 'package:get/get.dart';
 
 import 'package:paap_app/app/data/providers/api_provider.dart';
+import 'package:paap_app/app/data/providers/storage_provider.dart';
 
 import '../models/event_model.dart';
 
 class EventProvider extends GetConnect {
   final ApiProvider apiProvider;
+  final StorageProvider storageProvider;
 
   EventProvider(
     this.apiProvider,
+    this.storageProvider,
   );
 
   @override
@@ -49,6 +52,18 @@ class EventProvider extends GetConnect {
         .delete('/event/$eventId/remove-subscribe?userID=$userId');
     if (response.hasError) {
       throw new Exception('Erro ao cancelar inscrição no evento');
+    }
+  }
+
+  Future<void> registerPresence(String eventId, String code) async {
+    var auth = storageProvider.getAuth();
+    final response = await apiProvider.put('/event/$eventId/register-presence',
+        {'keyword': code, 'userID': auth['id']});
+    if (response.hasError) {
+      if (response.statusCode == 400)
+        throw new Exception(response.body['erro']);
+      else
+        throw new Exception('Erro ao tentar registrar presença');
     }
   }
 }
