@@ -1,19 +1,94 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import '../controllers/events_controller.dart';
 
 class EventsView extends GetView<EventsController> {
-  // final controlller = Get.find<EventsController>();
   @override
   Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Get.theme.scaffoldBackgroundColor,
+          title: Text(
+            'Eventos',
+            style: TextStyle(color: Get.theme.primaryColor),
+          ),
+          bottom: PreferredSize(
+            preferredSize: Size(double.infinity, 30),
+            child: Container(
+              height: 30,
+              child: TabBar(
+                controller: controller.tabController,
+                // onTap: (value) => controller.loadEvents(value),
+                isScrollable: true,
+                labelPadding: EdgeInsets.symmetric(horizontal: 40),
+                padding: EdgeInsets.zero,
+                indicatorColor:
+                    Get.isDarkMode ? Get.theme.primaryColor : Colors.grey[700],
+                labelColor: Get.isDarkMode ? Colors.yellow : Colors.grey[700],
+                unselectedLabelColor:
+                    Get.isDarkMode ? Colors.white : Colors.grey[400],
+                tabs: controller.eventTabs,
+              ),
+            ),
+          ), // Espaço onde vc pode inserir o proximo evento em destaque
+        ),
+        body: TabBarView(
+          controller: controller.tabController,
+          children: [
+            openEvents(),
+            enrolledEvents(),
+            historicEvents(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Scaffold openEvents() {
     return Scaffold(
       body: controller.obx(
         (state) => ListView.builder(
           itemCount: state.length,
           itemBuilder: (_, index) => buildCard(state[index]),
         ),
-        onEmpty: NoEventsFeedback(),
+        onEmpty: NoEventsFeedback(
+          'assets/images/no_events.png',
+          'Não há eventos disponíveis',
+        ),
+        onError: (error) => ErrorFeedback(error),
+      ),
+    );
+  }
+
+  Scaffold enrolledEvents() {
+    return Scaffold(
+      body: controller.obx(
+        (state) => ListView.builder(
+          itemCount: state.length,
+          itemBuilder: (_, index) => buildCard(state[index]),
+        ),
+        onEmpty: NoEventsFeedback(
+          'assets/images/no_saved_events.png',
+          'Você não está inscrito em nenhum evento',
+        ),
+        onError: (error) => ErrorFeedback(error),
+      ),
+    );
+  }
+
+  Scaffold historicEvents() {
+    return Scaffold(
+      body: controller.obx(
+        (state) => ListView.builder(
+          itemCount: state.length,
+          itemBuilder: (_, index) => buildCard(state[index]),
+        ),
+        onEmpty: NoEventsFeedback('assets/images/no_past_events.png',
+            'Você ainda não esteve presente em nenhum evento'),
         onError: (error) => ErrorFeedback(error),
       ),
     );
@@ -94,16 +169,12 @@ class EventsView extends GetView<EventsController> {
         child: Text(error != null ? error : ''),
       );
 
-  SizedBox NoEventsFeedback() => SizedBox(
+  SizedBox NoEventsFeedback(String img, String text) => SizedBox(
         width: double.infinity,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Image.asset(
-            'assets/images/no_events.png',
-            width: 300,
-            height: 200,
-          ),
+          Image.asset(img, width: 250, height: 250, fit: BoxFit.contain),
           Text(
-            'Não há eventos disponíveis ${controller.text}',
+            text,
             style: TextStyle(color: Colors.grey),
           )
         ]),

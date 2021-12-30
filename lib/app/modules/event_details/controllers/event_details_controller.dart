@@ -31,14 +31,13 @@ class EventDetailsController extends GetxController with StateMixin {
   @override
   void onInit() {
     super.onInit();
-    this.rootController.setBackButton(Routes.HOME);
-    this.findByID(eventId);
-    Get.log('ProductDetailsController created with id: $eventId');
   }
 
   @override
   void onReady() {
     super.onReady();
+    this.rootController.setBackButton(Routes.HOME);
+    this.findByID(eventId);
   }
 
   @override
@@ -123,7 +122,6 @@ class EventDetailsController extends GetxController with StateMixin {
     this.eventProvider.registerPresence(eventId, code).then(
       (value) {
         isPresent(true);
-        print('executou register presence');
         this.feedbackMessage(Get.theme.primaryColor, 'Tudo certo!',
             'Sua presença foi registrada!');
       },

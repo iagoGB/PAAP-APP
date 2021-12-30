@@ -26,6 +26,26 @@ class EventProvider extends GetConnect {
     return response.body.map<Event>((e) => Event.fromJson(e)).toList();
   }
 
+  Future<List<Event?>> getEnrolleds() async {
+    var auth = storageProvider.getAuth();
+    final response =
+        await apiProvider.get('/event/enrolled?userID=${auth['id']}');
+    if (response.hasError) {
+      throw new Exception('Erro ao buscar eventos que você se inscreveu');
+    }
+    return response.body.map<Event>((e) => Event.fromJson(e)).toList();
+  }
+
+  Future<List<Event?>> getHistoric() async {
+    var auth = storageProvider.getAuth();
+    final response =
+        await apiProvider.get('/event/historic?userID=${auth['id']}');
+    if (response.hasError) {
+      throw new Exception('Erro ao buscar eventos que você participou');
+    }
+    return response.body.map<Event>((e) => Event.fromJson(e)).toList();
+  }
+
   Future<Response<Event>> postEvent(Event event) async =>
       await post('event', event);
 

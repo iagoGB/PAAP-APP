@@ -50,23 +50,28 @@ class LoginView extends GetView<LoginController> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Get.theme.primaryColor,
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        minimumSize: const Size(double.infinity, 50)),
-                    onPressed: () {
-                      controller.login();
-                    },
-                    child: Text(
-                      "Acessar",
-                      style: TextStyle(
-                        color: Get.theme.secondaryHeaderColor,
-                        fontSize: 20,
-                      ),
-                    ),
+                  child: Obx(
+                    () => controller.isLogging.value
+                        ? Container(
+                            height: 40,
+                            child: CircularProgressIndicator(),
+                          )
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Get.theme.primaryColor,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                minimumSize: const Size(double.infinity, 50)),
+                            onPressed: () => controller.login(),
+                            child: Text(
+                              "Acessar",
+                              style: TextStyle(
+                                color: Get.theme.secondaryHeaderColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
                   ),
                 )
               ],
