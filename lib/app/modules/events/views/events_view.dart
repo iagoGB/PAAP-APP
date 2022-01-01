@@ -38,6 +38,7 @@ class EventsView extends GetView<EventsController> {
         ),
         body: TabBarView(
           controller: controller.tabController,
+          physics: NeverScrollableScrollPhysics(),
           children: [
             openEvents(),
             enrolledEvents(),
@@ -129,7 +130,8 @@ class EventsView extends GetView<EventsController> {
                             ),
                           ),
                           Container(
-                              margin: EdgeInsetsDirectional.only(bottom: 20)),
+                            margin: EdgeInsetsDirectional.only(bottom: 20),
+                          ),
                           Text(
                             event.category,
                             style: TextStyle(fontSize: 8),

@@ -27,73 +27,82 @@ class EventDetailsView extends GetView<EventDetailsController> {
         }),
       ),
       bottomNavigationBar: Obx(
-        () => controller.isLoading.value || controller.error.value
-            ? Container()
-            : Container(
-                decoration: BoxDecoration(
-                  color: Get.theme.scaffoldBackgroundColor,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.9),
-                        blurRadius: 5,
-                        spreadRadius: 5,
-                        offset: Offset(0, 3))
-                  ],
-                ),
-                height: 60,
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                child: controller.isSubscribed.value
-                    ? ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Get.theme.primaryColor,
-                        ),
-                        onPressed: () => controller.subscribing.value
-                            ? null
-                            : controller.unsubscribeToEvent(),
-                        child: controller.subscribing.value
-                            ? CircularProgressIndicator()
-                            : Text(
-                                'Remover inscrição',
-                                style: TextStyle(
-                                  color: Get.theme.secondaryHeaderColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                      )
-                    : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Get.theme.primaryColor,
-                        ),
-                        onPressed: () => controller.subscribing.value
-                            ? null
-                            : controller.subscribeToEvent(),
-                        child: controller.subscribing.value
-                            ? CircularProgressIndicator()
-                            : Text(
-                                ' Participar deste evento',
-                                style: TextStyle(
-                                  color: Get.theme.secondaryHeaderColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                      ),
-              ),
+        () => Visibility(
+          visible: !(controller.isLoading.value || controller.error.value),
+          replacement: Container(),
+          child: mountBottomNavigationBar(),
+        ),
       ),
-      floatingActionButton: Obx(() => controller.isSubscribed.value
-          ? FloatingActionButton.extended(
-              onPressed: () => controller.readQrCode(),
-              label: Row(children: [
-                Icon(Icons.qr_code_2_outlined),
-                Text(
-                  'Presença',
-                  style: TextStyle(
-                    color: Get.theme.secondaryHeaderColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ]),
-            )
-          : Container()),
+      // bottomNavigationBar: Obx(
+      //   () => controller.isLoading.value || controller.error.value
+      //       ? Container()
+      //       : Container(
+      //           decoration: BoxDecoration(
+      //             color: Get.theme.scaffoldBackgroundColor,
+      //             boxShadow: [
+      //               BoxShadow(
+      //                 color: Colors.grey.withOpacity(0.9),
+      //                 blurRadius: 5,
+      //                 spreadRadius: 5,
+      //                 offset: Offset(0, 3),
+      //               )
+      //             ],
+      //           ),
+      //           height: 60,
+      //           padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      //           child: controller.isSubscribed.value
+      //               ? ElevatedButton(
+      //                   style: ElevatedButton.styleFrom(
+      //                     primary: Get.theme.primaryColor,
+      //                   ),
+      //                   onPressed: () => controller.subscribing.value
+      //                       ? null
+      //                       : controller.unsubscribeToEvent(),
+      //                   child: controller.subscribing.value
+      //                       ? CircularProgressIndicator()
+      //                       : Text(
+      //                           'Remover inscrição',
+      //                           style: TextStyle(
+      //                             color: Get.theme.secondaryHeaderColor,
+      //                             fontWeight: FontWeight.bold,
+      //                           ),
+      //                         ),
+      //                 )
+      //               : ElevatedButton(
+      //                   style: ElevatedButton.styleFrom(
+      //                     primary: Get.theme.primaryColor,
+      //                   ),
+      //                   onPressed: () => controller.subscribing.value
+      //                       ? null
+      //                       : controller.subscribeToEvent(),
+      //                   child: controller.subscribing.value
+      //                       ? CircularProgressIndicator()
+      //                       : Text(
+      //                           ' Participar deste evento',
+      //                           style: TextStyle(
+      //                             color: Get.theme.secondaryHeaderColor,
+      //                             fontWeight: FontWeight.bold,
+      //                           ),
+      //                         ),
+      //                 ),
+      //         ),
+      // ),
+      floatingActionButton:
+          Obx(() => controller.userStatus.value == 'isEnrolled'
+              ? FloatingActionButton.extended(
+                  onPressed: () => controller.readQrCode(),
+                  label: Row(children: [
+                    Icon(Icons.qr_code_2_outlined),
+                    Text(
+                      'Presença',
+                      style: TextStyle(
+                        color: Get.theme.secondaryHeaderColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ]),
+                )
+              : Container()),
     );
   }
 
@@ -174,5 +183,85 @@ class EventDetailsView extends GetView<EventDetailsController> {
         ),
       ))
     ]);
+  }
+
+  Widget mountBottomNavigationBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Get.theme.scaffoldBackgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.9),
+            blurRadius: 5,
+            spreadRadius: 5,
+            offset: Offset(0, 3),
+          )
+        ],
+      ),
+      height: 60,
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      child: Obx(
+        () {
+          switch (controller.userStatus.value) {
+            case 'isEnrolled':
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Get.theme.primaryColor,
+                ),
+                onPressed: () => controller.subscribing.value
+                    ? null
+                    : controller.unsubscribeToEvent(),
+                child: controller.subscribing.value
+                    ? CircularProgressIndicator()
+                    : Text(
+                        'Remover inscrição',
+                        style: TextStyle(
+                          color: Get.theme.secondaryHeaderColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              );
+
+            case 'isPresent':
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Get.theme.primaryColor,
+                ),
+                onPressed: () => controller.subscribing.value
+                    ? null
+                    : controller.downloadCertificate(),
+                child: controller.subscribing.value
+                    ? CircularProgressIndicator()
+                    : Text(
+                        'Baixar certificado',
+                        style: TextStyle(
+                          color: Get.theme.secondaryHeaderColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              );
+
+            default:
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Get.theme.primaryColor,
+                ),
+                onPressed: () => controller.subscribing.value
+                    ? null
+                    : controller.subscribeToEvent(),
+                child: controller.subscribing.value
+                    ? CircularProgressIndicator()
+                    : Text(
+                        ' Participar deste evento',
+                        style: TextStyle(
+                          color: Get.theme.secondaryHeaderColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              );
+          }
+        },
+      ),
+    );
   }
 }

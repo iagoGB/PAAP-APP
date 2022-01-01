@@ -60,22 +60,22 @@ class User {
 
 class EventUser {
   int? id;
-  String? titulo;
-  bool? presente;
+  String? title;
+  bool? isPresent;
 
-  EventUser({this.id, this.titulo, this.presente});
+  EventUser({this.id, this.title, this.isPresent});
 
   EventUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    titulo = json['titulo'];
-    presente = json['presente'];
+    title = json['title'];
+    isPresent = json['isPresent'];
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
-    data['titulo'] = titulo;
-    data['presente'] = presente;
+    data['title'] = title;
+    data['isPresent'] = isPresent;
     return data;
   }
 }

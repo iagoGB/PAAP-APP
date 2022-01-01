@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:paap_app/app/data/models/event_model.dart';
+import 'package:paap_app/app/data/models/user_model.dart';
 import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';
@@ -13,8 +14,7 @@ class EventDetailsController extends GetxController with StateMixin {
   final StorageProvider storageProvider;
   final EventProvider eventProvider;
   final UserProvider userProvider;
-  final isSubscribed = false.obs;
-  final isPresent = false.obs;
+  final userStatus = "".obs;
   final isLoading = true.obs;
   final subscribing = false.obs;
   final error = false.obs;
@@ -49,7 +49,7 @@ class EventDetailsController extends GetxController with StateMixin {
         .eventProvider
         .findByID(eventId)
         .then((value) => event = value, onError: (err) => error(true));
-    this.checkIfSubscribed();
+    this.checkUserStatus();
   }
 
   String getSpeakers() {
@@ -60,12 +60,21 @@ class EventDetailsController extends GetxController with StateMixin {
     return speakers;
   }
 
-  void checkIfSubscribed() async {
+  void checkUserStatus() async {
     var userId = storageProvider.getAuth()['id'];
     await this.userProvider.getById(userId).then((user) {
       var result =
-          user?.events?.any((eventUser) => eventUser.id == this.event.id);
-      isSubscribed(result);
+          user?.events?.where((eventUser) => eventUser.id == this.event.id);
+      if (result!.length > 0) {
+        var eventUser = result.first;
+        var isPresent = eventUser.isPresent ?? false;
+        if (isPresent)
+          userStatus('isPresent');
+        else
+          userStatus('isEnrolled');
+      } else
+        userStatus('isUnsubscribed');
+      print('status: ${userStatus.value}');
     }).whenComplete(() => isLoading(false));
   }
 
@@ -75,7 +84,7 @@ class EventDetailsController extends GetxController with StateMixin {
     this
         .eventProvider
         .subscribe(this.eventId, userId)
-        .then((value) => isSubscribed(true))
+        .then((value) => userStatus('isEnrolled'))
         .whenComplete(() => subscribing(false));
   }
 
@@ -85,7 +94,7 @@ class EventDetailsController extends GetxController with StateMixin {
     this
         .eventProvider
         .unsubscribe(this.eventId, userId)
-        .then((value) => isSubscribed(false))
+        .then((value) => userStatus('isUnsubscribed'))
         .whenComplete(() => subscribing(false));
   }
 
@@ -121,13 +130,14 @@ class EventDetailsController extends GetxController with StateMixin {
   void registerPresence(String code) async {
     this.eventProvider.registerPresence(eventId, code).then(
       (value) {
-        isPresent(true);
-        this.feedbackMessage(Get.theme.primaryColor, 'Tudo certo!',
-            'Sua presença foi registrada!');
+        userStatus('isPresent');
+        this.feedbackMessage(
+          Get.theme.primaryColor,
+          'Tudo certo!',
+          'Sua presença foi registrada!',
+        );
       },
       onError: (err) {
-        print(err);
-        isPresent(false);
         this.feedbackMessage(Colors.redAccent, 'Erro', err.message);
       },
     );
@@ -141,5 +151,9 @@ class EventDetailsController extends GetxController with StateMixin {
       middleText: message,
       middleTextStyle: TextStyle(color: Colors.white),
     );
+  }
+
+  downloadCertificate() {
+    print('Clickou para baixar certificado');
   }
 }

@@ -9,6 +9,7 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        reverse: true,
         child: SizedBox(
           width: Get.size.width,
           height: Get.size.height,
