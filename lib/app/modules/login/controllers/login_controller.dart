@@ -1,12 +1,11 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:paap_app/app/data/constants.dart';
 import 'package:paap_app/app/data/providers/auth_provider.dart';
+import 'package:paap_app/app/data/providers/storage_provider.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   AuthProvider authProvider = Get.find<AuthProvider>();
-  final storage = GetStorage(STORAGE_KEYNAME);
+  StorageProvider storageProvider = Get.find<StorageProvider>();
   late String email = '';
   late String password = '';
   var isLogging = false.obs;
@@ -14,6 +13,7 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    this.checkIfIsLoggedIn();
   }
 
   login() async {
@@ -29,11 +29,17 @@ class LoginController extends GetxController {
   }
 
   storageAndNavigate(dynamic auth) async {
-    await storage.write('auth', auth);
-    this.navigateToDashboard();
+    storageProvider.setAuth(auth);
+
+    if (auth?['role'] == 'ADMIN') Get.rootDelegate.toNamed(Routes.ADMIN);
+    if (auth?['role'] == 'USER') Get.rootDelegate.toNamed(Routes.HOME);
   }
 
-  navigateToDashboard() {
-    Get.rootDelegate.toNamed(Routes.HOME);
+  void checkIfIsLoggedIn() {
+    print("Executou checkifislogeed in");
+    var auth = storageProvider.getAuth();
+
+    if (auth?['role'] == 'ADMIN') Get.rootDelegate.toNamed(Routes.ADMIN);
+    if (auth?['role'] == 'USER') Get.rootDelegate.toNamed(Routes.HOME);
   }
 }

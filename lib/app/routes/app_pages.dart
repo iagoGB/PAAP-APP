@@ -1,26 +1,30 @@
 import 'package:get/get.dart';
 
-import 'package:paap_app/app/middlewares/auth_middleware.dart';
-import 'package:paap_app/app/modules/admin/bindings/admin_binding.dart';
-import 'package:paap_app/app/modules/admin/views/admin_view.dart';
-import 'package:paap_app/app/modules/admin_events/bindings/admin_events_binding.dart';
-import 'package:paap_app/app/modules/admin_events/views/admin_events_view.dart';
-import 'package:paap_app/app/modules/event_details/bindings/event_details_binding.dart';
-import 'package:paap_app/app/modules/event_details/views/event_details_view.dart';
-import 'package:paap_app/app/modules/events/bindings/events_binding.dart';
-import 'package:paap_app/app/modules/events/views/events_view.dart';
-import 'package:paap_app/app/modules/home/bindings/home_binding.dart';
-import 'package:paap_app/app/modules/home/views/home_view.dart';
-import 'package:paap_app/app/modules/login/bindings/login_binding.dart';
-import 'package:paap_app/app/modules/login/views/login_view.dart';
-import 'package:paap_app/app/modules/notifications/bindings/notifications_binding.dart';
-import 'package:paap_app/app/modules/notifications/views/notifications_view.dart';
-import 'package:paap_app/app/modules/profile/bindings/profile_binding.dart';
-import 'package:paap_app/app/modules/profile/views/profile_view.dart';
-import 'package:paap_app/app/modules/root/bindings/root_binding.dart';
-import 'package:paap_app/app/modules/root/views/root_view.dart';
-import 'package:paap_app/app/modules/search/bindings/search_binding.dart';
-import 'package:paap_app/app/modules/search/views/search_view.dart';
+import '../middlewares/auth_middleware.dart';
+import '../modules/admin/bindings/admin_binding.dart';
+import '../modules/admin/views/admin_view.dart';
+import '../modules/admin_events/bindings/admin_events_binding.dart';
+import '../modules/admin_events/views/admin_events_view.dart';
+import '../modules/event_details/bindings/event_details_binding.dart';
+import '../modules/event_details/views/event_details_view.dart';
+import '../modules/events/bindings/events_binding.dart';
+import '../modules/events/views/events_view.dart';
+import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/views/home_view.dart';
+import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/views/login_view.dart';
+import '../modules/notifications/bindings/notifications_binding.dart';
+import '../modules/notifications/views/notifications_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/root/bindings/root_binding.dart';
+import '../modules/root/views/root_view.dart';
+import '../modules/search/bindings/search_binding.dart';
+import '../modules/search/views/search_view.dart';
+import '../modules/users/bindings/users_binding.dart';
+import '../modules/users/bindings/users_binding.dart';
+import '../modules/users/views/users_view.dart';
+import '../modules/users/views/users_view.dart';
 
 part 'app_routes.dart';
 
@@ -119,6 +123,18 @@ class AppPages {
               name: _Paths.ADMIN_EVENTS,
               page: () => AdminEventsView(),
               binding: AdminEventsBinding(),
+            ),
+            GetPage(
+              name: _Paths.USERS,
+              page: () => UsersView(),
+              binding: UsersBinding(),
+              children: [
+                GetPage(
+                  name: _Paths.USERS,
+                  page: () => UsersView(),
+                  binding: UsersBinding(),
+                ),
+              ],
             ),
           ],
         )

@@ -3,24 +3,24 @@ class Event {
   String? picture;
   String? title;
   String? location;
-  dynamic qrCode;
-  String? dateTime;
+  String? qrCode;
+  DateTime? dateTime;
   int? workload;
   String? category;
   List<String>? speakers;
   List<String>? enrolled;
 
   Event({
-      this.id,
-      this.picture,
-      this.title,
-      this.location,
-      this.qrCode,
-      this.dateTime,
-      this.workload,
-      this.category,
-      this.speakers,
-      this.enrolled
+    this.id,
+    this.picture,
+    this.title,
+    this.location,
+    this.qrCode,
+    this.dateTime,
+    this.workload,
+    this.category,
+    this.speakers,
+    this.enrolled,
   });
 
   Event.fromJson(Map<String, dynamic> json) {
@@ -29,7 +29,7 @@ class Event {
     title = json['title'];
     location = json['location'];
     qrCode = json['qrCode'];
-    dateTime = json['dateTime'];
+    dateTime = DateTime.tryParse(json['dateTime']);
     workload = json['workload'];
     category = json['category'];
     speakers = json['speakers'].cast<String>();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,10 +13,15 @@ void main() async {
   runApp(
     GetMaterialApp.router(
       title: "PAAP",
-      theme: CustomTheme().lightTheme,
+      theme: CustomTheme().darkTheme,
       darkTheme: CustomTheme().darkTheme,
       themeMode: ThemeMode.system,
       getPages: AppPages.routes,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [const Locale('pt', 'BR')],
     ),
   );
 }

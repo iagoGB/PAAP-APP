@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../controllers/events_controller.dart';
 
 class EventsView extends GetView<EventsController> {
@@ -115,7 +116,9 @@ class EventsView extends GetView<EventsController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            event.dateTime.toUpperCase(),
+                            DateFormat("d 'de' MMM '-' HH:mm", "pt-BR")
+                                .format(event.dateTime)
+                                .toUpperCase(),
                             style: TextStyle(
                               color: Get.theme.primaryColor,
                               fontSize: 10,

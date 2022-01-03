@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class AdminController extends GetxController {
-
   var currentIndex = 0;
 
   @override
@@ -18,13 +17,10 @@ class AdminController extends GetxController {
   @override
   void onClose() {}
 
-  int getCurrentIndex(GetNavConfig? router){
+  int getCurrentIndex(GetNavConfig? router) {
     final currentLocation = router?.location;
     var currentIndex = 0;
-    if (currentLocation?.startsWith(Routes.NOTIFICATIONS) == true) {
-      currentIndex = 2;
-    }
-    if (currentLocation?.startsWith(Routes.SEARCH) == true) {
+    if (currentLocation?.startsWith(Routes.ADMIN_EVENTS) == true) {
       currentIndex = 1;
     }
     return currentIndex;
@@ -33,13 +29,10 @@ class AdminController extends GetxController {
   void changeTabIndex(int index, GetDelegate delegate) {
     switch (index) {
       case 0:
-        delegate.toNamed(Routes.HOME);
+        delegate.toNamed(Routes.USERS);
         break;
       case 1:
-        delegate.toNamed(Routes.SEARCH);
-        break;
-      case 2:
-        delegate.toNamed(Routes.NOTIFICATIONS);
+        delegate.toNamed(Routes.ADMIN_EVENTS);
         break;
       default:
     }

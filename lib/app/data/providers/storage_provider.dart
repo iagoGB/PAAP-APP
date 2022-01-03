@@ -11,4 +11,12 @@ class StorageProvider extends GetConnect {
   getAuth() {
     return storage.read('auth');
   }
+
+  setAuth(value) async {
+    await storage.write('auth', value);
+  }
+
+  clear() async {
+    await storage.erase();
+  }
 }
