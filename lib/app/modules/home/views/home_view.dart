@@ -39,8 +39,8 @@ BottomNavigationBar customBottomNavBar(controller, currentIndex, delegate) {
         label: 'Home',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.search),
-        label: 'Pesquisar',
+        icon: Icon(Icons.people_alt_outlined),
+        label: 'Perfil',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.notifications),

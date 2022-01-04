@@ -13,7 +13,7 @@ void main() async {
   runApp(
     GetMaterialApp.router(
       title: "PAAP",
-      theme: CustomTheme().darkTheme,
+      theme: CustomTheme().lightTheme,
       darkTheme: CustomTheme().darkTheme,
       themeMode: ThemeMode.system,
       getPages: AppPages.routes,

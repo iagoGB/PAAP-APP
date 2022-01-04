@@ -23,7 +23,7 @@ class EventDetailsBinding extends Bindings {
       () => EventProvider(Get.find(), Get.find()),
     );
     Get.lazyPut<UserProvider>(
-      () => UserProvider(Get.find()),
+      () => UserProvider(Get.find(), Get.find()),
     );
     Get.lazyPut<EventDetailsController>(
       () => EventDetailsController(

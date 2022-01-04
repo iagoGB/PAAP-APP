@@ -63,6 +63,14 @@ class AppPages {
             ),
             GetPage(
               middlewares: [
+                EnsureAuthMiddleware(),
+              ],
+              name: _Paths.PROFILE,
+              page: () => ProfileView(),
+              binding: ProfileBinding(),
+            ),
+            GetPage(
+              middlewares: [
                 //only enter this route when authed
                 EnsureAuthMiddleware(),
               ],
@@ -94,14 +102,6 @@ class AppPages {
               // ],
             ),
           ],
-        ),
-        GetPage(
-          middlewares: [
-            EnsureAuthMiddleware(),
-          ],
-          name: _Paths.PROFILE,
-          page: () => ProfileView(),
-          binding: ProfileBinding(),
         ),
         GetPage(
           transition: Transition.zoom,

@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
-
   var currentIndex = 0;
 
   @override
@@ -18,13 +17,13 @@ class HomeController extends GetxController {
   @override
   void onClose() {}
 
-  int getCurrentIndex(GetNavConfig? router){
+  int getCurrentIndex(GetNavConfig? router) {
     final currentLocation = router?.location;
     var currentIndex = 0;
     if (currentLocation?.startsWith(Routes.NOTIFICATIONS) == true) {
       currentIndex = 2;
     }
-    if (currentLocation?.startsWith(Routes.SEARCH) == true) {
+    if (currentLocation?.startsWith(Routes.PROFILE) == true) {
       currentIndex = 1;
     }
     return currentIndex;
@@ -36,7 +35,7 @@ class HomeController extends GetxController {
         delegate.toNamed(Routes.HOME);
         break;
       case 1:
-        delegate.toNamed(Routes.SEARCH);
+        delegate.toNamed(Routes.PROFILE);
         break;
       case 2:
         delegate.toNamed(Routes.NOTIFICATIONS);

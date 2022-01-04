@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
+import 'package:paap_app/app/data/providers/user_provider.dart';
 
-class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+class ProfileController extends GetxController with StateMixin {
+  final UserProvider userProvider;
+  var isEditing = false.obs;
 
-  final count = 0.obs;
+  ProfileController(this.userProvider);
+
   @override
   void onInit() {
     super.onInit();
+    this.getProfile();
   }
 
   @override
@@ -16,5 +20,21 @@ class ProfileController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
+
+  void getProfile() {
+    this.userProvider.getProfile().then(
+          (value) => change(
+            value,
+            status: RxStatus.success(),
+          ),
+          onError: (e) => change(
+            null,
+            status: RxStatus.error(),
+          ),
+        );
+  }
+
+  changeEditing() {
+    isEditing(!isEditing.value);
+  }
 }

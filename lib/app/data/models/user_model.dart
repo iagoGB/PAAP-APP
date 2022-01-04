@@ -10,17 +10,18 @@ class User {
   String? avatar;
   List<EventUser>? events;
 
-  User(
-      {this.id,
-      this.email,
-      this.cpf,
-      this.name,
-      this.workload,
-      this.departament,
-      this.telephone,
-      this.entryDate,
-      this.avatar,
-      this.events});
+  User({
+    this.id,
+    this.email,
+    this.cpf,
+    this.name,
+    this.workload,
+    this.departament,
+    this.telephone,
+    this.entryDate,
+    this.avatar,
+    this.events,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];

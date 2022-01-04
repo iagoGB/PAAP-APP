@@ -5,7 +5,7 @@ abstract class Routes {
   Routes._();
   static const HOME = _Paths.HOME;
   static const LOGIN = _Paths.LOGIN;
-  static const PROFILE = _Paths.PROFILE;
+  static const PROFILE = _Paths.HOME + _Paths.PROFILE;
   static const EVENTS = _Paths.HOME + _Paths.EVENTS;
   static const SEARCH = _Paths.HOME + _Paths.SEARCH;
   static const NOTIFICATIONS = _Paths.HOME + _Paths.NOTIFICATIONS;
