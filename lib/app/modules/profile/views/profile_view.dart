@@ -11,16 +11,10 @@ class ProfileView extends GetView<ProfileController> {
       body: controller.obx(
           (state) => Obx(
                 () => controller.isEditing.value
-                    ? mountEditProfile()
+                    ? mountEditProfile(state)
                     : mountProfile(state),
               ),
-          onError: (err) => Container(
-                child: Center(
-                  child: Text(
-                    'Ocorreu um erro ao carregar os dados do perfil de usuário',
-                  ),
-                ),
-              ),
+          onError: (err) => mountErrorFeedback(),
           onLoading: Center(child: CircularProgressIndicator())),
     );
   }
@@ -34,16 +28,16 @@ class ProfileView extends GetView<ProfileController> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          mountAvatar(state),
+          mountAvatar(state, 20.0),
           mountDescription(state),
         ],
       ),
     );
   }
 
-  Container mountAvatar(state) {
+  Container mountAvatar(state, margin) {
     return Container(
-      margin: EdgeInsets.only(right: 20),
+      margin: EdgeInsets.only(right: margin),
       child: CircleAvatar(
         radius: 60,
         backgroundColor: Colors.yellow,
@@ -107,10 +101,40 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
-  Widget mountEditProfile() {
-    return Center(
-      child: Container(
-        child: Text('Tá no edit'),
+  Widget mountEditProfile(state) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 110,
+          height: 110,
+          child: Stack(
+            clipBehavior: Clip.none,
+            fit: StackFit.expand,
+            children: [
+              mountAvatar(state, 0.0),
+              Icon(Icons.camera_alt_outlined),
+            ],
+          ),
+        ),
+        Form(
+          child: TextFormField(
+            controller: controller.phoneController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            
+          ),
+        )
+      ],
+    );
+    // return mountAvatar(state);
+  }
+
+  Widget mountErrorFeedback() {
+    return Container(
+      child: Center(
+        child: Text(
+          'Ocorreu um erro ao carregar os dados do perfil de usuário',
+        ),
       ),
     );
   }
