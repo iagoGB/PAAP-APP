@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:paap_app/app/routes/app_pages.dart';
 
 import '../controllers/event_details_controller.dart';
 

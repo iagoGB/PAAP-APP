@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:paap_app/app/data/models/event_model.dart';
-import 'package:paap_app/app/data/models/user_model.dart';
 import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';

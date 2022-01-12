@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
 
 class AdminEventsController extends GetxController {
-  //TODO: Implement AdminEventsController
   final StorageProvider storage;
 
   final count = 0.obs;

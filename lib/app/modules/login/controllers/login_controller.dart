@@ -31,8 +31,8 @@ class LoginController extends GetxController {
   storageAndNavigate(dynamic auth) async {
     storageProvider.setAuth(auth);
 
-    if (auth?['role'] == 'ADMIN') Get.rootDelegate.toNamed(Routes.ADMIN);
-    if (auth?['role'] == 'USER') Get.rootDelegate.toNamed(Routes.HOME);
+    if (auth?['role'] == 'ADMIN') Get.rootDelegate.offAndToNamed(Routes.ADMIN);
+    if (auth?['role'] == 'USER') Get.rootDelegate.offAndToNamed(Routes.HOME);
   }
 
   void checkIfIsLoggedIn() {

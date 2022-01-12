@@ -38,12 +38,18 @@ class ProfileView extends GetView<ProfileController> {
   Container mountAvatar(state, margin) {
     return Container(
       margin: EdgeInsets.only(right: margin),
-      child: CircleAvatar(
-        radius: 60,
-        backgroundColor: Colors.yellow,
-        backgroundImage: NetworkImage(
-          'https://fcdocente-teste.s3.sa-east-1.amazonaws.com/usuarios/default-avatar.png',
-        ),
+      child: Obx(
+        () => controller.hasPreview.value
+            ? CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.yellow,
+                backgroundImage: FileImage(controller.image!),
+              )
+            : CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.yellow,
+                backgroundImage: NetworkImage(state.avatar),
+              ),
       ),
     );
   }
@@ -105,25 +111,47 @@ class ProfileView extends GetView<ProfileController> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 110,
-          height: 110,
-          child: Stack(
-            clipBehavior: Clip.none,
-            fit: StackFit.expand,
-            children: [
-              mountAvatar(state, 0.0),
-              Icon(Icons.camera_alt_outlined),
-            ],
+        InkWell(
+          onTap: () => controller.pickImage(),
+          child: SizedBox(
+            width: 110,
+            height: 110,
+            child: Stack(
+              clipBehavior: Clip.none,
+              fit: StackFit.expand,
+              children: [
+                mountAvatar(state, 0.0),
+                Icon(Icons.camera_alt_outlined),
+              ],
+            ),
           ),
         ),
         Form(
-          child: TextFormField(
-            controller: controller.phoneController,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            
+          key: controller.profileFormKey,
+          child: Column(
+            children: [
+              TextFormField(
+                validator: (val) => controller.emailValidator(val ?? ''),
+                controller: controller.emailController,
+                keyboardType: TextInputType.emailAddress,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
+              TextFormField(
+                validator: (val) => controller.phoneValidator(val ?? ''),
+                controller: controller.phoneController,
+                keyboardType: TextInputType.number,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
+              ElevatedButton(
+                onPressed: () => controller.submit(),
+                child: Icon(
+                  Icons.check,
+                  semanticLabel: 'Salvar',
+                ),
+              ),
+            ],
           ),
-        )
+        ),
       ],
     );
     // return mountAvatar(state);

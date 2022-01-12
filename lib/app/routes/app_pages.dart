@@ -22,8 +22,6 @@ import '../modules/root/views/root_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/users/bindings/users_binding.dart';
-import '../modules/users/bindings/users_binding.dart';
-import '../modules/users/views/users_view.dart';
 import '../modules/users/views/users_view.dart';
 
 part 'app_routes.dart';

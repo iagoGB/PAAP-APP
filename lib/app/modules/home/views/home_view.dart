@@ -4,6 +4,7 @@ import 'package:paap_app/app/modules/home/controllers/home_controller.dart';
 import '../../../routes/app_pages.dart';
 
 class HomeView extends GetView<HomeController> {
+  var controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return GetRouterOutlet.builder(
