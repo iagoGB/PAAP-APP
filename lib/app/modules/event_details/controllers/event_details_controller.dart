@@ -6,6 +6,7 @@ import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';
 import 'package:paap_app/app/modules/root/controllers/root_controller.dart';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class EventDetailsController extends GetxController with StateMixin {
@@ -30,6 +31,7 @@ class EventDetailsController extends GetxController with StateMixin {
   @override
   void onInit() {
     super.onInit();
+    BackButtonInterceptor.add(myInterceptor);
   }
 
   @override
@@ -37,6 +39,11 @@ class EventDetailsController extends GetxController with StateMixin {
     super.onReady();
     this.rootController.setBackButton(Routes.HOME);
     this.findByID(eventId);
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    this.getBack(); // Do some stuff.
+    return true;
   }
 
   @override
@@ -154,5 +161,14 @@ class EventDetailsController extends GetxController with StateMixin {
 
   downloadCertificate() {
     print('Clickou para baixar certificado');
+  }
+
+  void getBack() {
+    Get.rootDelegate.toNamed(Routes.HOME);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

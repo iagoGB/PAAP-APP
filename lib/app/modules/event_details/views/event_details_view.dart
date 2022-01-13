@@ -9,6 +9,32 @@ class EventDetailsView extends GetView<EventDetailsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Get.theme.scaffoldBackgroundColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.isDarkMode ? Colors.yellow : Colors.black,
+          ),
+          onPressed: () =>
+              // Navigator.of(context).pop();
+              controller.getBack(),
+        ),
+        actions: [
+          Obx(
+            () => controller.userStatus.value != 'isPresent' &&
+                    controller.userStatus.value != 'isEnrolled'
+                ? IconButton(
+                    onPressed: () => controller.subscribeToEvent(),
+                    icon: Icon(
+                      Icons.check,
+                      color: Get.isDarkMode ? Colors.yellow : Colors.black,
+                    ),
+                  )
+                : Container(),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: Obx(() {
           if (controller.isLoading.value) {

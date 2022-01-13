@@ -43,4 +43,6 @@ class HomeController extends GetxController {
       default:
     }
   }
+
+  void logout() {}
 }
