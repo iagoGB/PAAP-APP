@@ -19,18 +19,20 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
-  Container mountProfile(state) {
-    return Container(
-      // width: double.infinity,
-      height: 200,
-      margin: EdgeInsets.only(left: 5, top: 50),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          mountAvatar(state, 20.0),
-          mountDescription(state),
-        ],
+  Widget mountProfile(state) {
+    return SingleChildScrollView(
+      child: Container(
+        // width: double.infinity,
+        height: 200,
+        margin: EdgeInsets.only(left: 5, top: 50),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            mountAvatar(state, 20.0),
+            mountDescription(state),
+          ],
+        ),
       ),
     );
   }
@@ -108,53 +110,118 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   Widget mountEditProfile(state) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        InkWell(
-          onTap: () => controller.pickImage(),
-          child: SizedBox(
-            width: 110,
-            height: 110,
-            child: Stack(
-              clipBehavior: Clip.none,
-              fit: StackFit.expand,
-              children: [
-                mountAvatar(state, 0.0),
-                Icon(Icons.camera_alt_outlined),
-              ],
-            ),
-          ),
-        ),
-        Form(
-          key: controller.profileFormKey,
-          child: Column(
-            children: [
-              TextFormField(
-                validator: (val) => controller.emailValidator(val ?? ''),
-                controller: controller.emailController,
-                keyboardType: TextInputType.emailAddress,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.only(top: 50),
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () => controller.pickImage(),
+              child: SizedBox(
+                width: 110,
+                height: 110,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  fit: StackFit.expand,
+                  children: [
+                    mountAvatar(state, 0.0),
+                    Icon(Icons.camera_alt_outlined),
+                  ],
+                ),
               ),
-              TextFormField(
-                validator: (val) => controller.phoneValidator(val ?? ''),
-                controller: controller.phoneController,
-                keyboardType: TextInputType.number,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+            ),
+            mountForm(),
+          ],
+        ),
+      ),
+    );
+    // return mountAvatar(state);
+  }
+
+  Form mountForm() {
+    return Form(
+      key: controller.profileFormKey,
+      child: Column(
+        children: [
+          TextFormField(
+            validator: (val) => controller.emailValidator(val ?? ''),
+            controller: controller.emailController,
+            keyboardType: TextInputType.emailAddress,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: decorationStyle(label: 'Email'),
+          ),
+          SizedBox(height: 15),
+          TextFormField(
+            validator: (val) => controller.phoneValidator(val ?? ''),
+            controller: controller.phoneController,
+            keyboardType: TextInputType.number,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: decorationStyle(label: 'Telefone'),
+          ),
+          SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OutlinedButton(
+                onPressed: () => controller.changeEditing(),
+                child: Row(
+                  children: [
+                    Text('Cancelar'),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    // Icon(
+                    //   Icons.cancel_outlined,
+                    //   semanticLabel: 'Cancelar',
+                    // ),
+                  ],
+                ),
+                style: OutlinedButton.styleFrom(
+                  primary: Colors.red,
+                  side: BorderSide(color: Colors.red, width: 1),
+                ),
+              ),
+              SizedBox(
+                width: 15,
               ),
               ElevatedButton(
                 onPressed: () => controller.submit(),
-                child: Icon(
-                  Icons.check,
-                  semanticLabel: 'Salvar',
+                child: Row(
+                  children: [
+                    Text('Salvar'),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      Icons.check,
+                      semanticLabel: 'Salvar',
+                    ),
+                  ],
                 ),
+                style:
+                    ElevatedButton.styleFrom(primary: Get.theme.primaryColor),
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
-    // return mountAvatar(state);
+  }
+
+  InputDecoration decorationStyle({required String label}) {
+    return InputDecoration(
+      label: Text(label),
+      labelStyle: TextStyle(fontSize: 22),
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      floatingLabelStyle:
+          TextStyle(color: Get.theme.primaryColor, fontSize: 22),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Get.theme.primaryColor, width: 1),
+      ),
+      errorBorder: null,
+    );
   }
 
   Widget mountErrorFeedback() {

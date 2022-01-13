@@ -84,12 +84,13 @@ class LoginView extends GetView<LoginController> {
   }
 }
 
-TextField customTextField(
-    {required label,
-    required hintLabel,
-    required onChange,
-    required textInputType,
-    required obscureText}) {
+TextField customTextField({
+  required label,
+  required hintLabel,
+  required onChange,
+  required textInputType,
+  required obscureText,
+}) {
   return TextField(
     decoration: InputDecoration(
       contentPadding: const EdgeInsets.only(top: 15, bottom: 15),
