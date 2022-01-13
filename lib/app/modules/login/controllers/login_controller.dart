@@ -37,7 +37,6 @@ class LoginController extends GetxController {
   }
 
   void checkIfIsLoggedIn() {
-    print("Executou checkifislogeed in");
     var auth = storageProvider.getAuth();
 
     if (auth?['role'] == 'ADMIN') Get.rootDelegate.toNamed(Routes.ADMIN);

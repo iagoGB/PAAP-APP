@@ -1,8 +1,13 @@
 import 'package:get/get.dart';
+
+import 'package:paap_app/app/data/providers/storage_provider.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
+  late StorageProvider storageProvider;
   var currentIndex = 0;
+
+  HomeController({required this.storageProvider});
 
   @override
   void onInit() {
@@ -44,5 +49,8 @@ class HomeController extends GetxController {
     }
   }
 
-  void logout() {}
+  void logout() async {
+    await this.storageProvider.clear();
+    Get.rootDelegate.offNamed(Routes.LOGIN);
+  }
 }

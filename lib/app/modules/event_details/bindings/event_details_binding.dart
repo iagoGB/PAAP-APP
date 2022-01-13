@@ -17,8 +17,7 @@ class EventDetailsBinding extends Bindings {
       () => StorageProvider(),
     );
     Get.lazyPut<RootController>(
-      () =>
-          RootController(userProvider: Get.find(), storageProvider: Get.find()),
+      () => RootController(),
     );
 
     Get.lazyPut<EventProvider>(

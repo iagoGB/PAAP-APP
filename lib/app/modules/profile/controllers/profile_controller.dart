@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';
-import 'package:paap_app/app/modules/root/controllers/root_controller.dart';
 
 class ProfileController extends GetxController with StateMixin {
   final UserProvider userProvider;
@@ -14,7 +13,6 @@ class ProfileController extends GetxController with StateMixin {
   late TextEditingController emailController;
   late TextEditingController phoneController;
   late String? currentEmail;
-  var rootController = Get.find<RootController>();
   File? image;
   var hasPreview = false.obs;
 
@@ -76,7 +74,6 @@ class ProfileController extends GetxController with StateMixin {
           Get.defaultDialog(
             content: Text("Dados atualizados com sucesso!"),
           );
-          this.rootController.updateAvatar();
           this.getProfile();
           changeEditing();
         },
@@ -103,7 +100,7 @@ class ProfileController extends GetxController with StateMixin {
     } on PlatformException catch (e) {
       hasPreview(false);
       Get.defaultDialog(
-        content: Text('Erro ao pegar imagem $e'),
+        content: Text('Erro ao selecionar imagem $e'),
       );
     }
   }

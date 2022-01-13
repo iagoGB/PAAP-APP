@@ -12,7 +12,7 @@ class LoginBinding extends Bindings {
       () => StorageProvider(),
     );
     Get.lazyPut<HomeController>(
-      () => HomeController(),
+      () => HomeController(storageProvider: Get.find()),
     );
     Get.lazyPut<LoginController>(
       () => LoginController(),

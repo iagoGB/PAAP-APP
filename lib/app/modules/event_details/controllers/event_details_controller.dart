@@ -37,7 +37,6 @@ class EventDetailsController extends GetxController with StateMixin {
   @override
   void onReady() {
     super.onReady();
-    this.rootController.setBackButton(Routes.HOME);
     this.findByID(eventId);
   }
 
@@ -164,7 +163,9 @@ class EventDetailsController extends GetxController with StateMixin {
   }
 
   void getBack() {
-    Get.rootDelegate.toNamed(Routes.HOME);
+    var auth = storageProvider.getAuth();
+    if (auth?['role'] == 'ADMIN') Get.rootDelegate.offAndToNamed(Routes.ADMIN);
+    if (auth?['role'] == 'USER') Get.rootDelegate.offAndToNamed(Routes.HOME);
   }
 
   @override
