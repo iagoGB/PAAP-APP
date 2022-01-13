@@ -32,7 +32,8 @@ class LoginController extends GetxController {
     storageProvider.setAuth(auth);
 
     if (auth?['role'] == 'ADMIN') Get.rootDelegate.offAndToNamed(Routes.ADMIN);
-    if (auth?['role'] == 'USER') Get.rootDelegate.offAndToNamed(Routes.HOME);
+    if (auth?['role'] == 'USER')
+      Get.rootDelegate.offAndToNamed(Routes.HOME); // tentar mudar rota aqui dps
   }
 
   void checkIfIsLoggedIn() {

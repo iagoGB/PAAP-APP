@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:paap_app/app/modules/root/controllers/root_controller.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
+import 'dart:math' as math;
+
 class RootView extends GetView<RootController> {
   var controller = Get.find();
   @override
@@ -17,7 +19,7 @@ class RootView extends GetView<RootController> {
             centerTitle: true,
             title: customLogo(),
             actions: [
-              customAvatar(),
+              customAvatar(controller),
             ],
             leading: Obx(
               () => controller.hasBackButton.value
@@ -29,15 +31,23 @@ class RootView extends GetView<RootController> {
                         controller.hideBackButton();
                       },
                     )
-                  : Container(),
+                  : Container(
+                      margin: EdgeInsets.only(left: 20),
+                      child: IconButton(
+                        icon: Transform(
+                          transform: Matrix4.rotationY(math.pi),
+                          child: Icon(Icons.exit_to_app_outlined),
+                        ),
+                        color: Get.isDarkMode ? Colors.yellow : Colors.black,
+                        onPressed: () {
+                          controller.logout();
+                        },
+                      ),
+                    ),
             ),
           ),
           body: GetRouterOutlet(
             initialRoute: Routes.LOGIN,
-            // anchorRoute: '/',
-            // filterPages: (afterAnchor) {
-            //   return afterAnchor.take(1);
-            // },
           ),
         );
       },
@@ -58,17 +68,18 @@ Widget customLogo() {
   );
 }
 
-Widget customAvatar(
-    {String urlImage =
-        'https://image.shutterstock.com/image-photo/profile-picture-smiling-millennial-asian-600w-1836020740.jpg'}) {
+Widget customAvatar(controller) {
+  String urlImage =
+      'https://fcdocente-teste.s3.sa-east-1.amazonaws.com/usuarios/default-avatar.png';
   return Container(
-    margin: const EdgeInsets.only(right: 10),
+    margin: EdgeInsets.only(right: 10),
     child: Stack(children: [
-      const Center(
-          child: CircularProgressIndicator(
-        value: 0.5,
-        strokeWidth: 1,
-      )),
+      Center(
+        child: CircularProgressIndicator(
+          value: 0.5,
+          strokeWidth: 1,
+        ),
+      ),
       Center(
         child: CircleAvatar(
           radius: 20,
