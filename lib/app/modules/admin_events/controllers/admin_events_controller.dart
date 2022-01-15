@@ -4,8 +4,6 @@ import 'package:paap_app/app/data/providers/storage_provider.dart';
 class AdminEventsController extends GetxController {
   final StorageProvider storage;
 
-  final count = 0.obs;
-
   AdminEventsController(this.storage);
 
   @override
@@ -20,7 +18,6 @@ class AdminEventsController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
 
   logout() {
     this.storage.clear();

@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'package:paap_app/app/modules/create_event/bindings/create_event_binding.dart';
+import 'package:paap_app/app/modules/create_event/views/create_event_view.dart';
 
 import '../middlewares/auth_middleware.dart';
 import '../modules/admin/bindings/admin_binding.dart';
@@ -108,7 +112,9 @@ class AppPages {
           binding: EventDetailsBinding(),
         ),
         GetPage(
-          middlewares: [],
+          middlewares: [
+            EnsureAuthMiddleware(),
+          ],
           preventDuplicates: true,
           name: _Paths.ADMIN,
           page: () => AdminView(),
@@ -121,16 +127,26 @@ class AppPages {
               name: _Paths.ADMIN_EVENTS,
               page: () => AdminEventsView(),
               binding: AdminEventsBinding(),
+              transition: Transition.fadeIn,
+              children: [
+                GetPage(
+                  name: _Paths.CREATE_EVENT,
+                  page: () => CreateEventView(),
+                  binding: CreateEventBinding(),
+                ),
+              ],
             ),
             GetPage(
               name: _Paths.USERS,
               page: () => UsersView(),
               binding: UsersBinding(),
+              transition: Transition.fadeIn,
               children: [
                 GetPage(
                   name: _Paths.USERS,
                   page: () => UsersView(),
                   binding: UsersBinding(),
+                  transition: Transition.fadeIn,
                 ),
               ],
             ),

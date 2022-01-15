@@ -4,6 +4,7 @@ import 'package:paap_app/app/modules/admin/controllers/admin_controller.dart';
 import '../../../routes/app_pages.dart';
 
 class AdminView extends GetView<AdminController> {
+  final controller = Get.find<AdminController>();
   @override
   Widget build(BuildContext context) {
     return GetRouterOutlet.builder(
@@ -24,6 +25,19 @@ class AdminView extends GetView<AdminController> {
   }
 }
 
+Widget customLogo() {
+  return SizedBox(
+    width: 63,
+    height: 32,
+    child: Image.asset(
+      'assets/images/paap.png',
+      alignment: Alignment.center,
+      width: 63,
+      height: 32,
+    ),
+  );
+}
+
 BottomNavigationBar customBottomNavBar(controller, currentIndex, delegate) {
   return BottomNavigationBar(
     showUnselectedLabels: false,
@@ -37,7 +51,7 @@ BottomNavigationBar customBottomNavBar(controller, currentIndex, delegate) {
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.calendar_today),
-        label: 'Pesquisar',
+        label: 'Eventos',
       ),
       // BottomNavigationBarItem(
       //     icon: Icon(Icons.calendar_today), label: 'Notificações'),

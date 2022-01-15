@@ -3,6 +3,7 @@ import 'package:paap_app/app/routes/app_pages.dart';
 
 class AdminController extends GetxController {
   var currentIndex = 0;
+  var isHidden = false.obs;
 
   @override
   void onInit() {
@@ -37,4 +38,10 @@ class AdminController extends GetxController {
       default:
     }
   }
+
+  changeIsHidden(bool value) {
+    isHidden(value);
+  }
+
+  logout() {}
 }

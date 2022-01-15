@@ -1,7 +1,15 @@
 import 'package:get/get.dart';
 
+import 'package:paap_app/app/data/providers/storage_provider.dart';
+import 'package:paap_app/app/routes/app_pages.dart';
+
 class UsersController extends GetxController {
-  final count = 0.obs;
+  final StorageProvider storageProvider;
+
+  UsersController({
+    required this.storageProvider,
+  });
+
   @override
   void onInit() {
     super.onInit();
@@ -14,5 +22,9 @@ class UsersController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
+
+  logout() {
+    this.storageProvider.clear();
+    Get.rootDelegate.offAndToNamed(Routes.LOGIN);
+  }
 }
