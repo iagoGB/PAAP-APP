@@ -38,9 +38,6 @@ class AdminEventsController extends GetxController with StateMixin {
 
   getAll() async {
     await this.eventProvider.getAll().then((value) {
-      for (var i = 0; i < 10; i++) {
-        value.add(value[0]);
-      }
       change(value, status: RxStatus.success());
     }, onError: (err) {
       change(null, status: RxStatus.error());

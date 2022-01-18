@@ -122,6 +122,8 @@ class EventProvider extends GetConnect {
     }
     return response.body['content']
         .map<Event>((e) => Event.fromJson(e))
+        .toList()
+        .reversed
         .toList();
   }
 }

@@ -1,0 +1,7 @@
+{
+    "workbench.colorTheme": "Atom One Dark",
+    "editor.fontFamily": "Ubuntu Mono, Roboto, Consolas, 'Courier New', monospace",
+    "editor.fontSize": 16,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true
+}

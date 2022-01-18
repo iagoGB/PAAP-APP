@@ -10,6 +10,8 @@ import 'package:paap_app/app/data/models/event_model.dart';
 import 'package:paap_app/app/data/providers/category_provider.dart';
 
 import 'package:paap_app/app/data/providers/event_provider.dart';
+import 'package:paap_app/app/modules/admin_events/controllers/admin_events_controller.dart';
+import 'package:paap_app/app/modules/admin_events/views/admin_events_view.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class CreateEventController extends GetxController {
@@ -27,6 +29,7 @@ class CreateEventController extends GetxController {
   var isLoading = false.obs;
   var categories = <Category>[].obs;
   int? selectedCategory;
+  var eventImage = "".obs;
   var imageFeedback = "".obs;
   var appBarTitle = "Criar evento".obs;
   var image = Rxn<File?>();
@@ -184,6 +187,7 @@ class CreateEventController extends GetxController {
 
   fillForm(Event event) {
     isEditing(true);
+    this.eventImage.value = event.picture!;
     this.selectedCategory = event.category!.id;
     this.titleController.text = event.title!;
     this.locationController.text = event.location!;
@@ -206,6 +210,7 @@ class CreateEventController extends GetxController {
           content: Text("Novo evento criado com sucesso!"),
         );
         Get.rootDelegate.toNamed(Routes.ADMIN_EVENTS);
+        this.reloadEventsList();
       },
       onError: (err) => Get.defaultDialog(
         content: Text("Ocorreu um erro ao criar o evento."),
@@ -220,6 +225,7 @@ class CreateEventController extends GetxController {
           content: Text("Evento atualizado com sucesso!"),
         );
         Get.rootDelegate.toNamed(Routes.ADMIN_EVENTS);
+        this.reloadEventsList();
       },
       onError: (err) => Get.defaultDialog(
         content: Text("Ocorreu um erro ao atualizar o evento."),
@@ -244,5 +250,10 @@ class CreateEventController extends GetxController {
     event['description'] = descriptionController.text;
     event['dateTime'] = dateTime.toIso8601String();
     return event;
+  }
+
+  reloadEventsList() {
+    var eventsListView = Get.find<AdminEventsController>();
+    eventsListView.onInit();
   }
 }

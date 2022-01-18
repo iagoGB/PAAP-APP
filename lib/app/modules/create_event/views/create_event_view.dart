@@ -22,26 +22,36 @@ class CreateEventView extends GetView<CreateEventController> {
           ),
         ),
         centerTitle: false,
-        leading: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Get.rootDelegate.offNamed(Routes.ADMIN_EVENTS);
-              },
-              icon: Icon(
-                Icons.arrow_back_outlined,
-                color: Get.isDarkMode ? Colors.yellow : Colors.grey[600],
-              ),
-            ),
-          ],
+        leading: Obx(
+          () => controller.isLoading.value
+              ? Container()
+              : Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Get.rootDelegate.offAndToNamed(Routes.ADMIN_EVENTS);
+                        Get.delete<CreateEventController>();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_outlined,
+                        color:
+                            Get.isDarkMode ? Colors.yellow : Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
         ),
         actions: [
-          IconButton(
-            onPressed: () => controller.submit(),
-            icon: Icon(
-              Icons.check,
-              color: Get.isDarkMode ? Colors.yellow : Colors.grey[600],
-            ),
+          Obx(
+            () => controller.isLoading.value
+                ? Container()
+                : IconButton(
+                    onPressed: () => controller.submit(),
+                    icon: Icon(
+                      Icons.check,
+                      color: Get.isDarkMode ? Colors.yellow : Colors.grey[600],
+                    ),
+                  ),
           )
         ],
       ),
@@ -71,11 +81,17 @@ class CreateEventView extends GetView<CreateEventController> {
             Container(
               child: Column(
                 children: [
-                  Obx(
-                    () => controller.image.value != null
-                        ? previewImage()
-                        : pickImageButton(Colors.black),
-                  ),
+                  Obx(() {
+                    var haveImageToUpload = controller.image.value != null;
+                    var isEditing = controller.isEditing.value;
+                    if (!haveImageToUpload && isEditing) {
+                      return eventImage();
+                    } else if (!haveImageToUpload) {
+                      return pickImageButton(Colors.black);
+                    } else {
+                      return previewImage();
+                    }
+                  }),
                   Obx(
                     () => Text(
                       controller.imageFeedback.value,
@@ -197,6 +213,23 @@ class CreateEventView extends GetView<CreateEventController> {
           ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image(image: FileImage(controller.image.value!))),
+          pickImageButton(Colors.white),
+        ],
+      ),
+    );
+  }
+
+  InkWell eventImage() {
+    return InkWell(
+      onTap: () => controller.pickImage(),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Obx(
+                () => Image(image: NetworkImage(controller.eventImage.value))),
+          ),
           pickImageButton(Colors.white),
         ],
       ),

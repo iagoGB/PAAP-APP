@@ -135,7 +135,7 @@ class EventsView extends GetView<EventsController> {
                             margin: EdgeInsetsDirectional.only(bottom: 20),
                           ),
                           Text(
-                            event.category,
+                            event.category.name,
                             style: TextStyle(fontSize: 8),
                           ),
                         ],
