@@ -1,12 +1,15 @@
+import 'package:paap_app/app/data/models/category_model.dart';
+
 class Event {
   int? id;
   String? picture;
   String? title;
   String? location;
+  String? description;
   String? qrCode;
   DateTime? dateTime;
   int? workload;
-  String? category;
+  Category? category;
   List<String>? speakers;
   List<String>? enrolled;
 
@@ -15,6 +18,7 @@ class Event {
     this.picture,
     this.title,
     this.location,
+    this.description,
     this.qrCode,
     this.dateTime,
     this.workload,
@@ -28,10 +32,12 @@ class Event {
     picture = json['picture'];
     title = json['title'];
     location = json['location'];
+    description = json['description'];
     qrCode = json['qrCode'];
     dateTime = DateTime.tryParse(json['dateTime']);
     workload = json['workload'];
-    category = json['category'];
+    category =
+        json['category'] != null ? Category?.fromJson(json['category']) : null;
     speakers = json['speakers'].cast<String>();
     enrolled = json['enrolled'].cast<String>();
   }
@@ -42,10 +48,13 @@ class Event {
     data['picture'] = picture;
     data['title'] = title;
     data['location'] = location;
+    data['description'] = description;
     data['qrCode'] = qrCode;
     data['dateTime'] = dateTime;
     data['workload'] = workload;
-    data['category'] = category;
+    if (category != null) {
+      data['category'] = category?.toJson();
+    }
     data['speakers'] = speakers;
     data['enrolled'] = enrolled;
     return data;

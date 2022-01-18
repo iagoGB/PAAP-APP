@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:paap_app/app/data/models/category_model.dart';
+import 'package:paap_app/app/data/models/event_model.dart';
 import 'package:paap_app/app/data/providers/category_provider.dart';
 
 import 'package:paap_app/app/data/providers/event_provider.dart';
+import 'package:paap_app/app/routes/app_pages.dart';
 
 class CreateEventController extends GetxController {
   final EventProvider eventProvider;
@@ -15,15 +18,22 @@ class CreateEventController extends GetxController {
   final eventFormKey = GlobalKey<FormState>();
   var titleController = TextEditingController(text: "");
   var dateController = TextEditingController(text: "");
+  var timeController = TextEditingController(text: "");
   var workloadController = TextEditingController(text: "");
   var speakerController = TextEditingController(text: "");
   var descriptionController = TextEditingController(text: "");
+  var locationController = TextEditingController(text: "");
+  var isEditing = false.obs;
+  var isLoading = false.obs;
   var categories = <Category>[].obs;
-  // var hasPreview = false.obs;
+  int? selectedCategory;
   var imageFeedback = "".obs;
+  var appBarTitle = "Criar evento".obs;
   var image = Rxn<File?>();
+  final String eventId;
 
-  CreateEventController({
+  CreateEventController(
+    this.eventId, {
     required this.categoryProvider,
     required this.eventProvider,
   });
@@ -31,6 +41,7 @@ class CreateEventController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    this.checkIfIsEditing();
   }
 
   @override
@@ -40,18 +51,32 @@ class CreateEventController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    isEditing(false);
+  }
+
+  void getCategories() async {
+    print('Executou get cat');
+    await this.categoryProvider.getAll().then(
+      (value) {
+        print('Deu certo');
+        categories.assignAll(value);
+        print('categories' + categories.value.toString());
+        update();
+      },
+      onError: (err) => print(err),
+    ).whenComplete(() => null);
+  }
 
   Future pickImage() async {
     try {
-      print('Executou novamente');
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemporary = File(image.path);
       this.image.value = imageTemporary;
     } on PlatformException catch (e) {
       Get.defaultDialog(
-        content: Text('O app não tem permissão para acessar galeria $e'),
+        content: Text('O aplicativo não tem permissão para acessar galeria $e'),
       );
     }
   }
@@ -62,7 +87,11 @@ class CreateEventController extends GetxController {
   }
 
   dateValidator(String value) {
-    if (!GetUtils.isDateTime(value)) return 'Selecione uma data';
+    if (value == "") return 'Selecione uma data';
+  }
+
+  timeValidator(String s) {
+    if (s == "") return 'Selecione uma horário';
   }
 
   workloadValidator(value) {
@@ -81,31 +110,139 @@ class CreateEventController extends GetxController {
     if (value == null) return 'Selecione uma categoria';
   }
 
+  locationValidator(String value) {
+    if (value.isEmpty) return "Informe uma localização";
+    return null;
+  }
+
   descriptionValidator(value) {
     // if (value.trim().isEmpty) return 'Insira uma descrição';
     return null;
   }
 
-  void getCategories() async {
-    print('Executou get cat');
-    await this.categoryProvider.getAll().then(
-      (value) {
-        print('Deu certo');
-        categories.assignAll(value);
-        print('categories' + categories.value.toString());
-        update();
-      },
-      onError: (err) => print(err),
-    ).whenComplete(() => null);
+  displayDatePicker(BuildContext context) async {
+    var initialDate = DateTime.now();
+    var eventDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: initialDate,
+      lastDate: DateTime(initialDate.year + 5),
+    );
+    if (eventDate == null) return;
+    dateController.text = DateFormat("dd/MM/yyyy", "pt-BR").format(eventDate);
+    // var tryParse =
+    //     DateTime.parse(dateController.text.split('/').reversed.join());
+  }
+
+  displayTimePick(context) async {
+    var initialTime = TimeOfDay(hour: 09, minute: 00);
+    var newTime =
+        await showTimePicker(context: context, initialTime: initialTime);
+    if (newTime == null) return;
+    final hour = newTime.hour.toString().padLeft(2, '0');
+    final minute = newTime.minute.toString().padLeft(2, '0');
+    timeController.text = '$hour:$minute';
   }
 
   submit() {
-    var haveImage = image.value != null;
-    if (!haveImage) {
-      imageFeedback.value = "Selecione uma imagem";
+    if (isEditing.value) {
+      validateForm();
+    } else {
+      var haveImage = image.value != null;
+      if (!haveImage) {
+        imageFeedback.value = "Selecione uma imagem";
+        return;
+      }
+      validateForm();
     }
-    if (this.eventFormKey.currentState!.validate() && haveImage) {
+  }
+
+  void validateForm() {
+    if (this.eventFormKey.currentState!.validate()) {
+      isLoading(true);
       this.eventFormKey.currentState!.save();
+      var event = this.setFields();
+      if (this.isEditing.value) {
+        event['id'] = this.eventId;
+        this.updateEvent(image.value, event);
+      } else {
+        this.postEvent(image.value, event);
+      }
     }
+  }
+
+  void checkIfIsEditing() async {
+    if (this.eventId.isEmpty) return;
+    appBarTitle.value = 'Editar evento';
+    isLoading(true);
+    await this
+        .eventProvider
+        .findByID(eventId)
+        .then((value) => fillForm(value), onError: (err) => print(err))
+        .whenComplete(() => isLoading(false));
+  }
+
+  fillForm(Event event) {
+    isEditing(true);
+    this.selectedCategory = event.category!.id;
+    this.titleController.text = event.title!;
+    this.locationController.text = event.location!;
+    this.workloadController.text = event.workload.toString();
+    this.descriptionController.text = event.description ?? '';
+    print('speakers' + event.speakers.toString());
+    this.speakerController.text =
+        event.speakers!.isEmpty ? 'Não tem' : event.speakers![0];
+    this.dateController.text =
+        DateFormat("dd/MM/yyyy", "pt-BR").format(event.dateTime!);
+    final hour = event.dateTime!.hour.toString().padLeft(2, '0');
+    final minute = event.dateTime!.minute.toString().padLeft(2, '0');
+    this.timeController.text = '$hour:$minute';
+  }
+
+  void postEvent(File? value, Map event) {
+    this.eventProvider.postEvent(image.value, event).then(
+      (value) {
+        Get.defaultDialog(
+          content: Text("Novo evento criado com sucesso!"),
+        );
+        Get.rootDelegate.toNamed(Routes.ADMIN_EVENTS);
+      },
+      onError: (err) => Get.defaultDialog(
+        content: Text("Ocorreu um erro ao criar o evento."),
+      ),
+    ).whenComplete(() => isLoading(false));
+  }
+
+  void updateEvent(File? value, Map event) {
+    this.eventProvider.updateEvent(image.value, event).then(
+      (value) {
+        Get.defaultDialog(
+          content: Text("Evento atualizado com sucesso!"),
+        );
+        Get.rootDelegate.toNamed(Routes.ADMIN_EVENTS);
+      },
+      onError: (err) => Get.defaultDialog(
+        content: Text("Ocorreu um erro ao atualizar o evento."),
+      ),
+    ).whenComplete(() => isLoading(false));
+  }
+
+  setFields() {
+    var date = DateTime.parse(dateController.text.split('/').reversed.join());
+    var time = TimeOfDay(
+      hour: int.parse(timeController.text.split(':')[0]),
+      minute: int.parse(timeController.text.split(':')[1]),
+    );
+    var dateTime =
+        DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    var event = {};
+    event['category'] = selectedCategory;
+    event['title'] = titleController.text;
+    event['workload'] = int.parse(workloadController.text);
+    event['speakers'] = [speakerController.text];
+    event['location'] = locationController.text;
+    event['description'] = descriptionController.text;
+    event['dateTime'] = dateTime.toIso8601String();
+    return event;
   }
 }

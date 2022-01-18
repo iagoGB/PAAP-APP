@@ -9,20 +9,21 @@ import '../controllers/create_event_controller.dart';
 class CreateEventBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ApiProvider>(
-      () => ApiProvider(),
-    );
     Get.lazyPut<StorageProvider>(
       () => StorageProvider(),
     );
-    Get.lazyPut<EventProvider>(
-      () => EventProvider(Get.find(), Get.find()),
+    Get.lazyPut<ApiProvider>(
+      () => ApiProvider(),
     );
     Get.lazyPut<CategoryProvider>(
       () => CategoryProvider(Get.find()),
     );
+    Get.lazyPut<EventProvider>(
+      () => EventProvider(Get.find(), Get.find()),
+    );
     Get.lazyPut<CreateEventController>(
       () => CreateEventController(
+        Get.parameters['eventId'] ?? '',
         eventProvider: Get.find(),
         categoryProvider: Get.find(),
       ),

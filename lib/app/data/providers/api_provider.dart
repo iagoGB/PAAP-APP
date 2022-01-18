@@ -11,10 +11,13 @@ class ApiProvider extends GetConnect {
     var auth = storage.read('auth');
     //1.base_url
     httpClient.baseUrl = BASE_URL;
-    httpClient.addAuthenticator<dynamic>((request) async {
+    httpClient.timeout = Duration(seconds: 20);
+    httpClient.addRequestModifier<dynamic>((request) {
+      print('executou interceptor');
       request.headers['Authorization'] = "${auth['token']}";
+      print(request.headers);
       return request;
     });
-    super.onInit();
+    // super.onInit();
   }
 }

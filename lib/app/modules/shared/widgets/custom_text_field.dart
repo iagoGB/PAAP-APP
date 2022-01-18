@@ -6,12 +6,14 @@ Widget CustomTextFormField({
   required TextInputType inputType,
   required dynamic validator,
   required dynamic controller,
+  onSaved,
   int maxLines = 1,
 }) {
   return Container(
     margin: EdgeInsets.only(bottom: 10),
     child: TextFormField(
       validator: (val) => validator(val),
+      onSaved: (val) => onSaved,
       controller: controller,
       keyboardType: inputType,
       autovalidateMode: AutovalidateMode.onUserInteraction,

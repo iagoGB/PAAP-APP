@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:paap_app/app/modules/create_event/bindings/create_event_binding.dart';
@@ -131,6 +130,11 @@ class AppPages {
               children: [
                 GetPage(
                   name: _Paths.CREATE_EVENT,
+                  page: () => CreateEventView(),
+                  binding: CreateEventBinding(),
+                ),
+                GetPage(
+                  name: _Paths.UPDATE_EVENT,
                   page: () => CreateEventView(),
                   binding: CreateEventBinding(),
                 ),

@@ -90,7 +90,7 @@ class EventsView extends GetView<EventsController> {
         ),
         onEmpty: NoEventsFeedback('assets/images/no_past_events.png',
             'Você ainda não esteve presente em nenhum evento'),
-        onError: (error) => ErrorFeedback(error),
+        onError: (error) => ErrorFeedback(error ?? 'Erro ao buscar eventos'),
       ),
     );
   }

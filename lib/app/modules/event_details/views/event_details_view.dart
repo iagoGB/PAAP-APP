@@ -23,7 +23,8 @@ class EventDetailsView extends GetView<EventDetailsController> {
         actions: [
           Obx(
             () => controller.userStatus.value != 'isPresent' &&
-                    controller.userStatus.value != 'isEnrolled'
+                    controller.userStatus.value != 'isEnrolled' &&
+                    !controller.isAdmin.value
                 ? IconButton(
                     onPressed: () => controller.subscribeToEvent(),
                     icon: Icon(
@@ -32,7 +33,18 @@ class EventDetailsView extends GetView<EventDetailsController> {
                     ),
                   )
                 : Container(),
-          )
+          ),
+          Obx(
+            () => controller.isAdmin.value
+                ? IconButton(
+                    onPressed: () => controller.editEvent(controller.eventId),
+                    icon: Icon(
+                      Icons.edit,
+                      color: Get.isDarkMode ? Colors.yellow : Colors.black,
+                    ),
+                  )
+                : Container(),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -190,82 +202,88 @@ class EventDetailsView extends GetView<EventDetailsController> {
   }
 
   Widget mountBottomNavigationBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Get.theme.scaffoldBackgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.9),
-            blurRadius: 5,
-            spreadRadius: 5,
-            offset: Offset(0, 3),
-          )
-        ],
-      ),
-      height: 60,
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-      child: Obx(
-        () {
-          switch (controller.userStatus.value) {
-            case 'isEnrolled':
-              return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Get.theme.primaryColor,
-                ),
-                onPressed: () => controller.subscribing.value
-                    ? null
-                    : controller.unsubscribeToEvent(),
-                child: controller.subscribing.value
-                    ? CircularProgressIndicator()
-                    : Text(
-                        'Remover inscrição',
-                        style: TextStyle(
-                          color: Get.theme.secondaryHeaderColor,
-                          fontWeight: FontWeight.bold,
+    return Obx(
+      () => controller.isAdmin.value
+          ? Container(
+              child: Text(''),
+            )
+          : Container(
+              decoration: BoxDecoration(
+                color: Get.theme.scaffoldBackgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.9),
+                    blurRadius: 5,
+                    spreadRadius: 5,
+                    offset: Offset(0, 3),
+                  )
+                ],
+              ),
+              height: 60,
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+              child: Obx(
+                () {
+                  switch (controller.userStatus.value) {
+                    case 'isEnrolled':
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Get.theme.primaryColor,
                         ),
-                      ),
-              );
+                        onPressed: () => controller.subscribing.value
+                            ? null
+                            : controller.unsubscribeToEvent(),
+                        child: controller.subscribing.value
+                            ? CircularProgressIndicator()
+                            : Text(
+                                'Remover inscrição',
+                                style: TextStyle(
+                                  color: Get.theme.secondaryHeaderColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                      );
 
-            case 'isPresent':
-              return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Get.theme.primaryColor,
-                ),
-                onPressed: () => controller.subscribing.value
-                    ? null
-                    : controller.downloadCertificate(),
-                child: controller.subscribing.value
-                    ? CircularProgressIndicator()
-                    : Text(
-                        'Baixar certificado',
-                        style: TextStyle(
-                          color: Get.theme.secondaryHeaderColor,
-                          fontWeight: FontWeight.bold,
+                    case 'isPresent':
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Get.theme.primaryColor,
                         ),
-                      ),
-              );
+                        onPressed: () => controller.subscribing.value
+                            ? null
+                            : controller.downloadCertificate(),
+                        child: controller.subscribing.value
+                            ? CircularProgressIndicator()
+                            : Text(
+                                'Baixar certificado',
+                                style: TextStyle(
+                                  color: Get.theme.secondaryHeaderColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                      );
 
-            default:
-              return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Get.theme.primaryColor,
-                ),
-                onPressed: () => controller.subscribing.value
-                    ? null
-                    : controller.subscribeToEvent(),
-                child: controller.subscribing.value
-                    ? CircularProgressIndicator()
-                    : Text(
-                        ' Participar deste evento',
-                        style: TextStyle(
-                          color: Get.theme.secondaryHeaderColor,
-                          fontWeight: FontWeight.bold,
+                    default:
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Get.theme.primaryColor,
                         ),
-                      ),
-              );
-          }
-        },
-      ),
+                        onPressed: () => controller.subscribing.value
+                            ? null
+                            : controller.subscribeToEvent(),
+                        child: controller.subscribing.value
+                            ? CircularProgressIndicator()
+                            : Text(
+                                ' Participar deste evento',
+                                style: TextStyle(
+                                  color: Get.theme.secondaryHeaderColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                      );
+                  }
+                },
+              ),
+            ),
     );
   }
 }

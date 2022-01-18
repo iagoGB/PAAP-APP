@@ -14,6 +14,7 @@ class EventDetailsController extends GetxController with StateMixin {
   final StorageProvider storageProvider;
   final EventProvider eventProvider;
   final UserProvider userProvider;
+  final isAdmin = false.obs;
   final userStatus = "".obs;
   final isLoading = true.obs;
   final subscribing = false.obs;
@@ -32,6 +33,7 @@ class EventDetailsController extends GetxController with StateMixin {
   void onInit() {
     super.onInit();
     BackButtonInterceptor.add(myInterceptor);
+    this.checkIfIsAdmin();
   }
 
   @override
@@ -164,12 +166,24 @@ class EventDetailsController extends GetxController with StateMixin {
 
   void getBack() {
     var auth = storageProvider.getAuth();
-    if (auth?['role'] == 'ADMIN') Get.rootDelegate.offAndToNamed(Routes.ADMIN);
+    if (auth?['role'] == 'ADMIN')
+      Get.rootDelegate.offAndToNamed(Routes.ADMIN_EVENTS);
     if (auth?['role'] == 'USER') Get.rootDelegate.offAndToNamed(Routes.HOME);
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void checkIfIsAdmin() {
+    var auth = storageProvider.getAuth();
+    print('executou admin');
+    if (auth?['role'] == 'ADMIN') isAdmin(true);
+    print(isAdmin.value);
+  }
+
+  editEvent(String eventId) {
+    Get.rootDelegate.toNamed(Routes.UPDATE_EVENT(eventId));
   }
 }

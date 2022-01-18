@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:path/path.dart';
+
 import 'package:get/get.dart';
 
 import 'package:paap_app/app/data/providers/api_provider.dart';
@@ -6,7 +9,7 @@ import 'package:paap_app/app/data/providers/storage_provider.dart';
 import '../models/event_model.dart';
 
 class EventProvider extends GetConnect {
-  final ApiProvider apiProvider;
+  ApiProvider apiProvider;
   final StorageProvider storageProvider;
 
   EventProvider(
@@ -15,7 +18,9 @@ class EventProvider extends GetConnect {
   );
 
   @override
-  void onInit() {}
+  void onInit() {
+    this.apiProvider = Get.find<ApiProvider>();
+  }
 
   Future<List<Event?>> getOpens() async {
     final response = await apiProvider.get('/event/open');
@@ -46,8 +51,29 @@ class EventProvider extends GetConnect {
     return response.body.map<Event>((e) => Event.fromJson(e)).toList();
   }
 
-  Future<Response<Event>> postEvent(Event event) async =>
-      await post('event', event);
+  Future<void> postEvent(image, event) async {
+    final formData = FormData({
+      'image': MultipartFile(image, filename: '${basename(image.path)}'),
+      'event': jsonEncode(event)
+    });
+    var response = await apiProvider.post('/event', formData);
+    if (response.hasError) {
+      throw new Exception('Erro ao criar novo evento');
+    }
+  }
+
+  updateEvent(image, event) async {
+    final formData = FormData({
+      'image': image != null
+          ? MultipartFile(image, filename: '${basename(image.path)}')
+          : null,
+      'event': jsonEncode(event)
+    });
+    var response = await apiProvider.put('/event', formData);
+    if (response.hasError) {
+      throw new Exception('Erro ao criar novo evento ${response.bodyString}');
+    }
+  }
 
   Future<Response> deleteEvent(int id) async => await delete('event/$id');
 
@@ -85,5 +111,17 @@ class EventProvider extends GetConnect {
       else
         throw new Exception('Erro ao tentar registrar presença');
     }
+  }
+
+  Future<List<Event?>> getAll() async {
+    var auth = storageProvider.getAuth();
+    final response = await apiProvider.get('/event');
+    if (response.hasError) {
+      print('error api ${response.bodyString}');
+      throw new Exception('Erro ao buscar eventos');
+    }
+    return response.body['content']
+        .map<Event>((e) => Event.fromJson(e))
+        .toList();
   }
 }

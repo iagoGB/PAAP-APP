@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:paap_app/app/modules/shared/widgets/custom_text_field.dart';
+import 'package:paap_app/app/routes/app_pages.dart';
 
 import '../controllers/create_event_controller.dart';
 
@@ -12,16 +13,27 @@ class CreateEventView extends GetView<CreateEventController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Get.theme.scaffoldBackgroundColor,
-        title: Text('CreateEventView'),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Get.rootDelegate.popRoute();
-          },
-          icon: Icon(
-            Icons.arrow_back_outlined,
-            color: Get.isDarkMode ? Colors.yellow : Colors.grey[600],
+        title: Obx(
+          () => Text(
+            controller.appBarTitle.value,
+            style: TextStyle(
+              color: Get.isDarkMode ? Colors.yellow : Colors.grey[600],
+            ),
           ),
+        ),
+        centerTitle: false,
+        leading: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                Get.rootDelegate.offNamed(Routes.ADMIN_EVENTS);
+              },
+              icon: Icon(
+                Icons.arrow_back_outlined,
+                color: Get.isDarkMode ? Colors.yellow : Colors.grey[600],
+              ),
+            ),
+          ],
         ),
         actions: [
           IconButton(
@@ -33,17 +45,23 @@ class CreateEventView extends GetView<CreateEventController> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            mountForm(),
-          ],
-        ),
+      body: Obx(
+        () => controller.isLoading.value
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    mountForm(context),
+                  ],
+                ),
+              ),
       ),
     );
   }
 
-  Form mountForm() {
+  Form mountForm(context) {
     return Form(
       key: controller.eventFormKey,
       child: Padding(
@@ -78,12 +96,36 @@ class CreateEventView extends GetView<CreateEventController> {
               labelColor: Get.theme.primaryColor,
               maxLines: 2,
             ),
-            CustomTextFormField(
-              validator: controller.dateValidator,
-              controller: controller.dateController,
-              inputType: TextInputType.datetime,
-              label: 'Data',
-              labelColor: Get.theme.primaryColor,
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    validator: (value) => controller.dateValidator(value!),
+                    controller: controller.dateController,
+                    onTap: () => controller.displayDatePicker(context),
+                    decoration: decorationStyle(
+                      label: 'Data',
+                      labelColor: Get.theme.primaryColor,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 10,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    validator: (value) => controller.timeValidator(value!),
+                    controller: controller.timeController,
+                    onTap: () => controller.displayTimePick(context),
+                    decoration: decorationStyle(
+                      label: 'Horário',
+                      labelColor: Get.theme.primaryColor,
+                    ),
+                  ),
+                ),
+              ],
             ),
             CustomTextFormField(
               validator: controller.workloadValidator,
@@ -91,6 +133,13 @@ class CreateEventView extends GetView<CreateEventController> {
               inputType: TextInputType.numberWithOptions(
                   signed: false, decimal: false),
               label: 'Carga Horária (Em horas)',
+              labelColor: Get.theme.primaryColor,
+            ),
+            CustomTextFormField(
+              validator: controller.locationValidator,
+              controller: controller.locationController,
+              inputType: TextInputType.text,
+              label: 'Localização',
               labelColor: Get.theme.primaryColor,
             ),
             CustomTextFormField(
@@ -105,7 +154,9 @@ class CreateEventView extends GetView<CreateEventController> {
                 margin: EdgeInsets.only(bottom: 10),
                 child: DropdownButtonFormField(
                   hint: Text('Selecione a categoria'),
-                  onChanged: (value) => print(value.toString()),
+                  value: controller.selectedCategory,
+                  onChanged: (value) =>
+                      controller.selectedCategory = value as int,
                   validator: (value) => controller.validateCategory(value),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: decorationStyle(
