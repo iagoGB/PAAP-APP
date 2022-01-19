@@ -6,7 +6,7 @@ class EditUserBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<EditUserController>(
-      () => EditUserController(),
+      () => EditUserController(Get.parameters['userId'] ?? ''),
     );
   }
 }

@@ -1,12 +1,17 @@
 import 'package:get/get.dart';
 
 class EditUserController extends GetxController {
-  //TODO: Implement EditUsersController
+  final userIdObs = "".obs;
+  final String userId;
 
-  final count = 0.obs;
+  EditUserController(
+    this.userId,
+  );
+
   @override
   void onInit() {
     super.onInit();
+    this.checkIfisEditing();
   }
 
   @override
@@ -16,5 +21,16 @@ class EditUserController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
+
+  void checkIfisEditing() {
+    if (!this.userId.isEmpty) {
+      userIdObs.value = this.userId;
+    }
+  }
+
+  updateUser() {}
+
+  toUserDetails() {
+    Get.rootDelegate.popRoute();
+  }
 }

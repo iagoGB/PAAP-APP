@@ -155,6 +155,7 @@ class ProfileView extends GetView<ProfileController> {
           SizedBox(height: 15),
           TextFormField(
             validator: (val) => controller.phoneValidator(val ?? ''),
+            inputFormatters: [controller.phoneMask()],
             controller: controller.phoneController,
             keyboardType: TextInputType.number,
             autovalidateMode: AutovalidateMode.onUserInteraction,

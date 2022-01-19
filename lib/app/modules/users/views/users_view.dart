@@ -14,8 +14,9 @@ class UsersView extends GetView<UsersController> {
     return Scaffold(
       appBar: AdminAppBar(
         backgroundColor: Get.theme.scaffoldBackgroundColor,
+        icon: Icons.exit_to_app_outlined,
         iconColor: Get.isDarkMode ? Colors.yellow : Colors.black,
-        controller: controller,
+        onTapFunction: controller.logout,
       ),
       body: controller.obx(
         (state) => Padding(

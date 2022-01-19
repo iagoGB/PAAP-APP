@@ -6,7 +6,7 @@ class User {
   int? workload;
   String? departament;
   String? telephone;
-  String? entryDate;
+  DateTime? entryDate;
   String? avatar;
   List<EventUser>? events;
 
@@ -31,7 +31,7 @@ class User {
     workload = json['workload'];
     departament = json['departament'];
     telephone = json['telephone'];
-    entryDate = json['entryDate'];
+    entryDate = DateTime.tryParse(json['entryDate']);
     avatar = json['avatar'];
     if (json['events'] != null) {
       events = <EventUser>[];

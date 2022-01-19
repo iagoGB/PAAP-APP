@@ -14,22 +14,22 @@ abstract class Routes {
   // static const EVENT_DETAILS = _Paths.EVENT_DETAILS;
   static String EVENT_DETAILS(String eventId) =>
       _Paths.EVENT_DETAILS.replaceAll(':eventId', eventId);
+  static String USER_DETAILS(String id) =>
+      _Paths.ADMIN +
+      _Paths.USERS +
+      _Paths.USER_DETAILS.replaceAll(':userId', id);
   static const USERS = _Paths.ADMIN + _Paths.USERS;
   static const CREATE_EVENT =
       _Paths.ADMIN + _Paths.ADMIN_EVENTS + _Paths.CREATE_EVENT;
+  static const CREATE_USER = _Paths.ADMIN + _Paths.USERS + _Paths.CREATE_USER;
   static String UPDATE_EVENT(String id) =>
       _Paths.ADMIN +
       _Paths.ADMIN_EVENTS +
       _Paths.UPDATE_EVENT.replaceAll(':eventId', id);
-  static const CREATE_USER = _Paths.ADMIN + _Paths.USERS + _Paths.CREATE_USER;
   static String UPDATE_USER(String id) =>
       _Paths.ADMIN +
       _Paths.USERS +
-      _Paths.UPDATE_USER.replaceAll(':eventId', id);
-  static String USER_DETAILS(String id) =>
-      _Paths.ADMIN +
-      _Paths.USERS +
-      _Paths.USER_DETAILS.replaceAll(':eventId', id);
+      _Paths.UPDATE_USER.replaceAll(':userId', id);
 }
 
 abstract class _Paths {

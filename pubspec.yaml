@@ -6,6 +6,7 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies: 
+  mask_text_input_formatter: ^2.1.0
   flutter_barcode_scanner: ^2.0.0
   back_button_interceptor: ^5.0.2
   cupertino_icons: ^1.0.2

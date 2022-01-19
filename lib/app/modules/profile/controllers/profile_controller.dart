@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';
 
 class ProfileController extends GetxController with StateMixin {
@@ -56,6 +57,10 @@ class ProfileController extends GetxController with StateMixin {
 
   emailValidator(String value) {
     if (!GetUtils.isEmail(value)) return 'Não é um email válido';
+  }
+
+  phoneMask() {
+    return MaskTextInputFormatter(mask: '(##) # ####-####');
   }
 
   phoneValidator(String val) {

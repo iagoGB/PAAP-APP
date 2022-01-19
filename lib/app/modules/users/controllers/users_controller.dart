@@ -51,5 +51,6 @@ class UsersController extends GetxController with StateMixin {
   toUserDetails(id) {
     print('id do usuário $id');
     Get.rootDelegate.toNamed(Routes.USER_DETAILS(id.toString()));
+    print('ta executando');
   }
 }
