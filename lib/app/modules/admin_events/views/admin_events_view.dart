@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:paap_app/app/modules/shared/widgets/admin_app_bar.dart';
 import 'package:paap_app/app/modules/shared/widgets/error_feedback.dart';
 import 'package:paap_app/app/modules/shared/widgets/event_card.dart';
+import 'package:paap_app/app/modules/shared/widgets/floating_button.dart';
 import 'package:paap_app/app/modules/shared/widgets/no_events_feedback.dart';
 
 import '../controllers/admin_events_controller.dart';
@@ -31,30 +32,9 @@ class AdminEventsView extends GetView<AdminEventsController> {
         onError: (error) => ErrorFeedback(error),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        color: Color(0x00ffffff),
-        // padding: EdgeInsets.symmetric(vertical: 8, horizontal: 100),
-        // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        height: 50,
-        width: 130,
-        child: ElevatedButton(
-          onPressed: () => controller.toCreateEvent(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Icons.add_circle_sharp),
-              Container(margin: EdgeInsets.only(right: 5)),
-              Text(
-                "Criar",
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: Get.theme.primaryColor,
-          ),
-        ),
+      floatingActionButton: FloatingCreateButton(
+        Get.theme.primaryColor,
+        controller.toCreateEvent,
       ),
     );
   }

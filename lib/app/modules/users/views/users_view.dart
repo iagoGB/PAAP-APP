@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_notifier.dart';
 import 'package:paap_app/app/modules/shared/widgets/admin_app_bar.dart';
-import 'package:paap_app/app/routes/app_pages.dart';
+import 'package:paap_app/app/modules/shared/widgets/floating_button.dart';
+import 'package:paap_app/app/modules/shared/widgets/user_card.dart';
 
 import '../controllers/users_controller.dart';
 
@@ -15,18 +17,32 @@ class UsersView extends GetView<UsersController> {
         iconColor: Get.isDarkMode ? Colors.yellow : Colors.black,
         controller: controller,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Get.rootDelegate.toNamed(Routes.CREATE_EVENT);
-              },
-              child: Text("Criar"),
-            )
-          ],
+      body: controller.obx(
+        (state) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+            ),
+            itemCount: state.length,
+            itemBuilder: (_, index) => UserCard(
+              state[index],
+              Get.theme.primaryColor,
+              Colors.white,
+              controller.toUserDetails,
+            ),
+          ),
         ),
+        onError: (err) => Center(
+          child: Text('Ocorreu um erro ao buscar usuários do sistema'),
+        ),
+        onEmpty: Text('Ainda não há usuários no sistema '),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton:
+          FloatingCreateButton(Get.theme.primaryColor, controller.toCreateUser),
     );
   }
 }

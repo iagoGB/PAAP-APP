@@ -4,9 +4,9 @@ import 'package:paap_app/app/data/providers/category_provider.dart';
 import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
 
-import '../controllers/create_event_controller.dart';
+import '../controllers/edit_event_controller.dart';
 
-class CreateEventBinding extends Bindings {
+class EditEventBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<StorageProvider>(
@@ -21,8 +21,8 @@ class CreateEventBinding extends Bindings {
     Get.lazyPut<EventProvider>(
       () => EventProvider(Get.find(), Get.find()),
     );
-    Get.lazyPut<CreateEventController>(
-      () => CreateEventController(
+    Get.lazyPut<EditEventController>(
+      () => EditEventController(
         Get.parameters['eventId'] ?? '',
         eventProvider: Get.find(),
         categoryProvider: Get.find(),

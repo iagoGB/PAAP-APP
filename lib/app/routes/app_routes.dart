@@ -21,6 +21,15 @@ abstract class Routes {
       _Paths.ADMIN +
       _Paths.ADMIN_EVENTS +
       _Paths.UPDATE_EVENT.replaceAll(':eventId', id);
+  static const CREATE_USER = _Paths.ADMIN + _Paths.USERS + _Paths.CREATE_USER;
+  static String UPDATE_USER(String id) =>
+      _Paths.ADMIN +
+      _Paths.USERS +
+      _Paths.UPDATE_USER.replaceAll(':eventId', id);
+  static String USER_DETAILS(String id) =>
+      _Paths.ADMIN +
+      _Paths.USERS +
+      _Paths.USER_DETAILS.replaceAll(':eventId', id);
 }
 
 abstract class _Paths {
@@ -36,4 +45,7 @@ abstract class _Paths {
   static const USERS = '/users';
   static const CREATE_EVENT = '/create-event';
   static const UPDATE_EVENT = '/update-event/:eventId';
+  static const CREATE_USER = '/create-users';
+  static const UPDATE_USER = '/edit-users/:userId';
+  static const USER_DETAILS = '/user-details/:userId';
 }

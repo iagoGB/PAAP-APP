@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:paap_app/app/modules/shared/widgets/custom_text_field.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
-import '../controllers/create_event_controller.dart';
+import '../controllers/edit_event_controller.dart';
 
-class CreateEventView extends GetView<CreateEventController> {
-  final controller = Get.find<CreateEventController>();
+class EditEventView extends GetView<EditEventController> {
+  final controller = Get.find<EditEventController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +30,7 @@ class CreateEventView extends GetView<CreateEventController> {
                     IconButton(
                       onPressed: () {
                         Get.rootDelegate.offAndToNamed(Routes.ADMIN_EVENTS);
-                        Get.delete<CreateEventController>();
+                        Get.delete<EditEventController>();
                       },
                       icon: Icon(
                         Icons.arrow_back_outlined,

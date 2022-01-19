@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 
-import 'package:paap_app/app/modules/create_event/bindings/create_event_binding.dart';
-import 'package:paap_app/app/modules/create_event/views/create_event_view.dart';
+import 'package:paap_app/app/modules/edit_event/bindings/edit_event_binding.dart';
+import 'package:paap_app/app/modules/edit_event/views/edit_event_view.dart';
+import 'package:paap_app/app/modules/edit_user/bindings/edit_user_binding.dart';
+import 'package:paap_app/app/modules/edit_user/views/edit_user_view.dart';
+import 'package:paap_app/app/modules/user_details/bindings/user_details_binding.dart';
+import 'package:paap_app/app/modules/user_details/views/user_details_view.dart';
 
 import '../middlewares/auth_middleware.dart';
 import '../modules/admin/bindings/admin_binding.dart';
@@ -130,13 +134,13 @@ class AppPages {
               children: [
                 GetPage(
                   name: _Paths.CREATE_EVENT,
-                  page: () => CreateEventView(),
-                  binding: CreateEventBinding(),
+                  page: () => EditEventView(),
+                  binding: EditEventBinding(),
                 ),
                 GetPage(
                   name: _Paths.UPDATE_EVENT,
-                  page: () => CreateEventView(),
-                  binding: CreateEventBinding(),
+                  page: () => EditEventView(),
+                  binding: EditEventBinding(),
                 ),
               ],
             ),
@@ -147,10 +151,19 @@ class AppPages {
               transition: Transition.fadeIn,
               children: [
                 GetPage(
-                  name: _Paths.USERS,
-                  page: () => UsersView(),
-                  binding: UsersBinding(),
-                  transition: Transition.fadeIn,
+                  name: _Paths.USER_DETAILS,
+                  page: () => UserDetailsView(),
+                  binding: UserDetailsBinding(),
+                ),
+                GetPage(
+                  name: _Paths.CREATE_USER,
+                  page: () => EditUserView(),
+                  binding: EditUserBinding(),
+                ),
+                GetPage(
+                  name: _Paths.UPDATE_USER,
+                  page: () => EditUserView(),
+                  binding: EditUserBinding(),
                 ),
               ],
             ),

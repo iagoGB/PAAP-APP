@@ -11,10 +11,9 @@ import 'package:paap_app/app/data/providers/category_provider.dart';
 
 import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/modules/admin_events/controllers/admin_events_controller.dart';
-import 'package:paap_app/app/modules/admin_events/views/admin_events_view.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
-class CreateEventController extends GetxController {
+class EditEventController extends GetxController {
   final EventProvider eventProvider;
   final CategoryProvider categoryProvider;
   final eventFormKey = GlobalKey<FormState>();
@@ -35,7 +34,7 @@ class CreateEventController extends GetxController {
   var image = Rxn<File?>();
   final String eventId;
 
-  CreateEventController(
+  EditEventController(
     this.eventId, {
     required this.categoryProvider,
     required this.eventProvider,
@@ -59,15 +58,14 @@ class CreateEventController extends GetxController {
   }
 
   void getCategories() async {
-    print('Executou get cat');
     await this.categoryProvider.getAll().then(
       (value) {
-        print('Deu certo');
         categories.assignAll(value);
-        print('categories' + categories.value.toString());
         update();
       },
-      onError: (err) => print(err),
+      onError: (err) => Get.defaultDialog(
+        content: Text('Erro ao buscar as categorias. $err'),
+      ),
     ).whenComplete(() => null);
   }
 
@@ -80,6 +78,10 @@ class CreateEventController extends GetxController {
     } on PlatformException catch (e) {
       Get.defaultDialog(
         content: Text('O aplicativo não tem permissão para acessar galeria $e'),
+      );
+    } catch (e) {
+      Get.defaultDialog(
+        content: Text('Ocorreu um erro ao selecionar imagem $e'),
       );
     }
   }
