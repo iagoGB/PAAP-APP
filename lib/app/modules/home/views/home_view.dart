@@ -68,7 +68,7 @@ class HomeView extends GetView<HomeController> {
           label: 'Perfil',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
+          icon: Icon(Icons.settings_accessibility_outlined),
           label: 'Notificações',
         ),
       ],

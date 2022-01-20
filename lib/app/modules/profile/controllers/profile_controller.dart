@@ -64,7 +64,8 @@ class ProfileController extends GetxController with StateMixin {
   }
 
   phoneValidator(String val) {
-    if (val.isEmpty) return 'Campo vazio';
+    if (val.isEmpty) return 'Campo não pode ser vazio';
+    if (val.length < 16) return 'Digite um telefone válido';
   }
 
   submit() {
@@ -73,7 +74,7 @@ class ProfileController extends GetxController with StateMixin {
 
       this
           .userProvider
-          .update(image, emailController.text, phoneController.text)
+          .updateFromProfile(image, emailController.text, phoneController.text)
           .then(
         (value) {
           Get.defaultDialog(

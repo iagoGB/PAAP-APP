@@ -22,9 +22,13 @@ class UserProvider extends GetConnect {
   }
 
   Future<User?> getProfile() async {
-    var id = storageProvider.getAuth()['id'];
-    final response = await apiProvider.get('/user/$id');
-    return User.fromJson(response.body);
+    try {
+      var id = storageProvider.getAuth()['id'];
+      final response = await apiProvider.get('/user/$id');
+      return User.fromJson(response.body);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<Response<User>> postUser(User user) async => await post('user', user);
@@ -36,7 +40,39 @@ class UserProvider extends GetConnect {
     return Future.value(false);
   }
 
-  Future<void> update(File? avatar, String email, String phone) async {
+  create(avatar, user) async {
+    final formData = FormData({
+      'image': avatar != null
+          ? MultipartFile(avatar, filename: '${user['id']}.png')
+          : null,
+      'user': jsonEncode(user)
+    });
+
+    final response = await apiProvider.post('/user', formData);
+
+    if (response.hasError) {
+      throw Exception('Erro ao criar usuário! ${response.body['message']}');
+    }
+  }
+
+  Future<void> update(avatar, user) async {
+    final formData = FormData({
+      'image': avatar != null
+          ? MultipartFile(avatar, filename: '${user['id']}.png')
+          : null,
+      'user': jsonEncode(user)
+    });
+
+    final response =
+        await apiProvider.put('/user/update/${user['id']}', formData);
+
+    if (response.hasError) {
+      throw Exception('Erro ao atualizar usuário! ${response.body['message']}');
+    }
+  }
+
+  Future<void> updateFromProfile(
+      File? avatar, String email, String phone) async {
     var id = storageProvider.getAuth()['id'];
     var user = {"email": email, "phone": phone};
     final formData = FormData({
@@ -45,10 +81,9 @@ class UserProvider extends GetConnect {
       'user': jsonEncode(user)
     });
 
-    final response = await apiProvider.put('/user/teste/$id', formData);
+    final response = await apiProvider.put('/user/$id', formData);
 
     if (response.hasError) {
-      print(response.bodyString);
       throw Exception('Erro ao atualizar usuário! ${response.body['message']}');
     }
   }

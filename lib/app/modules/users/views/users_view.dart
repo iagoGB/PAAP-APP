@@ -23,7 +23,7 @@ class UsersView extends GetView<UsersController> {
           padding: const EdgeInsets.all(8.0),
           child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+              crossAxisCount: state.length > 10 ? 3 : 2,
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
             ),

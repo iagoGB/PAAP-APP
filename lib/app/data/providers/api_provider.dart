@@ -13,9 +13,8 @@ class ApiProvider extends GetConnect {
     httpClient.baseUrl = BASE_URL;
     httpClient.timeout = Duration(seconds: 20);
     httpClient.addRequestModifier<dynamic>((request) {
-      print('executou interceptor');
-      request.headers['Authorization'] = "${auth['token']}";
-      print(request.headers);
+      // request.headers['Authorization'] = "${auth['token']}";
+      // print(request.headers);
       return request;
     });
     // super.onInit();

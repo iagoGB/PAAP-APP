@@ -47,7 +47,7 @@ class UserDetailsView extends GetView<UserDetailsController> {
                   style: labelStyle(),
                 ),
                 spacing(),
-                Text(user.name + 'Braga Neto Dos Santos Sousa Albuquerque'),
+                Text(user.name),
                 spacing(),
                 Text(
                   'Telefone',

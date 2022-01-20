@@ -1,7 +1,7 @@
 class User {
   int? id;
   String? email;
-  int? cpf;
+  String? cpf;
   String? name;
   int? workload;
   String? departament;
