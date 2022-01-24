@@ -40,7 +40,7 @@ Widget customLogo() {
 
 BottomNavigationBar customBottomNavBar(controller, currentIndex, delegate) {
   return BottomNavigationBar(
-    showUnselectedLabels: false,
+    showUnselectedLabels: true,
     currentIndex: currentIndex,
     onTap: (value) => controller.changeTabIndex(value, delegate),
     selectedItemColor: const Color.fromRGBO(234, 125, 91, 0.8),
@@ -52,6 +52,10 @@ BottomNavigationBar customBottomNavBar(controller, currentIndex, delegate) {
       BottomNavigationBarItem(
         icon: Icon(Icons.calendar_today),
         label: 'Eventos',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.view_list_sharp),
+        label: 'Categorias',
       ),
       // BottomNavigationBarItem(
       //     icon: Icon(Icons.calendar_today), label: 'Notificações'),

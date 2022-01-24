@@ -1,15 +1,23 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:paap_app/app/data/constants.dart';
 import 'package:path/path.dart';
 
 import 'package:get/get.dart';
 
 import 'package:paap_app/app/data/providers/api_provider.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:get/get_connect/http/src/multipart/multipart_file.dart'
+    as getConnect;
+import 'package:get/get_connect/http/src/multipart/form_data.dart'
+    as getConnect;
 
 import '../models/event_model.dart';
 
 class EventProvider extends GetConnect {
-  ApiProvider apiProvider;
+  final ApiProvider apiProvider;
   final StorageProvider storageProvider;
 
   EventProvider(
@@ -18,9 +26,7 @@ class EventProvider extends GetConnect {
   );
 
   @override
-  void onInit() {
-    this.apiProvider = Get.find<ApiProvider>();
-  }
+  void onInit() {}
 
   Future<List<Event?>> getOpens() async {
     final response = await apiProvider.get('/event/open');
@@ -52,8 +58,9 @@ class EventProvider extends GetConnect {
   }
 
   Future<void> postEvent(image, event) async {
-    final formData = FormData({
-      'image': MultipartFile(image, filename: '${basename(image.path)}'),
+    final formData = getConnect.FormData({
+      'image':
+          getConnect.MultipartFile(image, filename: '${basename(image.path)}'),
       'event': jsonEncode(event)
     });
     var response = await apiProvider.post('/event', formData);
@@ -63,9 +70,9 @@ class EventProvider extends GetConnect {
   }
 
   updateEvent(image, event) async {
-    final formData = FormData({
+    final formData = getConnect.FormData({
       'image': image != null
-          ? MultipartFile(image, filename: '${basename(image.path)}')
+          ? getConnect.MultipartFile(image, filename: '${basename(image.path)}')
           : null,
       'event': jsonEncode(event)
     });
@@ -74,8 +81,6 @@ class EventProvider extends GetConnect {
       throw new Exception('Erro ao criar novo evento ${response.bodyString}');
     }
   }
-
-  Future<Response> deleteEvent(int id) async => await delete('event/$id');
 
   Future<Event> findByID(id) async {
     final response = await apiProvider.get('/event/$id');
@@ -107,14 +112,13 @@ class EventProvider extends GetConnect {
         {'keyword': code, 'userID': auth['id']});
     if (response.hasError) {
       if (response.statusCode == 400)
-        throw new Exception(response.body['erro']);
+        throw new Exception(response.body['error']);
       else
         throw new Exception('Erro ao tentar registrar presença');
     }
   }
 
   Future<List<Event?>> getAll() async {
-    var auth = storageProvider.getAuth();
     final response = await apiProvider.get('/event');
     if (response.hasError) {
       print('error api ${response.bodyString}');
@@ -125,5 +129,32 @@ class EventProvider extends GetConnect {
         .toList()
         .reversed
         .toList();
+  }
+
+  Future<File?> downloadCertificate(event, user) async {
+    try {
+      final appStorage = await getExternalStorageDirectory();
+      print('app Storage $appStorage');
+      if (appStorage == null)
+        throw new Exception('Permissão de acesso ao dispositivo negada!');
+      var file = File(
+          '${appStorage.path}/${event.title.replaceAll(' ', '')}_${user.name.replaceAll(' ', '')}.pdf');
+      var response = await Dio().post(
+        '${BASE_URL}/event/certification?eventID=${event.id}&userID=${user.id}',
+        options: Options(
+          responseType: ResponseType.bytes,
+          followRedirects: false,
+          receiveTimeout: 0,
+        ),
+      );
+
+      final raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await raf.close();
+      return file;
+    } on Exception catch (e) {
+      print(e);
+      throw new Exception(e);
+    }
   }
 }

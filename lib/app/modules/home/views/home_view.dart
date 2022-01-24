@@ -6,7 +6,7 @@ import '../../../routes/app_pages.dart';
 import 'dart:math' as math;
 
 class HomeView extends GetView<HomeController> {
-  var controller = Get.find();
+  final controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return GetRouterOutlet.builder(
@@ -51,7 +51,7 @@ class HomeView extends GetView<HomeController> {
 
   BottomNavigationBar customBottomNavBar(controller, currentIndex, delegate) {
     return BottomNavigationBar(
-      showUnselectedLabels: false,
+      showUnselectedLabels: true,
       currentIndex: currentIndex,
       onTap: (value) => controller.changeTabIndex(value, delegate),
       selectedIconTheme: Get.theme.primaryIconTheme,
@@ -69,7 +69,7 @@ class HomeView extends GetView<HomeController> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings_accessibility_outlined),
-          label: 'Notificações',
+          label: 'Configurações',
         ),
       ],
     );

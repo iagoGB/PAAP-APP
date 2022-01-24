@@ -30,6 +30,9 @@ abstract class Routes {
       _Paths.ADMIN +
       _Paths.USERS +
       _Paths.UPDATE_USER.replaceAll(':userId', id);
+  static const CATEGORIES = _Paths.ADMIN + _Paths.CATEGORIES;
+  static const CREATE_CATEGORY =
+      _Paths.ADMIN + _Paths.CATEGORIES + _Paths.CREATE_CATEGORY;
 }
 
 abstract class _Paths {
@@ -48,4 +51,6 @@ abstract class _Paths {
   static const CREATE_USER = '/create-users';
   static const UPDATE_USER = '/edit-users/:userId';
   static const USER_DETAILS = '/user-details/:userId';
+  static const CATEGORIES = '/categories';
+  static const CREATE_CATEGORY = '/create-category';
 }

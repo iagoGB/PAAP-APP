@@ -24,6 +24,9 @@ class AdminController extends GetxController {
     if (currentLocation?.startsWith(Routes.ADMIN_EVENTS) == true) {
       currentIndex = 1;
     }
+    if (currentLocation?.startsWith(Routes.CATEGORIES) == true) {
+      currentIndex = 2;
+    }
     return currentIndex;
   }
 
@@ -34,6 +37,9 @@ class AdminController extends GetxController {
         break;
       case 1:
         delegate.toNamed(Routes.ADMIN_EVENTS);
+        break;
+      case 2:
+        delegate.toNamed(Routes.CATEGORIES);
         break;
       default:
     }

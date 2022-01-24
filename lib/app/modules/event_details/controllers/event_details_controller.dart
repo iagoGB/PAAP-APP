@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 import 'package:paap_app/app/data/models/event_model.dart';
+import 'package:paap_app/app/data/models/user_model.dart';
 import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/data/providers/storage_provider.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';
@@ -20,6 +22,7 @@ class EventDetailsController extends GetxController with StateMixin {
   final subscribing = false.obs;
   final error = false.obs;
   final String eventId;
+  User? user;
   late Event event;
 
   EventDetailsController(
@@ -70,6 +73,7 @@ class EventDetailsController extends GetxController with StateMixin {
   void checkUserStatus() async {
     var userId = storageProvider.getAuth()['id'];
     await this.userProvider.getById(userId).then((user) {
+      this.user = user;
       var result =
           user?.events?.where((eventUser) => eventUser.id == this.event.id);
       if (result!.length > 0) {
@@ -81,7 +85,6 @@ class EventDetailsController extends GetxController with StateMixin {
           userStatus('isEnrolled');
       } else
         userStatus('isUnsubscribed');
-      print('status: ${userStatus.value}');
     }).whenComplete(() => isLoading(false));
   }
 
@@ -123,7 +126,6 @@ class EventDetailsController extends GetxController with StateMixin {
       );
     }
     if (code != '-1' && code != '') {
-      print('ta entrando aqui');
       this.registerPresence(code);
     } else {
       this.feedbackMessage(
@@ -145,7 +147,11 @@ class EventDetailsController extends GetxController with StateMixin {
         );
       },
       onError: (err) {
-        this.feedbackMessage(Colors.redAccent, 'Erro', err.message);
+        this.feedbackMessage(
+          Colors.redAccent,
+          'Erro',
+          err.message ?? 'Erro ao registrar presença',
+        );
       },
     );
   }
@@ -153,7 +159,7 @@ class EventDetailsController extends GetxController with StateMixin {
   void feedbackMessage(color, title, message) {
     Get.defaultDialog(
       backgroundColor: color,
-      title: title != null ? title : '',
+      title: title ?? '',
       titleStyle: TextStyle(color: Colors.white),
       middleText: message,
       middleTextStyle: TextStyle(color: Colors.white),
@@ -161,7 +167,15 @@ class EventDetailsController extends GetxController with StateMixin {
   }
 
   downloadCertificate() {
-    print('Clickou para baixar certificado');
+    isLoading(true);
+    this.eventProvider.downloadCertificate(this.event, this.user).then(
+      (value) {
+        OpenFile.open(value?.path);
+      },
+      onError: (err) => Get.defaultDialog(
+        content: Text(err.message ?? 'Erro ao baixar certificado'),
+      ),
+    ).whenComplete(() => isLoading(false));
   }
 
   void getBack() {

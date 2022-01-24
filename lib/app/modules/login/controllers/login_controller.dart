@@ -31,7 +31,8 @@ class LoginController extends GetxController {
   storageAndNavigate(dynamic auth) async {
     storageProvider.setAuth(auth);
 
-    if (auth?['role'] == 'ADMIN') Get.rootDelegate.offAndToNamed(Routes.ADMIN);
+    if (auth?['role'] == 'ADMIN')
+      Get.rootDelegate.offAndToNamed(Routes.ADMIN_EVENTS);
     if (auth?['role'] == 'USER')
       Get.rootDelegate.offAndToNamed(Routes.HOME); // tentar mudar rota aqui dps
   }

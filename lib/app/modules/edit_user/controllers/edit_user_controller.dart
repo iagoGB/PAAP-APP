@@ -48,15 +48,16 @@ class EditUserController extends GetxController {
   void onClose() {}
 
   void checkIfisEditing() {
-    isLoading(true);
     if (!this.userId.isEmpty) {
+      this.isLoading(true);
       this.isEditing(true);
-      this.userProvider.getById(int.parse(this.userId)).then((value) {
-        this.setForm(value!);
-      },
-          onError: (err) => Get.defaultDialog(
-              content: Text('Erro ao buscar dados do usuário'))).whenComplete(
-          () => isLoading(false));
+      this.userProvider.getById(int.parse(this.userId)).then(
+        (value) {
+          this.setForm(value!);
+        },
+        onError: (err) =>
+            Get.defaultDialog(content: Text('Erro ao buscar dados do usuário')),
+      ).whenComplete(() => this.isLoading(false));
     }
   }
 

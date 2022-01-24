@@ -1,17 +1,18 @@
 import 'package:get/get.dart';
 
-import 'package:paap_app/app/modules/edit_event/bindings/edit_event_binding.dart';
-import 'package:paap_app/app/modules/edit_event/views/edit_event_view.dart';
-import 'package:paap_app/app/modules/edit_user/bindings/edit_user_binding.dart';
-import 'package:paap_app/app/modules/edit_user/views/edit_user_view.dart';
-import 'package:paap_app/app/modules/user_details/bindings/user_details_binding.dart';
-import 'package:paap_app/app/modules/user_details/views/user_details_view.dart';
-
 import '../middlewares/auth_middleware.dart';
 import '../modules/admin/bindings/admin_binding.dart';
 import '../modules/admin/views/admin_view.dart';
 import '../modules/admin_events/bindings/admin_events_binding.dart';
 import '../modules/admin_events/views/admin_events_view.dart';
+import '../modules/categories/bindings/categories_binding.dart';
+import '../modules/categories/views/categories_view.dart';
+import '../modules/edit_category/bindings/edit_category_binding.dart';
+import '../modules/edit_category/views/edit_category_view.dart';
+import '../modules/edit_event/bindings/edit_event_binding.dart';
+import '../modules/edit_event/views/edit_event_view.dart';
+import '../modules/edit_user/bindings/edit_user_binding.dart';
+import '../modules/edit_user/views/edit_user_view.dart';
 import '../modules/event_details/bindings/event_details_binding.dart';
 import '../modules/event_details/views/event_details_view.dart';
 import '../modules/events/bindings/events_binding.dart';
@@ -28,6 +29,8 @@ import '../modules/root/bindings/root_binding.dart';
 import '../modules/root/views/root_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
+import '../modules/user_details/bindings/user_details_binding.dart';
+import '../modules/user_details/views/user_details_view.dart';
 import '../modules/users/bindings/users_binding.dart';
 import '../modules/users/views/users_view.dart';
 
@@ -109,7 +112,7 @@ class AppPages {
           ],
         ),
         GetPage(
-          transition: Transition.zoom,
+          transition: Transition.rightToLeft,
           name: _Paths.EVENT_DETAILS,
           page: () => EventDetailsView(),
           binding: EventDetailsBinding(),
@@ -167,6 +170,20 @@ class AppPages {
                   page: () => EditUserView(),
                   binding: EditUserBinding(),
                   transition: Transition.rightToLeft,
+                ),
+              ],
+            ),
+            GetPage(
+              transition: Transition.fadeIn,
+              name: _Paths.CATEGORIES,
+              page: () => CategoriesView(),
+              binding: CategoriesBinding(),
+              children: [
+                GetPage(
+                  transition: Transition.fadeIn,
+                  name: _Paths.CREATE_CATEGORY,
+                  page: () => EditCategoryView(),
+                  binding: EditCategoryBinding(),
                 ),
               ],
             ),

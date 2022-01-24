@@ -41,7 +41,6 @@ class UserDetailsController extends GetxController with StateMixin {
   }
 
   editUser(userId) {
-    print('userId $userId');
     Get.rootDelegate.toNamed(Routes.UPDATE_USER(userId.toString()));
   }
 }

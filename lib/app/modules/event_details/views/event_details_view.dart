@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:paap_app/app/modules/shared/widgets/waiting_feedback.dart';
 
 import '../controllers/event_details_controller.dart';
 
@@ -47,46 +48,44 @@ class EventDetailsView extends GetView<EventDetailsController> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Obx(() {
-          if (controller.isLoading.value) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            if (controller.error.value) {
-              return Center(
-                child: Text('Erro ao carregar evento'),
-              );
-            } else {
-              return mountEventDetails();
-            }
-          }
-        }),
-      ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return WaitingFeedback();
+        } else if (controller.error.value) {
+          return Center(
+            child: Text('Erro ao carregar detalhes do evento'),
+          );
+        } else {
+          return SingleChildScrollView(child: mountEventDetails());
+        }
+      }),
       bottomNavigationBar: Obx(
         () => Visibility(
           visible: !(controller.isLoading.value || controller.error.value),
-          replacement: Container(),
+          replacement: Container(
+            width: 1,
+            height: 1,
+          ),
           child: mountBottomNavigationBar(),
         ),
       ),
-      floatingActionButton:
-          Obx(() => controller.userStatus.value == 'isEnrolled'
-              ? FloatingActionButton.extended(
-                  onPressed: () => controller.readQrCode(),
-                  label: Row(children: [
-                    Icon(Icons.qr_code_2_outlined),
-                    Text(
-                      'Presença',
-                      style: TextStyle(
-                        color: Get.theme.secondaryHeaderColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+      floatingActionButton: Obx(
+        () => controller.userStatus.value == 'isEnrolled'
+            ? FloatingActionButton.extended(
+                onPressed: () => controller.readQrCode(),
+                label: Row(children: [
+                  Icon(Icons.qr_code_2_outlined),
+                  Text(
+                    'Presença',
+                    style: TextStyle(
+                      color: Get.theme.secondaryHeaderColor,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ]),
-                )
-              : Container()),
+                  ),
+                ]),
+              )
+            : Container(),
+      ),
     );
   }
 
@@ -98,6 +97,16 @@ class EventDetailsView extends GetView<EventDetailsController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: Obx(
+                () => controller.isAdmin.value
+                    ? Image(
+                        image: NetworkImage(event.qrCode ?? ''),
+                      )
+                    : Container(),
+              ),
+            ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 10),
               child: Text(

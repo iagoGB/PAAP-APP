@@ -16,7 +16,6 @@ class CategoryProvider extends GetConnect {
     print(response.body);
     if (response.hasError) throw Exception('Erro ao consultar categorias');
     response.printInfo();
-    print('Deu certo consultar categorias');
     return response.body.map<Category>((e) => Category.fromJson(e)).toList();
   }
 
@@ -25,8 +24,8 @@ class CategoryProvider extends GetConnect {
     return response.body;
   }
 
-  Future<Response<Category>> postCategory(Category category) async =>
-      await post('category', category);
-
-  Future<Response> deleteCategory(int id) async => await delete('category/$id');
+  Future<void> save(Category category) async {
+    var response = await this.apiProvider.post('/category', category.toJson());
+    if (response.hasError) throw Exception('Erro ao salvar categoria');
+  }
 }
