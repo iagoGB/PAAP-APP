@@ -25,6 +25,7 @@ class ProfileView extends GetView<ProfileController> {
         // width: double.infinity,
         height: 200,
         margin: EdgeInsets.only(left: 5, top: 50),
+        padding: EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +83,7 @@ class ProfileView extends GetView<ProfileController> {
           Padding(
             padding: const EdgeInsets.all(2),
             child: Text(
-              'Carga horária concluída: ${state.workload / 60}h',
+              'Carga horária concluída: ${state.workload}h',
               style: TextStyle(fontSize: 12),
             ),
           ),

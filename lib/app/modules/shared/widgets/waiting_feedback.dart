@@ -8,10 +8,10 @@ Widget WaitingFeedback() => Center(
           SizedBox(
             height: 12,
           ),
-          Text(
-            "Aguarde...",
-            style: TextStyle(color: Colors.grey.shade700),
-          ),
+          // Text(
+          //   "Aguarde...",
+          //   style: TextStyle(color: Colors.grey.shade700),
+          // ),
         ],
       ),
     );

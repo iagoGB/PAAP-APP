@@ -68,7 +68,7 @@ class HomeView extends GetView<HomeController> {
           label: 'Perfil',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings_accessibility_outlined),
+          icon: Icon(Icons.settings_applications_sharp),
           label: 'Configurações',
         ),
       ],
@@ -100,12 +100,22 @@ class HomeView extends GetView<HomeController> {
             strokeWidth: 1,
           ),
         ),
-        Center(
-          child: CircleAvatar(
-            radius: 20,
-            backgroundColor: Colors.transparent,
-            backgroundImage: NetworkImage(urlImage),
-          ),
+        Obx(
+          () => controller.avatar.value == null
+              ? Center(
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: NetworkImage(urlImage),
+                  ),
+                )
+              : Center(
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: NetworkImage(controller.avatar.value),
+                  ),
+                ),
         ),
       ]),
     );

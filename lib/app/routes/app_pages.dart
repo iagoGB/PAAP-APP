@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 
 import '../middlewares/auth_middleware.dart';
+import '../modules/about/bindings/about_binding.dart';
+import '../modules/about/views/about_view.dart';
 import '../modules/admin/bindings/admin_binding.dart';
 import '../modules/admin/views/admin_view.dart';
 import '../modules/admin_events/bindings/admin_events_binding.dart';
@@ -94,20 +96,17 @@ class AppPages {
               ],
               name: _Paths.NOTIFICATIONS,
               page: () => NotificationsView(),
-              title: 'Products',
+              title: 'Configurações',
               transition: Transition.zoom,
               binding: NotificationsBinding(),
-              // children: [
-              //   GetPage(
-              //     name: _Paths.PRODUCT_DETAILS,
-              //     page: () => ProductDetailsView(),
-              //     binding: ProductDetailsBinding(),
-              //     middlewares: [
-              //       //only enter this route when authed
-              //       EnsureAuthMiddleware(),
-              //     ],
-              //   ),
-              // ],
+              children: [
+                GetPage(
+                  transition: Transition.rightToLeft,
+                  name: _Paths.ABOUT,
+                  page: () => AboutView(),
+                  binding: AboutBinding(),
+                ),
+              ],
             ),
           ],
         ),

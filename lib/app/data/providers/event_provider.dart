@@ -34,7 +34,11 @@ class EventProvider extends GetConnect {
     if (response.hasError) {
       throw new Exception('Erro ao buscar eventos abertos');
     }
-    return response.body.map<Event>((e) => Event.fromJson(e)).toList();
+    return response.body
+        .map<Event>((e) => Event.fromJson(e))
+        .toList()
+        .reversed
+        .toList();
   }
 
   Future<List<Event?>> getEnrolleds() async {
@@ -54,7 +58,11 @@ class EventProvider extends GetConnect {
     if (response.hasError) {
       throw new Exception('Erro ao buscar eventos que você participou');
     }
-    return response.body.map<Event>((e) => Event.fromJson(e)).toList();
+    return response.body
+        .map<Event>((e) => Event.fromJson(e))
+        .toList()
+        .reversed
+        .toList();
   }
 
   Future<void> postEvent(image, event) async {

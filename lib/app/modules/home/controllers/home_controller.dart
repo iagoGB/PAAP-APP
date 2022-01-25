@@ -1,17 +1,24 @@
 import 'package:get/get.dart';
 
 import 'package:paap_app/app/data/providers/storage_provider.dart';
+import 'package:paap_app/app/data/providers/user_provider.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
   late StorageProvider storageProvider;
+  UserProvider userProvider;
+  var avatar = "null".obs;
   var currentIndex = 0;
 
-  HomeController({required this.storageProvider});
+  HomeController({
+    required this.storageProvider,
+    required this.userProvider,
+  });
 
   @override
   void onInit() {
     super.onInit();
+    this.updateAvatar();
   }
 
   @override
@@ -47,6 +54,14 @@ class HomeController extends GetxController {
         break;
       default:
     }
+  }
+
+  void updateAvatar() {
+    this.avatar.value = "";
+    this.userProvider.getProfile().then((value) {
+      this.avatar.value = value!.avatar!;
+      this.update();
+    }, onError: (err) => print(err));
   }
 
   void logout() async {

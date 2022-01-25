@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:paap_app/app/modules/shared/widgets/custom_text_field.dart';
+import 'package:paap_app/app/modules/shared/widgets/waiting_feedback.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 import '../controllers/edit_event_controller.dart';
@@ -57,9 +58,7 @@ class EditEventView extends GetView<EditEventController> {
       ),
       body: Obx(
         () => controller.isLoading.value
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+            ? WaitingFeedback()
             : SingleChildScrollView(
                 child: Column(
                   children: [

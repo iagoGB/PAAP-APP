@@ -25,6 +25,7 @@ class CustomTheme {
     ),
     iconTheme: IconThemeData(color: Colors.white),
     primaryIconTheme: IconThemeData(color: primaryColorDark),
+    dividerColor: Colors.transparent,
   );
 
   final lightTheme = ThemeData.light().copyWith(
@@ -48,5 +49,6 @@ class CustomTheme {
     ),
     iconTheme: IconThemeData(color: Colors.grey),
     primaryIconTheme: IconThemeData(color: Color.fromRGBO(234, 125, 91, 0.9)),
+    dividerColor: Colors.transparent,
   );
 }

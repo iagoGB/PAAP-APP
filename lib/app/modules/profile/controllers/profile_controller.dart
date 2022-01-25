@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';
+import 'package:paap_app/app/modules/home/controllers/home_controller.dart';
 
 class ProfileController extends GetxController with StateMixin {
   final UserProvider userProvider;
@@ -81,6 +82,8 @@ class ProfileController extends GetxController with StateMixin {
             content: Text("Dados atualizados com sucesso!"),
           );
           this.getProfile();
+          var homeController = Get.find<HomeController>();
+          homeController.updateAvatar();
           changeEditing();
         },
         onError: (err) {
