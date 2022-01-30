@@ -6,9 +6,20 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies: 
+  mask_text_input_formatter: ^2.1.0
+  flutter_barcode_scanner: ^2.0.0
+  back_button_interceptor: ^5.0.2
   cupertino_icons: ^1.0.2
-  get: 4.3.8
+  image_picker: ^0.8.3+1
+  path_provider: ^2.0.8
+  get_storage: ^2.0.3
+  open_file: ^3.2.1
+  intl: ^0.17.0
+  dio: ^4.0.4
+  get: 4.5.1
   flutter: 
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
 
 dev_dependencies: 
@@ -18,4 +29,16 @@ dev_dependencies:
 
 flutter: 
   uses-material-design: true
+  assets: 
+    - assets/images/
+  fonts:
+    - family: 'Roboto'
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Black.ttf
+          weight: 700
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 400
+        
+        
 
