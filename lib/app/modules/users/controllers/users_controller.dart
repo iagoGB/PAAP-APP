@@ -7,6 +7,7 @@ import 'package:paap_app/app/routes/app_pages.dart';
 class UsersController extends GetxController with StateMixin {
   final StorageProvider storageProvider;
   final UserProvider userProvider;
+  String query = '';
 
   UsersController(
     this.userProvider, {
@@ -52,5 +53,9 @@ class UsersController extends GetxController with StateMixin {
     print('id do usuário $id');
     Get.rootDelegate.toNamed(Routes.USER_DETAILS(id.toString()));
     print('ta executando');
+  }
+
+  void searchUser(query) {
+    print('executou search user');
   }
 }

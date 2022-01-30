@@ -165,4 +165,16 @@ class EventProvider extends GetConnect {
       throw new Exception(e);
     }
   }
+
+  Future<List<Event?>> getByQuery(String query) async {
+    final response = await apiProvider.get('/event/query=$query');
+    if (response.hasError) {
+      throw new Exception('Erro ao buscar eventos');
+    }
+    return response.body
+        .map<Event>((e) => Event.fromJson(e))
+        .toList()
+        .reversed
+        .toList();
+  }
 }

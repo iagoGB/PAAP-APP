@@ -18,13 +18,34 @@ class LoginView extends GetView<LoginController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/paap.png'),
-                Text(
-                  "Móvel",
-                  style: TextStyle(
-                      color: Get.theme.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                SizedBox(
+                  width: 250,
+                  height: 100,
+                  child: Stack(children: [
+                    Image.asset(
+                      'assets/images/paap.png',
+                      width: 240,
+                      height: 90,
+                      fit: BoxFit.fill,
+                    ),
+                    Positioned(
+                      bottom: -2,
+                      right: 5,
+                      child: Text(
+                        "Móvel",
+                        style: TextStyle(
+                          color: Get.isDarkMode
+                              ? Colors.yellow
+                              : Colors.orange.shade400,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
+                SizedBox(
+                  height: 50,
                 ),
                 customTextField(
                   label: "Login",
@@ -74,7 +95,17 @@ class LoginView extends GetView<LoginController> {
                             ),
                           ),
                   ),
-                )
+                ),
+                // Container(
+                //   margin: EdgeInsets.only(top: 50),
+                //   child: Image.asset(
+                //     'assets/images/ufc.png',
+                //     width: 350,
+                //     height: 50,
+                //     filterQuality: FilterQuality.high,
+                //     fit: BoxFit.fill,
+                //   ),
+                // )
               ],
             ),
           ),
