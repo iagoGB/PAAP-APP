@@ -19,20 +19,26 @@ class UsersView extends GetView<UsersController> {
         onTapFunction: controller.logout,
       ),
       body: controller.obx(
-        (state) => Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: state.length > 10 ? 3 : 2,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-            ),
-            itemCount: state.length,
-            itemBuilder: (_, index) => UserCard(
-              state[index],
-              Get.theme.primaryColor,
-              Colors.white,
-              controller.toUserDetails,
+        (state) => RawScrollbar(
+          isAlwaysShown: true,
+          thumbColor: const Color.fromRGBO(234, 125, 91, 0.8),
+          radius: Radius.circular(20),
+          thickness: 8,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: state.length > 10 ? 3 : 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+              ),
+              itemCount: state.length,
+              itemBuilder: (_, index) => UserCard(
+                state[index],
+                Get.theme.primaryColor,
+                Colors.white,
+                controller.toUserDetails,
+              ),
             ),
           ),
         ),

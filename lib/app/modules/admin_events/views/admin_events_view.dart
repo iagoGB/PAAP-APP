@@ -20,12 +20,21 @@ class AdminEventsView extends GetView<AdminEventsController> {
         onTapFunction: controller.logout,
       ),
       body: controller.obx(
-        (state) => ListView.builder(
-          itemCount: state.length,
-          itemBuilder: (_, index) => EventCard(
-            event: state[index],
-            onTapFunction: controller.toDetails,
-            textColor: Get.theme.primaryColor,
+        (state) => RawScrollbar(
+          isAlwaysShown: true,
+          thumbColor: const Color.fromRGBO(234, 125, 91, 0.8),
+          radius: Radius.circular(20),
+          thickness: 8,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemCount: state.length,
+              itemBuilder: (_, index) => EventCard(
+                event: state[index],
+                onTapFunction: controller.toDetails,
+                textColor: Get.theme.primaryColor,
+              ),
+            ),
           ),
         ),
         onEmpty: NoEventsFeedback(
