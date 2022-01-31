@@ -52,6 +52,16 @@ class NotificationsView extends GetView<NotificationsController> {
                       height: 20,
                     ),
                     InkWell(
+                      onTap: () => controller.goToChangePassword(),
+                      child: Padding(
+                        padding: customPadding(),
+                        child: Text('Alterar senha'),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    InkWell(
                         onTap: () => controller.goToAbout(),
                         child: Padding(
                           padding: customPadding(),

@@ -99,4 +99,12 @@ class UserProvider extends GetConnect {
     if (response.hasError) throw new Exception('Erro ao buscar usuários');
     return response.body.map<User>((e) => User.fromJson(e)).toList();
   }
+
+  Future<void> changePassword(passwords) async {
+    var id = storageProvider.getAuth()['id'];
+    var response =
+        await this.apiProvider.put('/user/$id/changePassword', passwords);
+    if (response.hasError)
+      throw Exception(response.body['message'] ?? 'Erro ao atualizar senha');
+  }
 }

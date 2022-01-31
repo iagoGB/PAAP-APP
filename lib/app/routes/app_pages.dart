@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 
+import 'package:paap_app/app/modules/change_password/bindings/change_password_binding.dart';
+import 'package:paap_app/app/modules/change_password/views/change_password_view.dart';
+
 import '../middlewares/auth_middleware.dart';
 import '../modules/about/bindings/about_binding.dart';
 import '../modules/about/views/about_view.dart';
@@ -100,6 +103,12 @@ class AppPages {
               transition: Transition.zoom,
               binding: NotificationsBinding(),
               children: [
+                GetPage(
+                  transition: Transition.rightToLeft,
+                  name: _Paths.CHANGE_PASSWORD,
+                  page: () => ChangePasswordView(),
+                  binding: ChangePasswordBinding(),
+                ),
                 GetPage(
                   transition: Transition.rightToLeft,
                   name: _Paths.ABOUT,

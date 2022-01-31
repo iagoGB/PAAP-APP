@@ -34,6 +34,8 @@ abstract class Routes {
   static const CREATE_CATEGORY =
       _Paths.ADMIN + _Paths.CATEGORIES + _Paths.CREATE_CATEGORY;
   static const ABOUT = _Paths.HOME + _Paths.NOTIFICATIONS + _Paths.ABOUT;
+  static const CHANGE_PASSWORD =
+      _Paths.HOME + _Paths.NOTIFICATIONS + _Paths.CHANGE_PASSWORD;
 }
 
 abstract class _Paths {
@@ -55,4 +57,5 @@ abstract class _Paths {
   static const CATEGORIES = '/categories';
   static const CREATE_CATEGORY = '/create-category';
   static const ABOUT = '/about';
+  static const CHANGE_PASSWORD = '/change-password';
 }

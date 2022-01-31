@@ -1,0 +1,23 @@
+{
+            "id": 2,
+            "email": "usuario@teste.com",
+            "cpf": 5555,
+            "name": "Usuario Dois",
+            "workload": 1500,
+            "departament": "ICA",
+            "telephone": "83229080",
+            "entryDate": "2016-12-20",
+            "avatar": "../assets/images/default_avatar.png",
+            "events": [
+                {
+                    "id": 20,
+                    "titulo": "Treinamento de Educação a Distância Para Professores",
+                    "presente": false
+                },
+                {
+                    "id": 33,
+                    "titulo": "Conhecendo a Faculdade de Direito",
+                    "presente": false
+                }
+            ]
+        }

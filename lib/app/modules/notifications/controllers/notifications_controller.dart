@@ -56,4 +56,8 @@ class NotificationsController extends GetxController {
   goToAbout() {
     Get.rootDelegate.toNamed(Routes.ABOUT);
   }
+
+  goToChangePassword() {
+    Get.rootDelegate.toNamed(Routes.CHANGE_PASSWORD);
+  }
 }
