@@ -195,9 +195,8 @@ class EditEventController extends GetxController {
     this.locationController.text = event.location!;
     this.workloadController.text = event.workload.toString();
     this.descriptionController.text = event.description ?? '';
-    print('speakers' + event.speakers.toString());
     this.speakerController.text =
-        event.speakers!.isEmpty ? 'Não tem' : event.speakers![0];
+        event.speakers!.isEmpty ? 'Não possui' : event.speakers![0];
     this.dateController.text =
         DateFormat("dd/MM/yyyy", "pt-BR").format(event.dateTime!);
     final hour = event.dateTime!.hour.toString().padLeft(2, '0');

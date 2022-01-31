@@ -5,7 +5,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_notifier.dart';
 import 'package:paap_app/app/modules/shared/widgets/admin_app_bar.dart';
 import 'package:paap_app/app/modules/shared/widgets/custom_search_bar.dart';
 import 'package:paap_app/app/modules/shared/widgets/floating_button.dart';
-import 'package:paap_app/app/modules/shared/widgets/search_widget.dart';
+import 'package:paap_app/app/modules/shared/widgets/no_events_feedback.dart';
 import 'package:paap_app/app/modules/shared/widgets/user_card.dart';
 
 import '../controllers/users_controller.dart';
@@ -37,7 +37,8 @@ class UsersView extends GetView<UsersController> {
                 radius: Radius.circular(20),
                 thickness: 8,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: state.length > 10 ? 3 : 2,
@@ -57,7 +58,8 @@ class UsersView extends GetView<UsersController> {
               onError: (err) => Center(
                 child: Text('Ocorreu um erro ao buscar usuários do sistema'),
               ),
-              onEmpty: Text('Ainda não há usuários no sistema '),
+              onEmpty: NoEventsFeedback(
+                  'assets/images/no_events.png', 'Nenhum usuário encontrado'),
             ),
           ),
         ],

@@ -43,9 +43,9 @@ class AdminEventsController extends GetxController with StateMixin {
 
   getAll() async {
     await this.eventProvider.getAll().then((value) {
-      for (var i = 0; i < 10; i++) {
-        value.add(value[1]);
-      }
+      // for (var i = 0; i < 10; i++) {
+      //   value.add(value[1]);
+      // }
       change(value, status: RxStatus.success());
     }, onError: (err) {
       change(null, status: RxStatus.error());
@@ -63,8 +63,7 @@ class AdminEventsController extends GetxController with StateMixin {
     debouncer = Timer(duration, callback);
   }
 
-  Future searchEvent(String query) async => debounce(() async {
-        print('executou');
+  searchEvent(String query) async => debounce(() async {
         await eventProvider.getByQuery(query).then(
               (value) => value.length == 0
                   ? change(value, status: RxStatus.empty())
@@ -72,10 +71,5 @@ class AdminEventsController extends GetxController with StateMixin {
               onError: (err) => change(err, status: RxStatus.error()),
             );
         // if (!mounted) return;
-
-        // setState(() {
-        //   this.query = query;
-        //   this.books = books;
-        // });
       });
 }

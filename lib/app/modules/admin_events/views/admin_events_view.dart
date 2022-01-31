@@ -49,7 +49,7 @@ class AdminEventsView extends GetView<AdminEventsController> {
                 ),
               ),
               onEmpty: NoEventsFeedback('assets/images/no_past_events.png',
-                  'Nenhum evento no momento'),
+                  'Nenhum eventolocalizado'),
               onError: (error) => ErrorFeedback(error),
             ),
           ),

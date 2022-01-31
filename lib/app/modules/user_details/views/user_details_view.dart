@@ -50,6 +50,20 @@ class UserDetailsView extends GetView<UserDetailsController> {
                 Text(user.name),
                 spacing(),
                 Text(
+                  'CPF',
+                  style: labelStyle(),
+                ),
+                spacing(),
+                Text(user.cpf),
+                spacing(),
+                Text(
+                  'SIAPE',
+                  style: labelStyle(),
+                ),
+                spacing(),
+                Text(user.siape ?? ''),
+                spacing(),
+                Text(
                   'Telefone',
                   style: labelStyle(),
                 ),

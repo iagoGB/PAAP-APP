@@ -87,6 +87,17 @@ class EditUserView extends GetView<EditUserController> {
               maxLines: 2,
             ),
             TextFormField(
+              inputFormatters: [controller.siapeMask()],
+              validator: (value) => controller.siapeValidator(value),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: controller.siapeController,
+              keyboardType: TextInputType.number,
+              decoration: decorationStyle(
+                label: "SIAPE",
+                labelColor: Get.theme.primaryColor,
+              ),
+            ),
+            TextFormField(
               inputFormatters: [controller.cpfMask()],
               validator: (value) => controller.cpfValidator(value),
               autovalidateMode: AutovalidateMode.onUserInteraction,

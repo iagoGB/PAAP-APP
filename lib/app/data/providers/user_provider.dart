@@ -93,4 +93,10 @@ class UserProvider extends GetConnect {
     if (response.hasError) throw new Exception('Erro ao buscar usuários');
     return response.body['content'].map<User>((e) => User.fromJson(e)).toList();
   }
+
+  Future<List<User?>> getByName(query) async {
+    final response = await apiProvider.get('/user/findBy?query=$query');
+    if (response.hasError) throw new Exception('Erro ao buscar usuários');
+    return response.body.map<User>((e) => User.fromJson(e)).toList();
+  }
 }

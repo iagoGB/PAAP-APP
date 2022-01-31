@@ -4,6 +4,7 @@ class User {
   String? cpf;
   String? name;
   int? workload;
+  String? siape;
   String? departament;
   String? telephone;
   DateTime? entryDate;
@@ -16,6 +17,7 @@ class User {
     this.cpf,
     this.name,
     this.workload,
+    this.siape,
     this.departament,
     this.telephone,
     this.entryDate,
@@ -29,6 +31,7 @@ class User {
     cpf = json['cpf'];
     name = json['name'];
     workload = json['workload'];
+    siape = json['siape'];
     departament = json['departament'];
     telephone = json['telephone'];
     entryDate = DateTime.tryParse(json['entryDate']);
@@ -48,6 +51,7 @@ class User {
     data['cpf'] = cpf;
     data['name'] = name;
     data['workload'] = workload;
+    data['siape'] = siape;
     data['departament'] = departament;
     data['telephone'] = telephone;
     data['entryDate'] = entryDate;

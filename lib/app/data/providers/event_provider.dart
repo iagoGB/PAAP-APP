@@ -167,7 +167,7 @@ class EventProvider extends GetConnect {
   }
 
   Future<List<Event?>> getByQuery(String query) async {
-    final response = await apiProvider.get('/event/query=$query');
+    final response = await apiProvider.get('/event/findBy?query=$query');
     if (response.hasError) {
       throw new Exception('Erro ao buscar eventos');
     }
