@@ -125,6 +125,7 @@ class EditUserView extends GetView<EditUserController> {
               maxLines: 2,
             ),
             TextFormField(
+              focusNode: controller.dateFocus,
               validator: (value) => controller.dateValidator(value!),
               controller: controller.dateController,
               onTap: () => controller.displayDatePicker(context),

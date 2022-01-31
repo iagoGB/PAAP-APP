@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:paap_app/app/data/models/user_model.dart';
 import 'package:paap_app/app/data/providers/user_provider.dart';
+import 'package:paap_app/app/modules/shared/themes/date_picker_theme.dart';
+import 'package:paap_app/app/modules/shared/themes/primary_material_color.dart';
 import 'package:paap_app/app/modules/users/controllers/users_controller.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
@@ -29,6 +31,8 @@ class EditUserController extends GetxController {
   var userImage = "".obs;
   var isEditing = false.obs;
   var isLoading = false.obs;
+
+  var dateFocus = FocusNode();
 
   EditUserController(
     this.userId,
@@ -160,13 +164,18 @@ class EditUserController extends GetxController {
   }
 
   displayDatePicker(BuildContext context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     var initialDate = DateTime.now();
     var eventDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime(initialDate.year - 10),
-      lastDate: DateTime(initialDate.year + 5),
-    );
+        context: context,
+        initialDate: initialDate,
+        firstDate: DateTime(initialDate.year - 10),
+        lastDate: DateTime(initialDate.year + 5),
+        builder: (context, child) => Theme(
+              child: child!,
+              data: DatePickerTheme(),
+            ));
+
     if (eventDate == null) return;
     dateController.text = DateFormat("dd/MM/yyyy", "pt-BR").format(eventDate);
     // var tryParse =

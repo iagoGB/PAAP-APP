@@ -11,6 +11,7 @@ import 'package:paap_app/app/data/providers/category_provider.dart';
 
 import 'package:paap_app/app/data/providers/event_provider.dart';
 import 'package:paap_app/app/modules/admin_events/controllers/admin_events_controller.dart';
+import 'package:paap_app/app/modules/shared/themes/date_picker_theme.dart';
 import 'package:paap_app/app/routes/app_pages.dart';
 
 class EditEventController extends GetxController {
@@ -126,13 +127,17 @@ class EditEventController extends GetxController {
   }
 
   displayDatePicker(BuildContext context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     var initialDate = DateTime.now();
     var eventDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: initialDate,
-      lastDate: DateTime(initialDate.year + 5),
-    );
+        context: context,
+        initialDate: initialDate,
+        firstDate: initialDate,
+        lastDate: DateTime(initialDate.year + 5),
+        builder: (context, child) => Theme(
+              child: child!,
+              data: DatePickerTheme(),
+            ));
     if (eventDate == null) return;
     dateController.text = DateFormat("dd/MM/yyyy", "pt-BR").format(eventDate);
     // var tryParse =
@@ -140,9 +145,15 @@ class EditEventController extends GetxController {
   }
 
   displayTimePick(context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     var initialTime = TimeOfDay(hour: 09, minute: 00);
-    var newTime =
-        await showTimePicker(context: context, initialTime: initialTime);
+    var newTime = await showTimePicker(
+        context: context,
+        initialTime: initialTime,
+        builder: (context, child) => Theme(
+              child: child!,
+              data: DatePickerTheme(),
+            ));
     if (newTime == null) return;
     final hour = newTime.hour.toString().padLeft(2, '0');
     final minute = newTime.minute.toString().padLeft(2, '0');

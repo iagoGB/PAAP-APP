@@ -170,7 +170,7 @@ class EventDetailsController extends GetxController with StateMixin {
     isLoading(true);
     this.eventProvider.downloadCertificate(this.event, this.user).then(
       (value) {
-        OpenFile.open(value?.path);
+        OpenFile.open(value!.path);
       },
       onError: (err) => Get.defaultDialog(
         content: Text(err.message ?? 'Erro ao baixar certificado'),
