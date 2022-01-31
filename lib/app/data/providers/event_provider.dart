@@ -67,8 +67,9 @@ class EventProvider extends GetConnect {
 
   Future<void> postEvent(image, event) async {
     final formData = getConnect.FormData({
-      'image':
-          getConnect.MultipartFile(image, filename: '${basename(image.path)}'),
+      'image': image != null
+          ? getConnect.MultipartFile(image, filename: '${basename(image.path)}')
+          : null,
       'event': jsonEncode(event)
     });
     var response = await apiProvider.post('/event', formData);

@@ -12,6 +12,7 @@ class Event {
   Category? category;
   List<String>? speakers;
   List<String>? enrolled;
+  List<String>? attended;
 
   Event({
     this.id,
@@ -25,6 +26,7 @@ class Event {
     this.category,
     this.speakers,
     this.enrolled,
+    this.attended,
   });
 
   Event.fromJson(Map<String, dynamic> json) {
@@ -40,6 +42,7 @@ class Event {
         json['category'] != null ? Category?.fromJson(json['category']) : null;
     speakers = json['speakers'].cast<String>();
     enrolled = json['enrolled'].cast<String>();
+    attended = json['attended'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +60,7 @@ class Event {
     }
     data['speakers'] = speakers;
     data['enrolled'] = enrolled;
+    data['attended'] = attended;
     return data;
   }
 }

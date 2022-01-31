@@ -170,7 +170,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 10),
               child: CustomRow(
-                icon: Icons.supervisor_account_rounded,
+                icon: Icons.record_voice_over_outlined,
                 text: 'Palestrado por ' + controller.getSpeakers(),
               ),
             ),
@@ -180,7 +180,44 @@ class EventDetailsView extends GetView<EventDetailsController> {
                 image: NetworkImage(event.picture!),
               ),
             ),
-            Text(event.location!)
+            Text(event.description ?? ''),
+            Obx(
+              () => controller.isAdmin.value
+                  ? Column(
+                      children: [
+                        CustomRow(
+                          icon: Icons.supervisor_account_rounded,
+                          text:
+                              "Inscritos: ${controller.event.enrolled!.length.toString()}",
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: controller.event.enrolled!.length == 0
+                              ? [Text('Nenhum usuário inscrito até o momento')]
+                              : controller.event.enrolled!
+                                  .map((e) => Text(e))
+                                  .toList(),
+                        ),
+                        CustomRow(
+                          icon: Icons.supervisor_account_rounded,
+                          text:
+                              "Presentes: ${controller.event.attended!.length.toString()}",
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: controller.event.attended!.length == 0
+                              ? [
+                                  Text(
+                                      'Nenhum usuário registrou presença até o momento')
+                                ]
+                              : controller.event.attended!
+                                  .map((e) => Text(e))
+                                  .toList(),
+                        ),
+                      ],
+                    )
+                  : Container(),
+            ),
           ],
         ),
       ),

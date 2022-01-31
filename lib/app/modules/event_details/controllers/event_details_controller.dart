@@ -65,7 +65,7 @@ class EventDetailsController extends GetxController with StateMixin {
   String getSpeakers() {
     String speakers = '';
     this.event.speakers!.forEach((speaker) {
-      speakers += '$speaker,';
+      speakers += '$speaker';
     });
     return speakers;
   }

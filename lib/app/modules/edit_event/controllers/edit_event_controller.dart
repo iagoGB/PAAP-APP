@@ -150,16 +150,16 @@ class EditEventController extends GetxController {
   }
 
   submit() {
-    if (isEditing.value) {
-      validateForm();
-    } else {
-      var haveImage = image.value != null;
-      if (!haveImage) {
-        imageFeedback.value = "Selecione uma imagem";
-        return;
-      }
-      validateForm();
-    }
+    // if (isEditing.value) {
+    validateForm();
+    // } else {
+    //   var haveImage = image.value != null;
+    //   if (!haveImage) {
+    //     imageFeedback.value = "Selecione uma imagem";
+    //     return;
+    //   }
+    //   validateForm();
+    // }
   }
 
   void validateForm() {
@@ -223,7 +223,8 @@ class EditEventController extends GetxController {
     this.eventProvider.updateEvent(image.value, event).then(
       (value) {
         Get.defaultDialog(
-          content: Text("Evento atualizado com sucesso!"),
+          title: 'Tudo certo!',
+          content: Text("Evento atualizado com sucesso"),
         );
         Get.rootDelegate.toNamed(Routes.ADMIN_EVENTS);
         this.reloadEventsList();
