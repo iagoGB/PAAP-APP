@@ -101,7 +101,8 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
         Obx(
-          () => controller.avatar.value == null
+          () => controller.avatar.value == 'null' ||
+                  controller.avatar.value == ''
               ? Center(
                   child: CircleAvatar(
                     radius: 20,
@@ -110,10 +111,13 @@ class HomeView extends GetView<HomeController> {
                   ),
                 )
               : Center(
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: NetworkImage(controller.avatar.value),
+                  child: InkWell(
+                    onTap: () => controller.goToProfile(),
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(controller.avatar.value),
+                    ),
                   ),
                 ),
         ),

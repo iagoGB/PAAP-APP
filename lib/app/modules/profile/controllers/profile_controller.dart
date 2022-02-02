@@ -79,11 +79,13 @@ class ProfileController extends GetxController with StateMixin {
           .then(
         (value) {
           Get.defaultDialog(
+            title: 'OK',
             content: Text("Dados atualizados com sucesso!"),
           );
           this.getProfile();
           var homeController = Get.find<HomeController>();
           homeController.updateAvatar();
+          hasPreview(false);
           changeEditing();
         },
         onError: (err) {

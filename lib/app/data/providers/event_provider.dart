@@ -130,7 +130,6 @@ class EventProvider extends GetConnect {
   Future<List<Event?>> getAll() async {
     final response = await apiProvider.get('/event');
     if (response.hasError) {
-      print('error api ${response.bodyString}');
       throw new Exception('Erro ao buscar eventos');
     }
     return response.body['content']
@@ -143,7 +142,6 @@ class EventProvider extends GetConnect {
   Future<File?> downloadCertificate(event, user) async {
     try {
       final appStorage = await getExternalStorageDirectory();
-      print('app Storage $appStorage');
       if (appStorage == null)
         throw new Exception('Permissão de acesso ao dispositivo negada!');
       var file = File(
@@ -162,7 +160,6 @@ class EventProvider extends GetConnect {
       await raf.close();
       return file;
     } on Exception catch (e) {
-      print(e);
       throw new Exception(e);
     }
   }

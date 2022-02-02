@@ -51,22 +51,58 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                       Get.isDarkMode ? Colors.yellow : Get.theme.primaryColor,
                 ),
               ),
-              ElevatedButton(
-                onPressed: () => controller.submit(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 18.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Salvar'),
-                    SizedBox(
-                      width: 5,
+                    OutlinedButton(
+                      onPressed: () => controller.backToSettings(),
+                      child: Row(
+                        children: [
+                          Text('Cancelar'),
+                          SizedBox(
+                            width: 5,
+                          ),
+                        ],
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        primary: Get.isDarkMode ? Colors.white : Colors.red,
+                        side: BorderSide(
+                          color: Get.isDarkMode ? Colors.white : Colors.red,
+                          width: 1,
+                        ),
+                      ),
                     ),
-                    Icon(
-                      Icons.check,
-                      semanticLabel: 'Salvar',
+                    SizedBox(
+                      width: 15,
+                    ),
+                    ElevatedButton(
+                      onPressed: () => controller.submit(),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Salvar',
+                            style: TextStyle(
+                              color:
+                                  Get.isDarkMode ? Colors.black : Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Icon(
+                            Icons.check,
+                            semanticLabel: 'Salvar',
+                            color: Get.isDarkMode ? Colors.black : Colors.white,
+                          ),
+                        ],
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Get.theme.primaryColor),
                     ),
                   ],
                 ),
-                style:
-                    ElevatedButton.styleFrom(primary: Get.theme.primaryColor),
               ),
             ],
           ),

@@ -59,9 +59,13 @@ class HomeController extends GetxController {
   void updateAvatar() {
     this.avatar.value = "";
     this.userProvider.getProfile().then((value) {
-      this.avatar.value = value!.avatar!;
-      this.update();
+      this.avatar.value =
+          '${value!.avatar}?${DateTime.now().millisecondsSinceEpoch.toString()}';
     }, onError: (err) => print(err));
+  }
+
+  goToProfile() {
+    Get.rootDelegate.toNamed(Routes.PROFILE);
   }
 
   void logout() async {

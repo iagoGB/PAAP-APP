@@ -13,9 +13,7 @@ class CategoryProvider extends GetConnect {
 
   Future<List<Category>> getAll() async {
     final response = await apiProvider.get('/category');
-    print(response.body);
     if (response.hasError) throw Exception('Erro ao consultar categorias');
-    response.printInfo();
     return response.body.map<Category>((e) => Category.fromJson(e)).toList();
   }
 

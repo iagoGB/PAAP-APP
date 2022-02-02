@@ -26,78 +26,92 @@ class UserDetailsView extends GetView<UserDetailsController> {
         ],
       ),
       body: controller.obx(
-        (user) => SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.yellow,
-                      backgroundImage: NetworkImage(user.avatar),
-                    ),
-                  ],
-                ),
-                Text(
-                  'Nome',
-                  style: labelStyle(),
-                ),
-                spacing(),
-                Text(user.name),
-                spacing(),
-                Text(
-                  'CPF',
-                  style: labelStyle(),
-                ),
-                spacing(),
-                Text(user.cpf),
-                spacing(),
-                Text(
-                  'SIAPE',
-                  style: labelStyle(),
-                ),
-                spacing(),
-                Text(user.siape ?? ''),
-                spacing(),
-                Text(
-                  'Telefone',
-                  style: labelStyle(),
-                ),
-                spacing(),
-                Text(user.telephone),
-                spacing(),
-                Text(
-                  'Email',
-                  style: labelStyle(),
-                ),
-                spacing(),
-                Text(user.email),
-                spacing(),
-                Text(
-                  'Carga horária',
-                  style: labelStyle(),
-                ),
-                spacing(),
-                Text('${user.workload.toString()} h'),
-                spacing(),
-                Text(
-                  'Departamento',
-                  style: labelStyle(),
-                ),
-                spacing(),
-                Text(user.departament),
-                spacing(),
-                Text(
-                  'Data de ingresso',
-                  style: labelStyle(),
-                ),
-                spacing(),
-                Text(DateFormat("dd/MM/yyyy", "pt-BR").format(user.entryDate)),
-              ],
+        (user) => RawScrollbar(
+          isAlwaysShown: true,
+          thumbColor: const Color.fromRGBO(234, 125, 91, 0.8),
+          radius: Radius.circular(20),
+          thickness: 8,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 60,
+                        backgroundColor: Colors.yellow,
+                        backgroundImage: NetworkImage(user.avatar),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    'Nome',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text(user.name),
+                  spacing(),
+                  Text(
+                    'CPF',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text(user.cpf),
+                  spacing(),
+                  Text(
+                    'SIAPE',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text(user.siape ?? ''),
+                  spacing(),
+                  Text(
+                    'Telefone',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text(user.telephone),
+                  spacing(),
+                  Text(
+                    'Email',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text(user.email),
+                  spacing(),
+                  Text(
+                    'Status',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text(controller.userStatus(user.status)),
+                  spacing(),
+                  Text(
+                    'Carga horária',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text('${user.workload.toString()} h'),
+                  spacing(),
+                  Text(
+                    'Departamento',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text(user.departament),
+                  spacing(),
+                  Text(
+                    'Data de ingresso',
+                    style: labelStyle(),
+                  ),
+                  spacing(),
+                  Text(
+                      DateFormat("dd/MM/yyyy", "pt-BR").format(user.entryDate)),
+                ],
+              ),
             ),
           ),
         ),

@@ -23,7 +23,6 @@ class EventsController extends GetxController
     tabController.addListener(() {
       if (tabController.indexIsChanging ||
           tabController.index != tabController.previousIndex) {
-        print(tabController.previousIndex);
         loadEvents(tabController.index);
       }
     });

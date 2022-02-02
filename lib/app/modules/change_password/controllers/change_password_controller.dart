@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import 'package:paap_app/app/data/providers/user_provider.dart';
+import 'package:paap_app/app/routes/app_pages.dart';
 
 class ChangePasswordController extends GetxController {
   var currentPasswordController = TextEditingController(text: "");
@@ -44,7 +45,6 @@ class ChangePasswordController extends GetxController {
   }
 
   submit() {
-    print('chamou');
     if (this.passwordFormKey.currentState!.validate()) {
       isLoading(true);
       var passwords = {
@@ -52,13 +52,20 @@ class ChangePasswordController extends GetxController {
         'newPassword': newPasswordController.text
       };
       this.userProvider.changePassword(passwords).then(
-            (value) => Get.defaultDialog(
-                title: 'Sucesso!', content: Text('Senha atualizada')),
-            onError: (err) => Get.defaultDialog(
-              title: 'Erro',
-              content: Text(err.message ?? 'Erro ao atualizar senha'),
-            ),
-          );
+        (value) {
+          Get.defaultDialog(
+              title: 'Sucesso!', content: Text('Senha atualizada'));
+          this.backToSettings();
+        },
+        onError: (err) => Get.defaultDialog(
+          title: 'Erro',
+          content: Text(err.message ?? 'Erro ao atualizar senha'),
+        ),
+      );
     }
+  }
+
+  backToSettings() {
+    Get.rootDelegate.backUntil(Routes.NOTIFICATIONS);
   }
 }

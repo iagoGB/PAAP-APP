@@ -30,8 +30,7 @@ class EditEventView extends GetView<EditEventController> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Get.rootDelegate.offAndToNamed(Routes.ADMIN_EVENTS);
-                        Get.delete<EditEventController>();
+                        controller.backTo();
                       },
                       icon: Icon(
                         Icons.arrow_back_outlined,
@@ -59,11 +58,17 @@ class EditEventView extends GetView<EditEventController> {
       body: Obx(
         () => controller.isLoading.value
             ? WaitingFeedback()
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    mountForm(context),
-                  ],
+            : RawScrollbar(
+                isAlwaysShown: true,
+                thumbColor: const Color.fromRGBO(234, 125, 91, 0.8),
+                radius: Radius.circular(20),
+                thickness: 8,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      mountForm(context),
+                    ],
+                  ),
                 ),
               ),
       ),

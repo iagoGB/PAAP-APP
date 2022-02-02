@@ -43,4 +43,15 @@ class UserDetailsController extends GetxController with StateMixin {
   editUser(userId) {
     Get.rootDelegate.toNamed(Routes.UPDATE_USER(userId.toString()));
   }
+
+  userStatus(status) {
+    switch (status) {
+      case 'DONE':
+        return "Concluído";
+      case 'PENDING':
+        return "Pendente";
+      default:
+        return "Em atividade";
+    }
+  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:paap_app/app/modules/shared/widgets/admin_app_bar.dart';
 import 'package:paap_app/app/modules/shared/widgets/custom_text_field.dart';
 import 'package:paap_app/app/modules/shared/widgets/waiting_feedback.dart';
 
@@ -11,11 +10,35 @@ class EditUserView extends GetView<EditUserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AdminAppBar(
+      appBar: AppBar(
         backgroundColor: Get.theme.scaffoldBackgroundColor,
-        icon: Icons.arrow_back,
-        iconColor: Colors.grey.shade700,
-        onTapFunction: controller.toUserDetails,
+        title: Obx(
+          () => Text(
+            controller.appBarTitle.value,
+            style: TextStyle(
+              color: Get.isDarkMode ? Colors.yellow : Colors.grey[600],
+            ),
+          ),
+        ),
+        centerTitle: false,
+        leading: Obx(
+          () => controller.isLoading.value
+              ? Container()
+              : Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        controller.toUserDetails();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_outlined,
+                        color:
+                            Get.isDarkMode ? Colors.yellow : Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
+        ),
         actions: [
           Obx(
             () => controller.isLoading.value
@@ -24,18 +47,23 @@ class EditUserView extends GetView<EditUserController> {
                     onPressed: () => controller.validateForm(),
                     icon: Icon(
                       Icons.check,
-                      color:
-                          Get.isDarkMode ? Colors.yellow : Colors.grey.shade700,
+                      color: Get.isDarkMode ? Colors.yellow : Colors.grey[600],
                     ),
                   ),
-          ),
+          )
         ],
       ),
       body: Obx(
         () => controller.isLoading.value
             ? WaitingFeedback()
-            : SingleChildScrollView(
-                child: mountUserForm(context),
+            : RawScrollbar(
+                isAlwaysShown: true,
+                thumbColor: const Color.fromRGBO(234, 125, 91, 0.8),
+                radius: Radius.circular(20),
+                thickness: 8,
+                child: SingleChildScrollView(
+                  child: mountUserForm(context),
+                ),
               ),
       ),
     );

@@ -28,6 +28,7 @@ class EditUserController extends GetxController {
   final String userId;
 
   var image = Rxn<File?>();
+  var appBarTitle = "Criar usuário".obs;
   var userImage = "".obs;
   var isEditing = false.obs;
   var isLoading = false.obs;
@@ -57,6 +58,7 @@ class EditUserController extends GetxController {
     if (!this.userId.isEmpty) {
       this.isLoading(true);
       this.isEditing(true);
+      this.appBarTitle.value = 'Editar usuário';
       this.userProvider.getById(int.parse(this.userId)).then(
         (value) {
           this.setForm(value!);

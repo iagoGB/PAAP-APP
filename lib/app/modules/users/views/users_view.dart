@@ -58,8 +58,10 @@ class UsersView extends GetView<UsersController> {
               onError: (err) => Center(
                 child: Text('Ocorreu um erro ao buscar usuários do sistema'),
               ),
-              onEmpty: NoEventsFeedback(
-                  'assets/images/no_events.png', 'Nenhum usuário encontrado'),
+              onEmpty: SingleChildScrollView(
+                child: NoEventsFeedback(
+                    'assets/images/no_events.png', 'Nenhum usuário encontrado'),
+              ),
             ),
           ),
         ],

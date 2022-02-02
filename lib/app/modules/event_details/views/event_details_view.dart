@@ -56,7 +56,12 @@ class EventDetailsView extends GetView<EventDetailsController> {
             child: Text('Erro ao carregar detalhes do evento'),
           );
         } else {
-          return SingleChildScrollView(child: mountEventDetails());
+          return RawScrollbar(
+              isAlwaysShown: true,
+              thumbColor: const Color.fromRGBO(234, 125, 91, 0.8),
+              radius: Radius.circular(20),
+              thickness: 8,
+              child: SingleChildScrollView(child: mountEventDetails()));
         }
       }),
       bottomNavigationBar: Obx(

@@ -112,7 +112,6 @@ class EditEventController extends GetxController {
   }
 
   validateCategory(value) {
-    print(value);
     if (value == null) return 'Selecione uma categoria';
   }
 
@@ -268,5 +267,13 @@ class EditEventController extends GetxController {
   reloadEventsList() {
     var eventsListView = Get.find<AdminEventsController>();
     eventsListView.onInit();
+  }
+
+  void backTo() {
+    if (this.isEditing.value)
+      Get.rootDelegate.toNamed(Routes.EVENT_DETAILS(this.eventId));
+    else
+      Get.rootDelegate.offAndToNamed(Routes.ADMIN_EVENTS);
+    Get.delete<EditEventController>();
   }
 }

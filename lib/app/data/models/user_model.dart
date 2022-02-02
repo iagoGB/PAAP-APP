@@ -4,6 +4,7 @@ class User {
   String? cpf;
   String? name;
   int? workload;
+  String? status;
   String? siape;
   String? departament;
   String? telephone;
@@ -17,6 +18,7 @@ class User {
     this.cpf,
     this.name,
     this.workload,
+    this.status,
     this.siape,
     this.departament,
     this.telephone,
@@ -31,6 +33,7 @@ class User {
     cpf = json['cpf'];
     name = json['name'];
     workload = json['workload'];
+    status = json['status'];
     siape = json['siape'];
     departament = json['departament'];
     telephone = json['telephone'];
@@ -51,6 +54,7 @@ class User {
     data['cpf'] = cpf;
     data['name'] = name;
     data['workload'] = workload;
+    data['status'] = status;
     data['siape'] = siape;
     data['departament'] = departament;
     data['telephone'] = telephone;

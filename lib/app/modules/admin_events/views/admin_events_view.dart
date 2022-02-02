@@ -48,8 +48,10 @@ class AdminEventsView extends GetView<AdminEventsController> {
                   ),
                 ),
               ),
-              onEmpty: NoEventsFeedback('assets/images/no_past_events.png',
-                  'Nenhum eventolocalizado'),
+              onEmpty: SingleChildScrollView(
+                child: NoEventsFeedback('assets/images/no_past_events.png',
+                    'Nenhum evento localizado'),
+              ),
               onError: (error) => ErrorFeedback(error),
             ),
           ),

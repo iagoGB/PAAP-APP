@@ -30,7 +30,16 @@ class ProfileView extends GetView<ProfileController> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            mountAvatar(state, 20.0),
+            Container(
+              margin: EdgeInsets.only(right: 20),
+              child: CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.yellow,
+                backgroundImage: NetworkImage(
+                  '${state.avatar}?${DateTime.now().millisecondsSinceEpoch.toString()}',
+                ),
+              ),
+            ),
             mountDescription(state),
           ],
         ),
@@ -51,7 +60,9 @@ class ProfileView extends GetView<ProfileController> {
             : CircleAvatar(
                 radius: 60,
                 backgroundColor: Colors.yellow,
-                backgroundImage: NetworkImage(state.avatar),
+                backgroundImage: NetworkImage(
+                  '${state.avatar}?${DateTime.now().millisecondsSinceEpoch.toString()}',
+                ),
               ),
       ),
     );
@@ -94,10 +105,16 @@ class ProfileView extends GetView<ProfileController> {
               style: TextStyle(fontSize: 12),
             ),
           ),
+          SizedBox(
+            height: 5,
+          ),
           ElevatedButton(
             onPressed: () => controller.changeEditing(),
             child: Text(
               'Editar Perfil',
+              style: TextStyle(
+                color: Get.isDarkMode ? Colors.black : Colors.white,
+              ),
             ),
             style: ElevatedButton.styleFrom(
               primary: Get.theme.primaryColor,
@@ -181,8 +198,11 @@ class ProfileView extends GetView<ProfileController> {
                   ],
                 ),
                 style: OutlinedButton.styleFrom(
-                  primary: Colors.red,
-                  side: BorderSide(color: Colors.red, width: 1),
+                  primary: Get.isDarkMode ? Colors.white : Colors.red,
+                  side: BorderSide(
+                    color: Get.isDarkMode ? Colors.white : Colors.red,
+                    width: 1,
+                  ),
                 ),
               ),
               SizedBox(
@@ -192,13 +212,19 @@ class ProfileView extends GetView<ProfileController> {
                 onPressed: () => controller.submit(),
                 child: Row(
                   children: [
-                    Text('Salvar'),
+                    Text(
+                      'Salvar',
+                      style: TextStyle(
+                        color: Get.isDarkMode ? Colors.black : Colors.white,
+                      ),
+                    ),
                     SizedBox(
                       width: 5,
                     ),
                     Icon(
                       Icons.check,
                       semanticLabel: 'Salvar',
+                      color: Get.isDarkMode ? Colors.black : Colors.white,
                     ),
                   ],
                 ),

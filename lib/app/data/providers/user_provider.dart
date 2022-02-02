@@ -26,9 +26,7 @@ class UserProvider extends GetConnect {
       var id = storageProvider.getAuth()['id'];
       final response = await apiProvider.get('/user/$id');
       return User.fromJson(response.body);
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   Future<Response<User>> postUser(User user) async => await post('user', user);

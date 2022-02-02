@@ -117,7 +117,6 @@ class EventDetailsController extends GetxController with StateMixin {
         true,
         ScanMode.QR,
       );
-      print('code -$code');
     } catch (e) {
       this.feedbackMessage(
         Colors.redAccent,
@@ -192,9 +191,7 @@ class EventDetailsController extends GetxController with StateMixin {
 
   void checkIfIsAdmin() {
     var auth = storageProvider.getAuth();
-    print('executou admin');
     if (auth?['role'] == 'ADMIN') isAdmin(true);
-    print(isAdmin.value);
   }
 
   editEvent(String eventId) {
