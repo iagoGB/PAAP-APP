@@ -20,7 +20,6 @@ class NotificationsController extends GetxController {
   void onClose() {}
 
   logout() {
-    Get.back();
     var homeController = Get.find<HomeController>();
     homeController.logout();
   }

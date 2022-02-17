@@ -19,7 +19,7 @@ class AdminEventsView extends GetView<AdminEventsController> {
         backgroundColor: Get.theme.scaffoldBackgroundColor,
         icon: Icons.exit_to_app_outlined,
         iconColor: Get.isDarkMode ? Colors.yellow : Colors.black,
-        onTapFunction: controller.logout,
+        onTapFunction: controller.showExitDialog,
       ),
       body: Column(
         children: [

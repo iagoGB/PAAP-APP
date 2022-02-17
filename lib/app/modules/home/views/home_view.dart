@@ -43,7 +43,7 @@ class HomeView extends GetView<HomeController> {
             child: Icon(Icons.exit_to_app_outlined),
           ),
           color: Get.isDarkMode ? Colors.yellow : Colors.black,
-          onPressed: () => controller.logout(),
+          onPressed: () => controller.showExitDialog(),
         ),
       ),
     );

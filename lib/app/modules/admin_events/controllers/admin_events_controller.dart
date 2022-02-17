@@ -28,7 +28,25 @@ class AdminEventsController extends GetxController with StateMixin {
   @override
   void onClose() {}
 
+  showExitDialog() {
+    Get.defaultDialog(
+      title: "Alerta",
+      contentPadding: EdgeInsets.all(16),
+      titlePadding: EdgeInsets.all(8),
+      content: Text("Deseja realmente sair do app?"),
+      radius: 20,
+      textCancel: "Cancelar",
+      buttonColor: Get.isDarkMode ? Colors.yellow : Get.theme.primaryColor,
+      cancelTextColor: Get.isDarkMode ? Colors.yellow : Get.theme.primaryColor,
+      textConfirm: "Confirmar",
+      confirmTextColor: Get.isDarkMode ? Colors.black : Colors.white,
+      onCancel: () => Get.back(),
+      onConfirm: () => this.logout(),
+    );
+  }
+
   logout() {
+    Get.back();
     this.storage.clear();
     Get.rootDelegate.offNamed('login');
   }
